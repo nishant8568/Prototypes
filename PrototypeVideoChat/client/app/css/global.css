@@ -1,0 +1,15 @@
+.test {
+    display: block;
+    color: #000080;
+}
+.loginpage {
+    padding: 40px;
+}
+
+h1 {
+    font-weight: 300;
+}
+
+.logout_btn {
+    #margin: 20px;
+}
