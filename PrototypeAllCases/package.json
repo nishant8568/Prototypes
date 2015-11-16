@@ -1,0 +1,23 @@
+{
+  "name": "vicolla",
+  "version": "0.0.1",
+  "private": true,
+  "description": "WebRTC based Video Collaboration",
+  "main": "server.js",
+  "repository": "https://github.com/vertical-social-software/covicolla",
+  "author": "Adrian Hernandez-Mendez <adrian.hernandez@tum.de>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.10"
+  },
+  "scripts": {
+    "postinstall": "node_modules/.bin/bower install",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bower": "^1.4.1",
+    "http": "0.0.0",
+    "node-static": "^0.7.7",
+    "socket.io": "^1.3.6"
+  }
+}

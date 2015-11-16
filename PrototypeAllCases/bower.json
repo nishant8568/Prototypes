@@ -1,0 +1,24 @@
+{
+  "name": "vicolla",
+  "version": "0.0.1",
+  "homepage": "https://github.com/vertical-social-software/covicolla",
+  "authors": [
+    "Adrian Hernandez Mendez <adrian.hernandez@tum.de>"
+  ],
+  "description": "WebRTC codelab",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "webrtc-adapter": "~0.1.6",
+    "socket.io-client": "~1.3.6",
+    "angular": "~1.4.3",
+    "bootstrap": "~3.3.5"
+  }
+}

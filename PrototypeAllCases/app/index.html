@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="JavaScript, WebRTC" />
+    <meta name="description" content="WebRTC codelab" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+    <title>ViColla</title>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="styles/app.css">
+
+
+</head>
+<body ng-controller="AppCtrl">
+
+
+<div class="container">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist" id="#mainNav">
+        <li role="presentation" class="active"><a href="#video" aria-controls="video" role="tab" data-toggle="tab" ng-click="videoChat()">Video Chat</a></li>
+        <li role="presentation"><a href="#help" aria-controls="help" role="tab" data-toggle="tab" ng-click="helping()">Contextual Assistance</a></li>
+        <li role="presentation"><a href="#draw" aria-controls="draw" role="tab" data-toggle="tab" ng-click="drawing()">Drawing Assistance</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="video">
+            <div class="well">
+                <video id="localVideo" height="375 px" width="500 px" autoplay></video>
+                <video id="remoteVideo" height="375 px" width="500 px" autoplay></video>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="help">
+            <div class="well">
+            <canvas id="helpCanvas" ng-controller="HelpCanvasCtrl"></canvas>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="draw" ng-controller="DrawCanvasCtrl">
+            <div class="btn-group" role="group" aria-label="...">
+                <!-- Indicates a dangerous or potentially negative action -->
+                <button id="clearDrawCanvas" type="button" class="btn btn-danger"> <span class="glyphicon glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset</button>
+            </div>
+            <div  class="well">
+                <canvas id="drawCanvas" ></canvas>
+            </div>
+          </div>
+    </div>
+
+</div>
+
+
+
+
+<script src="lib/jquery/dist/jquery.js"></script>
+<script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="lib/angular/angular.js"></script>
+<script src="lib/socket.io-client/socket.io.js"></script>
+
+<script src="lib/webrtc-adapter/adapter.js"></script>
+<script src='scripts/app.js'></script>
+
+</body>
+</html>

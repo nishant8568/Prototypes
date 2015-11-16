@@ -1,0 +1,90 @@
+
+canvas {
+    display: none;
+}
+
+.nav-tabs {
+    box-shadow: 0 -2px 0 0 #eeeeee inset;
+    list-style: outside none none;
+    margin: 0;
+    overflow: auto;
+    padding: 0;
+    white-space: nowrap;
+}
+.nav-tabs > li {
+    display: inline-block;
+    vertical-align: top;
+}
+.nav-tabs > li > a {
+    color: #7a7a7a;
+    display: inline-block;
+    font-weight: 500;
+    position: relative;
+    text-transform: uppercase;
+    transition: all 250ms ease 0s;
+    width: 100%;
+}
+.nav-tabs > li > a::after {
+    bottom: 0;
+    content: "";
+    height: 2px;
+    left: 0;
+    position: absolute;
+    transform: scale(0);
+    transition: all 250ms ease 0s;
+    width: 100%;
+}
+@media (min-width: 768px) {
+    .nav-tabs > li > a {
+        padding: 15px;
+    }
+}
+@media (max-width: 768px) {
+    .nav-tabs > li > a {
+        padding: 15px 8px;
+    }
+}
+.nav-tabs > li.active > a {
+    color: #000;
+}
+.nav-tabs > li.active > a::after {
+    transform: scale(1);
+}
+.nav-tabs.tab-nav-right {
+    text-align: right;
+}
+.nav-tabs.tn-justified > li {
+    display: table-cell;
+    text-align: center;
+    width: 1%;
+}
+.nav-tabs.tn-icon > li .md {
+    font-size: 22px;
+    line-height: 100%;
+    min-height: 25px;
+}
+.nav-tabs:not([data-tab-color]) > li > a::after {
+    background: #2196f3 none repeat scroll 0 0;
+}
+.nav-tabs[data-tab-color="green"] > li > a::after {
+    background: #4caf50 none repeat scroll 0 0;
+}
+.nav-tabs[data-tab-color="red"] > li > a::after {
+    background: #f44336 none repeat scroll 0 0;
+}
+.nav-tabs[data-tab-color="teal"] > li > a::after {
+    background: #009688 none repeat scroll 0 0;
+}
+.tab-nav[data-tab-color="amber"] > li > a::after {
+    background: #ffc107 none repeat scroll 0 0;
+}
+.nav-tabs[data-tab-color="black"] > li > a::after {
+    background: #000000 none repeat scroll 0 0;
+}
+.nav-tabs[data-tab-color="cyan"] > li > a::after {
+    background: #00bcd4 none repeat scroll 0 0;
+}
+.tab-content {
+    padding: 20px 0;
+}
+
