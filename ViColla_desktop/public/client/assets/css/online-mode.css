@@ -1,0 +1,10 @@
+.missed {
+    background-color: red;
+
+}
+.attended {
+    background-color: green;
+}
+#expertName {
+    color: blue;
+}

@@ -1,0 +1,84 @@
+<md-content layout="row" layout-padding flex>
+    <div flex="15">
+        <md-sidenav class="md-sidenav-left md-whiteframe-z5" md-component-id="left"
+                    layout="column" layout-align="start center">
+            <md-toolbar class="md-theme-light">
+                <h1 class="md-toolbar-tools">Open</h1>
+            </md-toolbar>
+            <md-content layout="column" flex>
+                <div layout="row" layout-align="start center">
+                    <input id="upload" type="file" onchange="angular.element(this).scope().getVideoFile()"
+                           accept=".mp4" ng-model="files" ng-multiple="false" style="display: none;">
+                    <md-button id="addVideoButton" class="md-raised md-primary" aria-label="Open"
+                               ng-click="openFileDialog()" flex="20">
+                        Browse
+                        <md-tooltip>Open</md-tooltip>
+                    </md-button>
+                    <md-input-container class="md-block" flex>
+                        <label>Filename</label>
+                        <input name="filename" ng-model="videoName">
+                    </md-input-container>
+                </div>
+                <md-list>
+                    <md-list-item ng-repeat="videoItem in videoCache" layout="row" layout-align="start center">
+                        <div>
+                            <i class="material-icons" md-24>video_library</i>
+                        </div>
+                        <div class="md-list-item-text" layout="column" layout-padding>
+                            <b id="expertName">{{videoItem.title}}</b>
+                        </div>
+                        <span flex=""></span>
+
+                        <div layout="column">
+                            <b class="dateTime">{{videoItem.atDateTime.atDate}}</b>
+                            <b class="dateTime">{{videoItem.atDateTime.atTime}}</b>
+                        </div>
+                        <md-divider></md-divider>
+                    </md-list-item>
+                </md-list>
+                <span flex=""></span>
+                <md-button class="md-raised md-primary" ng-click="closeSideNav()">
+                    Close
+                    <md-tooltip>Close</md-tooltip>
+                </md-button>
+            </md-content>
+        </md-sidenav>
+        <md-button ng-click="toggleLeft()" class="md-icon-button md-48">
+            <i class="material-icons md-36">menu</i>
+        </md-button>
+    </div>
+    <div flex="5">
+        <md-button class="md-icon-button md-48">
+            <i class="material-icons md-36">color_lens</i>
+        </md-button>
+    </div>
+    <div flex layout="column">
+        <canvas id="outputCanvas" class="coverage_black" layout-fill flex
+                ng-mousedown="mouseDownHandler($event)"
+                ng-mousemove="mouseMoveHandler($event)"
+                ng-mouseup="mouseUpHandler($event)">
+            <p>Sorry your browser does not support HTML5</p>
+        </canvas>
+        <div layout="row" layout-align="start center" class="coverage_black">
+            <md-button class="md-icon-button md-36" aria-label="Play" ng-click="playVideo()">
+                <i class="material-icons md-36">{{playPlauseButton}}</i>
+            </md-button>
+            <span layout-margin>
+                <h5>{{videoObject.currentTime}}</h5>
+            </span>
+            <md-slider flex min="0" max="{{videoObject.duration}}" ng-model="videoObject.currentTime" aria-label="blue"
+                       class="md-primary"
+                       layout-margin>
+            </md-slider>
+            <span layout-margin>
+                <h5>{{videoObject.duration}}</h5>
+            </span>
+            <md-button class="md-icon-button md-36" aria-label="Volume" ng-click="toggleVolumeStatus()" layout-margin>
+                <i class="material-icons md-36">{{volumeStatus}}</i>
+            </md-button>
+        </div>
+        <video controls id="videoBackgrounddata"></video>
+    </div>
+    <tools tool="drawingStyle" undo="undo()" save="saveSnapshot()" flex="5"></tools>
+    <snapshots flex="20"></snapshots>
+</md-content>

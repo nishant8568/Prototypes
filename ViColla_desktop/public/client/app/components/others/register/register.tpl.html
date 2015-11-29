@@ -1,0 +1,71 @@
+<md-content layout="column" layout-align="center center" flex>
+    <md-whiteframe class="md-whiteframe-24dp" layout="row" layout-align="center center">
+        <form name="userForm" layout="column" layout-margin="">
+            <div layout="row" layout-margin="">
+                <md-input-container class="md-icon-float md-block" layout-margin="">
+                    <label>First name</label>
+                    <md-icon class="name">
+                        <i class="material-icons green">face</i>
+                    </md-icon>
+                    <input ng-model="user.firstName">
+                </md-input-container>
+                <md-input-container class="md-icon-float md-block" layout-margin="">
+                    <label>Last Name</label>
+                    <md-icon class="name">
+                        <i class="material-icons green">face</i>
+                    </md-icon>
+                    <input ng-model="theMax">
+                </md-input-container>
+                <md-datepicker ng-model="user.dateOfBirth" md-placeholder="Date of Birth"></md-datepicker>
+            </div>
+
+            <div layout="row" layout-margin="">
+                <md-input-container class="md-icon-float md-block" layout-margin="">
+                    <label>Username</label>
+                    <md-icon class="name">
+                        <i class="material-icons deepskyblue">account_circle</i>
+                    </md-icon>
+                    <input ng-model="user.firstName">
+                </md-input-container>
+                <md-input-container class="md-icon-float md-block" layout-margin="">
+                    <label>Password</label>
+                    <md-icon class="name">
+                        <i class="material-icons deepskyblue">fingerprint</i>
+                    </md-icon>
+                    <input ng-model="theMax">
+                </md-input-container>
+            </div>
+
+            <md-input-container layout-margin="" class="md-icon-float md-block" layout-margin="">
+                <label>Phone Number</label>
+                <md-icon class="name">
+                    <i class="material-icons">call</i>
+                </md-icon>
+                <input ng-model="user.phone">
+            </md-input-container>
+
+            <md-input-container layout-margin="" class="md-icon-float md-block" layout-margin="">
+                <label>Email Address</label>
+                <md-icon class="name">
+                    <i class="material-icons green">email</i>
+                </md-icon>
+                <input ng-model="user.phone">
+            </md-input-container>
+
+            <md-input-container layout-margin="" class="md-icon-float md-block" layout-margin="">
+                <label>Address</label>
+                <md-icon class="name">
+                    <i class="material-icons blue">place</i>
+                </md-icon>
+                <input ng-model="user.address">
+            </md-input-container>
+            <div layout="row" layout-margin="">
+                <span flex=""></span>
+                <md-button class="md-raised md-primary">Register</md-button>
+            </div>
+        </form>
+    </md-whiteframe>
+    <div>
+        <h6 style="color: blue;">Already Registered? Login here</h6>
+    </div>
+</md-content>
