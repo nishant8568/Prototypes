@@ -53,8 +53,8 @@
         </md-button>
     </div>
     <div flex layout="column" layout-fill>
-        <div id="canvasContainer" layout="row" class="coverage_red">
-            <canvas id="outputCanvas" class="coverage_green"
+        <div id="canvasContainer" layout="row" class="coverage_red" flex>
+            <canvas id="outputCanvas" class="coverage_green" flex
                     ng-mousedown="mouseDownHandler($event)"
                     ng-mousemove="mouseMoveHandler($event)"
                     ng-mouseup="mouseUpHandler($event)">
@@ -81,6 +81,6 @@
         </div>
         <video controls id="videoBackgrounddata"></video>
     </div>
-    <tools disableTools="disableTools" tool="drawingStyle" undo="undo()" save="saveSnapshot()" flex="5"></tools>
+    <tools tool="drawingStyle" stroke-color="strokeColor" undo="undo()" save="saveSnapshot()" flex="5"></tools>
     <snapshots flex="15"></snapshots>
 </md-content>

@@ -5,7 +5,6 @@ headerModule.directive('header', function() {
    return {
        restrict: "E",
        templateUrl: "app/components/others/header/header.tpl.html",
-       controller: "HeaderController",
-       replace: true
+       controller: "HeaderController"
    }
 });

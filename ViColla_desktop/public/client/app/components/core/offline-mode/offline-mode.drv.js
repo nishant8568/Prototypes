@@ -6,7 +6,6 @@ offlineModeModule.directive('offlineMode', function () {
        restrict: 'E',
        templateUrl: 'app/components/core/offline-mode/offline-mode.tpl.html',
        controller: 'offlineModeController',
-       scope: {},
-       replace: true
+       scope: {}
    }
 });

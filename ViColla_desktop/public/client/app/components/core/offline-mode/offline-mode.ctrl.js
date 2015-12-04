@@ -20,8 +20,8 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
     $scope.drawing = false;
 
     // Drawing properties
-    $scope.drawingStyle = "pen";
-    $scope.strokeColor = 'red';
+    $scope.drawingStyle = "";
+    $scope.strokeColor = "red";
     $scope.brushThickness = 1;
 
     // Drawing styles data structures
@@ -96,6 +96,8 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
             var videoNode = document.querySelector('video');
             videoNode.src = $scope.resourceDir + $scope.videoName;
             isVideoReady = true;
+            // trigger enable/disable tools in toolsController
+            $scope.$broadcast ('toggleDisable');
             $scope.clearDrawings();
             videoEnded = false;
         } else {
@@ -175,11 +177,15 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
             if (videoObject.paused && !videoObject.ended) {
                 videoObject.play();
                 $scope.playPlauseButton = "pause_arrow";
+                // trigger enable/disable tools in toolsController
+                $scope.$broadcast ('toggleDisable');
                 updateVideoCache();
                 $scope.drawCanvas();
             } else {
                 videoObject.pause();
                 $scope.playPlauseButton = "play_arrow";
+                // trigger enable/disable tools in toolsController
+                $scope.$broadcast ('toggleDisable');
                 console.log("Video Paused. Stopping the video draw on canvas");
             }
             //videoObject.play();
@@ -234,10 +240,13 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
             $scope.ctx.beginPath();
             if ($scope.penClicks[i].drag) {
                 $scope.ctx.moveTo($scope.penClicks[i - 1].posX, $scope.penClicks[i - 1].posY);
+                console.log("1. From : (" + $scope.penClicks[i - 1].posX + ", " + $scope.penClicks[i - 1].posY + ")");
             } else {
                 $scope.ctx.moveTo($scope.penClicks[i].posX - 1, $scope.penClicks[i].posY);
+                console.log("From : (" + $scope.penClicks[i].posX - 1 + ", " + $scope.penClicks[i].posY + ")");
             }
             $scope.ctx.lineTo($scope.penClicks[i].posX, $scope.penClicks[i].posY);
+            console.log("To : (" + $scope.penClicks[i].posX + ", " + $scope.penClicks[i].posY + ")");
             $scope.ctx.lineWidth = $scope.penClicks[i].thickness;
             $scope.ctx.strokeStyle = $scope.penClicks[i].color;
             $scope.ctx.stroke();
@@ -503,7 +512,6 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
             "</md-grid-tile>" +
             "</md-grid-list>";
         var childNode = $compile(snapshotElement)($scope);
-        console.log(snapshotElement);
         document.getElementById('snapshots').appendChild(childNode[0]);
         // save canvas image as data url (png format by default)
         var dataURL = $scope.canvasElement.toDataURL();
@@ -536,6 +544,7 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
      */
     $scope.mouseDownHandler = function ($event) {
         console.log("mouse down with tool : " + $scope.drawingStyle);
+        console.log("mouse down with color : " + $scope.strokeColor);
         var backgroundObject = document.getElementById("videoBackgrounddata");
         $scope.isVideoPaused = backgroundObject.paused;
         if (backgroundObject.paused) {
@@ -546,6 +555,7 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
                 $scope.lastX = $event.layerX - $event.currentTarget.offsetLeft;
                 $scope.lastY = $event.layerY - $event.currentTarget.offsetTop;
             }
+            console.log("X : " + $scope.lastX + " : Y : " + $scope.lastY);
             var color = $scope.strokeColor;
             var thickness = $scope.brushThickness;
             if ($scope.drawingStyle.toLowerCase() == "pen") {
@@ -580,6 +590,7 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
                 currentX = $event.layerX - $event.currentTarget.offsetLeft;
                 currentY = $event.layerY - $event.currentTarget.offsetTop;
             }
+            console.log("currentX : " + currentX + " : currentY : " + currentY);
             var color = $scope.strokeColor;
             var thickness = $scope.brushThickness;
             if ($scope.drawingStyle.toLowerCase() == "pen") {

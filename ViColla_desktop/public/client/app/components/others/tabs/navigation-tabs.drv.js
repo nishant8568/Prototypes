@@ -5,7 +5,6 @@ navTabsModule.directive('navigationTabs', function() {
    return {
        restrict: 'E',
        templateUrl: 'app/components/others/tabs/navigation-tabs.tpl.html',
-       controller: 'NavTabsController',
-       replace: true
+       controller: 'NavTabsController'
    }
 });

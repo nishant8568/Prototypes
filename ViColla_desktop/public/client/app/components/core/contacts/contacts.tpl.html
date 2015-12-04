@@ -1,0 +1,16 @@
+<md-content layout-padding flex>
+    <md-card ng-repeat="contact in contacts" layout="row" layout-align="start center">
+        <div>
+            <i class="material-icons md-48">face</i>
+        </div>
+        <div layout="column" layout-margin layout-align="space-around start">
+            <div class="md-list-item-text" layout="column">
+                <b id="expertName">{{contact.firstName}} {{contact.lastName}}</b>
+            </div>
+        </div>
+        <span flex=""></span>
+        <div layout-margin>
+            <i class="material-icons md-48">call</i>
+        </div>
+    </md-card>
+</md-content>

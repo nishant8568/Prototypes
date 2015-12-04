@@ -31,6 +31,17 @@ toolsModule.controller('toolsController', function ($scope, $q, $timeout) {
             icon: 'text_format'
         }
     ];
+    $scope.colors = [
+        {
+            name: ['darkred', 'mediumvioletred', 'red', 'orangered']
+        },
+        {
+            name: ['darkgreen', 'green', 'darkolivegreen', 'greenyellow']
+        },
+        {
+            name: ['darkblue', 'blue', 'lightskyblue', 'lightblue']
+        }
+    ];
     $scope.actions = [
         {
             name: 'undo',
@@ -46,12 +57,16 @@ toolsModule.controller('toolsController', function ($scope, $q, $timeout) {
 
     $scope.disableTools = true;
 
+    $scope.$on('toggleDisable', function(e) {
+        $scope.disableTools = !$scope.disableTools;
+    });
+
     $scope.toolClicked = function ($index) {
         $scope.tool = $scope.tools[$index].name;
     };
 
-    $scope.colorClicked = function (color) {
-        alert(color);
+    $scope.colorClicked = function (parentIndex, $index) {
+        $scope.colorSelected = $scope.colors[parentIndex].name[$index];
     };
 
     $scope.actionClicked = function ($index) {

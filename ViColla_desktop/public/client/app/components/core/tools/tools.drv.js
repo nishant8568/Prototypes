@@ -6,12 +6,12 @@ toolsModule.directive('tools', function () {
         restrict: 'E',
         scope: {
             tool: "=",
+            colorSelected: "=strokeColor",
             undo: "&",
             save: "&"
         },
         require: "^offlineMode",
         templateUrl: 'app/components/core/tools/tools.tpl.html',
-        controller: 'toolsController',
-        replace: true
+        controller: 'toolsController'
     }
 });

@@ -1,5 +1,5 @@
 /* output canvas */
-#outputCanvas1{
+#outputCanvas{
     border-bottom: 2px solid rgba(0,0,0,0.3);
     background-color: black;
     box-shadow: 0 9px 20px -5px rgba(0,0,0,0.8);

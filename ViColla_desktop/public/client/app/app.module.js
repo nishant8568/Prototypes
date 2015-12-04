@@ -9,6 +9,7 @@ var registerModule = angular.module('registerModule', []);
 var headerModule = angular.module('headerModule', []);
 var navTabsModule = angular.module('navTabsModule', []);
 var onlineModeModule = angular.module('onlineModeModule', []);
+var contactsModule = angular.module('contactsModule', []);
 var offlineModeModule = angular.module('offlineModeModule', []);
 var toolsModule = angular.module('toolsModule', []);
 var snapshotsModule = angular.module('snapshotsModule', []);
@@ -22,6 +23,7 @@ var app = angular.module('viCollaApp', [
     'headerModule',
     'navTabsModule',
     'onlineModeModule',
+    'contactsModule',
     'offlineModeModule',
     'toolsModule',
     'snapshotsModule',

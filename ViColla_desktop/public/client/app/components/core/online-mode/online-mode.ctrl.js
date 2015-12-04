@@ -18,8 +18,8 @@ onlineModeModule.controller('onlineModeController', function ($scope) {
             dateTime: "09/11/2015"
         },
         {
-            firstName: "Nitin",
-            lastName: "Kumar",
+            firstName: "Tim",
+            lastName: "Smith",
             call_status: "call_missed",
             dateTime: "11/11/2015"
         },

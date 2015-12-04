@@ -1,8 +1,8 @@
-<div flex="5" layout="column" layout-margin>
+<div layout="column" layout-margin>
     <div ng-repeat="toolItem in tools">
         <md-button class="md-icon-button md-48" ng-disabled="disableTools" ng-click="toolClicked($index)">
             <i class="material-icons md-36"
-               ng-class="{elementSelected:tool == tools[$index].name}">{{toolItem.icon}}</i>
+               ng-class="{elementSelected:tool == tools[$index].name && !disableTools}">{{toolItem.icon}}</i>
             <md-tooltip>{{toolItem.name}}</md-tooltip>
         </md-button>
     </div>
@@ -13,32 +13,17 @@
             <md-tooltip>color</md-tooltip>
         </md-button>
         <md-menu-content width="4">
-            <md-menu-item layout-margin>
-                <md-button aria-label="color" style="background-color: darkred;"
-                           ng-click="colorClicked('darkred')" layout-padding></md-button>
-                <md-button aria-label="color" style="background-color: red;"
-                           ng-click="colorClicked('red')" layout-padding></md-button>
-                <md-button aria-label="color" style="background-color: orangered;"
-                           ng-click="colorClicked('orangered')" layout-padding></md-button>
-                <md-button aria-label="color" style="background-color: mediumvioletred;"
-                           ng-click="colorClicked('mediumvioletred')" layout-padding></md-button>
-            </md-menu-item>
-
-            <md-menu-item layout-margin="">
-                <md-button aria-label="color" style="background-color: darkgreen;"
-                           ng-click="colorClicked('darkgreen')" layout-padding></md-button>
-                <md-button aria-label="color" style="background-color: darkolivegreen;"
-                           ng-click="colorClicked('darkolivegreen')" layout-padding></md-button>
-                <md-button aria-label="color" style="background-color: green;"
-                           ng-click="colorClicked('green')" layout-padding></md-button>
-                <md-button aria-label="color" style="background-color: greenyellow;"
-                           ng-click="colorClicked('greenyellow')" layout-padding></md-button>
+            <md-menu-item layout-margin ng-repeat="colorClass in colors">
+                <md-button aria-label="color" ng-repeat="color in colorClass.name" layout-padding
+                           ng-style={'background-color':color} ng-click="colorClicked($parent.$index, $index)"
+                            ng-class="{coverage_black:colorSelected == colors[$parent.$index].name[$index]}">
+                </md-button>
             </md-menu-item>
         </md-menu-content>
     </md-menu>
 
     <div ng-repeat="actionItem in actions">
-        <md-button class="md-icon-button md-48" ng-click="actionClicked($index)">
+        <md-button class="md-icon-button md-48" ng-click="actionClicked($index)" ng-disabled="disableTools">
             <i class="material-icons md-36">{{actionItem.icon}}</i>
             <md-tooltip>{{actionItem.name}}</md-tooltip>
         </md-button>
