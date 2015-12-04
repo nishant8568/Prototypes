@@ -22,3 +22,6 @@ h6, h4, p, b {
 .elementSelected {
     color: blue;
 }
+div.ng-scope {
+    height: 100%;
+}

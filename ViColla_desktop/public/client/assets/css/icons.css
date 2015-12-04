@@ -18,6 +18,8 @@
 
 .material-icons.blue { color: blue }
 
+.material-icons.black { color: black }
+
 .material-icons.deepskyblue { color: deepskyblue }
 
 .material-icons.darkgreen { color: darkgreen }
@@ -27,3 +29,5 @@
 .material-icons.red { color: red }
 
 .material-icons.orange { color: orange }
+
+.material-icons.disabled { color: gray }

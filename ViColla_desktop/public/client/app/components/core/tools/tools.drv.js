@@ -11,6 +11,7 @@ toolsModule.directive('tools', function () {
         },
         require: "^offlineMode",
         templateUrl: 'app/components/core/tools/tools.tpl.html',
-        controller: 'toolsController'
+        controller: 'toolsController',
+        replace: true
     }
 });

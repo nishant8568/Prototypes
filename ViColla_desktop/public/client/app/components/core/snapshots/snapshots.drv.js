@@ -5,6 +5,7 @@ snapshotsModule.directive('snapshots', function(){
     return {
         restrict: 'E',
         templateUrl: 'app/components/core/snapshots/snapshots.tpl.html',
-        controller: 'snapshotsController'
+        controller: 'snapshotsController',
+        replace: true
     }
 });

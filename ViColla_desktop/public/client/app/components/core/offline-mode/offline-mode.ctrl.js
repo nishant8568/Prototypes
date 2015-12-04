@@ -11,12 +11,11 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
     $scope.canvasElement = document.getElementById('outputCanvas');
     $scope.videoObject = document.getElementById("videoBackgrounddata");
     $scope.ctx = $scope.canvasElement.getContext('2d');
-    $scope.ctx.canvas.width = $scope.ctx.canvas.offsetWidth;
-    $scope.ctx.canvas.height = $scope.ctx.canvas.offsetHeight;
     $scope.currentTime = "00:00";
     $scope.duration = "00:00";
     $scope.playPlauseButton = "play_arrow";
-
+    $scope.ctx.canvas.width = $scope.ctx.canvas.offsetWidth;
+    $scope.ctx.canvas.height = $scope.ctx.canvas.offsetHeight;
     // variable that decides if something should be drawn on mousemove
     $scope.drawing = false;
 
@@ -50,7 +49,6 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
     var isVideoPaused = true;
 
     $scope.videoCache = [];
-
     /**
      * Build handler to open/close a SideNav; when animation finishes
      * report completion in console
@@ -450,7 +448,6 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
      * Show snapshot attributes dialog and save snapshot
      */
     $scope.saveSnapshot = function () {
-        alert(22);
         var videoObject = document.getElementById("videoBackgrounddata");
         var durationSet = 3;
         var playbackTime = videoObject.currentTime;
@@ -493,7 +490,7 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
         $scope.clearDrawings();
 
         var snapshotElement =
-            "<md-grid-list id=\"snapshotsList_" + playbackTime + "\" md-cols=\"1\" md-row-height=\"" +
+            "<md-grid-list layout-padding id=\"snapshotsList_" + playbackTime + "\" md-cols=\"1\" md-row-height=\"" +
             $scope.ctx.canvas.width + ":" + $scope.ctx.canvas.height + "\" " +
             "style=\"border: 1px solid green\">" +
             "<md-grid-tile id=\"snapshot_" + playbackTime + "\">" +
@@ -506,6 +503,7 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
             "</md-grid-tile>" +
             "</md-grid-list>";
         var childNode = $compile(snapshotElement)($scope);
+        console.log(snapshotElement);
         document.getElementById('snapshots').appendChild(childNode[0]);
         // save canvas image as data url (png format by default)
         var dataURL = $scope.canvasElement.toDataURL();

@@ -44,6 +44,8 @@ toolsModule.controller('toolsController', function ($scope, $q, $timeout) {
         }
     ];
 
+    $scope.disableTools = true;
+
     $scope.toolClicked = function ($index) {
         $scope.tool = $scope.tools[$index].name;
     };

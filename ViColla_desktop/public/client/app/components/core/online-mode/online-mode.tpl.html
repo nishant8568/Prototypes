@@ -1,4 +1,4 @@
-<md-content layout-padding flex>
+<md-content layout="column" layout-padding flex layout-fill>
     <md-card ng-repeat="caller in callers" layout="row" layout-align="start center">
         <div>
             <i class="material-icons md-48">face</i>
@@ -19,27 +19,4 @@
             <h6>{{caller.dateTime}}</h6>
         </div>
     </md-card>
-    <!--<md-list>
-        <md-list-item ng-repeat="caller in callers" layout="row" layout-align="start center">
-            <div>
-                <i class="material-icons md-48">face</i>
-            </div>
-            <div layout="column" layout-margin layout-align="space-around start">
-                <div class="md-list-item-text" layout="column">
-                    <b id="expertName">{{caller.firstName}} {{caller.lastName}}</b>
-                </div>
-                <div>
-                    <i class="material-icons" ng-class="{red: caller.call_status=='call_missed',
-                    green: caller.call_status=='call_received'}">
-                        {{caller.call_status}}
-                    </i>
-                </div>
-            </div>
-            <span flex=""></span>
-            <div>
-                <p>{{caller.dateTime}}</p>
-            </div>
-            <md-divider></md-divider>
-        </md-list-item>
-    </md-list>-->
 </md-content>
