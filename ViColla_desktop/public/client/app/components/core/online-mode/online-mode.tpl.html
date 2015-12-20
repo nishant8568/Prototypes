@@ -1,16 +1,16 @@
 <md-content layout="column" layout-padding flex layout-fill>
-    <md-card ng-repeat="caller in callers" layout="row" layout-align="start center">
+    <md-card ng-repeat="caller in onlineModeCtrl.callHistory" layout="row" layout-align="start center">
         <div>
             <i class="material-icons md-48">face</i>
         </div>
         <div layout="column" layout-margin layout-align="space-around start">
             <div class="md-list-item-text" layout="column">
-                <b id="expertName">{{caller.firstName}} {{caller.lastName}}</b>
+                <b id="expertName">{{caller.callername}}</b>
             </div>
             <div>
-                <i class="material-icons" ng-class="{red: caller.call_status=='call_missed',
-                    green: caller.call_status=='call_received'}">
-                    {{caller.call_status}}
+                <i class="material-icons" ng-class="{red: caller.status=='call_missed',
+                    green: caller.status=='call_received'}">
+                    {{caller.status}}
                 </i>
             </div>
         </div>

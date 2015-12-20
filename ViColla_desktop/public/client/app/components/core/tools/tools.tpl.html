@@ -1,16 +1,20 @@
 <div layout="column" layout-margin>
     <div ng-repeat="toolItem in tools">
         <md-button class="md-icon-button md-48" ng-disabled="disableTools" ng-click="toolClicked($index)">
-            <i class="material-icons md-36"
-               ng-class="{elementSelected:tool == tools[$index].name && !disableTools}">{{toolItem.icon}}</i>
-            <md-tooltip>{{toolItem.name}}</md-tooltip>
+            <md-icon>
+                <i class="material-icons md-36"
+                   ng-class="{elementSelected:tool == tools[$index].name && !disableTools}">{{toolItem.icon}}</i>
+                <md-tooltip>{{toolItem.name}}</md-tooltip>
+            </md-icon>
         </md-button>
     </div>
 
     <md-menu>
         <md-button aria-label="Color menu" class="md-icon-button md-48" ng-click="$mdOpenMenu($event)">
-            <i class="material-icons md-36">format_color_fill</i>
-            <md-tooltip>color</md-tooltip>
+            <md-icon>
+                <i class="material-icons md-36">format_color_fill</i>
+                <md-tooltip>color</md-tooltip>
+            </md-icon>
         </md-button>
         <md-menu-content width="4">
             <md-menu-item layout-margin ng-repeat="colorClass in colors">
@@ -24,8 +28,10 @@
 
     <div ng-repeat="actionItem in actions">
         <md-button class="md-icon-button md-48" ng-click="actionClicked($index)" ng-disabled="disableTools">
-            <i class="material-icons md-36">{{actionItem.icon}}</i>
-            <md-tooltip>{{actionItem.name}}</md-tooltip>
+            <md-icon>
+                <i class="material-icons md-36">{{actionItem.icon}}</i>
+                <md-tooltip>{{actionItem.name}}</md-tooltip>
+            </md-icon>
         </md-button>
     </div>
 </div>

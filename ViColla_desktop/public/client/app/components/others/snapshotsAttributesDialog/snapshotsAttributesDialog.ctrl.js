@@ -1,5 +1,5 @@
 /**
- * Created by Nishant on 11/28/2015.
+ * Created by Antony on 11/28/2015.
  */
 snapshotsAttributesModule.controller('snapshotsAttributesController', function($scope, $mdDialog, playbackTime) {
     $scope.attributesDialogIcons = [
@@ -16,6 +16,6 @@ snapshotsAttributesModule.controller('snapshotsAttributesController', function($
     };
 
     $scope.answer = function(answer) {
-        $mdDialog.hide([$scope.durationSet, $scope.videoplayTime]);
+        $mdDialog.hide([$scope.durationSet, $scope.videoplayTime, $scope.description]);
     };
 });

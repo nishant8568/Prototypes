@@ -1,23 +1,27 @@
 <md-toolbar layout="row">
     <div class="md-toolbar-tools">
         <h2>
-            <span>ViColla Remote Assistant</span>
+            <span>Abc Remote Assistant</span>
         </h2>
         <span flex=""></span>
 
         <h3>
-            <span>{{user.firstName}} {{user.lastName}}</span>
+            <span>{{appCtrl.user.firstName}} {{appCtrl.user.lastName}}</span>
         </h3>
-        <md-menu-bar>
+        <md-menu-bar ng-hide="appCtrl.user.firstName == null || appCtrl.user.firstName.length == 0">
             <md-menu md-position-mode="target-right target">
+
                 <md-button class="md-icon-button" aria-label="Options" ng-click="$mdOpenMenu($event)">
-                    <i class="material-icons md-48">account_circle</i>
+                    <i ng-if="appCtrl.user.logoFilename == null" class="material-icons md-48">account_circle</i>
+                    <img ng-if="appCtrl.user.logoFilename" ng-src="{{appCtrl.user.logoFilename}}" width="50px">
                 </md-button>
+
                 <md-menu-content width="4">
                     <div layout="column" layout-align="center center">
-                        <i class="material-icons md-144 md-dark">face</i>
-                        <b>{{user.firstName}} {{user.lastName}}</b>
-                        <p style="font-size: x-small; color: gray;">{{user.email}}</p>
+                        <i ng-if="appCtrl.user.logoFilename == null" class="material-icons md-144 md-dark">face</i>
+                        <img ng-if="appCtrl.user.logoFilename" ng-src="{{appCtrl.user.logoFilename}}" width="100">
+                        <b>{{appCtrl.user.firstName}} {{appCtrl.user.lastName}}</b>
+                        <p style="font-size: x-small; color: gray;">{{appCtrl.user.email}}</p>
                     </div>
                     <md-divider></md-divider>
                     <md-menu-item>

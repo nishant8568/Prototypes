@@ -1,0 +1,50 @@
+<md-dialog aria-label="Incoming Call">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Incoming Call...</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon>
+                        <i class="material-icons">close</i>
+                        <md-tooltip>Close</md-tooltip>
+                    </md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content layout="column" layout-margin>
+            <form>
+                <section layout="row" layout-margin>
+                    <div>
+                        <i class="material-icons md-144 coverage_black">face</i>
+                    </div>
+                    <div layout="column" layout-margin layout-align="space-around start">
+                        <div layout="column" layout-padding>
+                            <b style="font-size: x-large">{{user.firstName}} {{user.lastName}}</b>
+                            <b style="font-size: small">{{user.designation}}</b>
+                            <b style="font-size: small">{{user.place}}</b>
+                        </div>
+                        <md-switch class="md-primary" md-no-ink aria-label="Record" ng-model="recordVideo">
+                            <b style="font-size: small">Record</b>
+                        </md-switch>
+                    </div>
+                </section>
+            </form>
+        </md-dialog-content>
+
+        <div class="md-actions" layout="row">
+            <md-button ng-click="answer('receive')" >
+                <md-icon>
+                    <i class="material-icons blue">call</i>
+                    <md-tooltip>Answer</md-tooltip>
+                </md-icon>
+            </md-button>
+            <md-button ng-click="answer('decline')" style="margin-right:20px;" >
+                <md-icon>
+                    <i class="material-icons red">call_end</i>
+                    <md-tooltip>Decline</md-tooltip>
+                </md-icon>
+            </md-button>
+        </div>
+    </form>
+</md-dialog>

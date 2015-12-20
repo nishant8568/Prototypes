@@ -7,8 +7,10 @@
             </md-toolbar>
             <md-content layout="column" flex>
                 <div layout="row" layout-align="start center">
-                    <input id="upload" type="file" onchange="angular.element(this).scope().getVideoFile()"
-                           accept=".mp4" ng-model="files" ng-multiple="false" style="display: none;">
+                    <input type="file" aria-label="" class="form-control" id="openVideo"
+
+                           file-model="videoFile" ng-show=false accept=".mp4">
+                    <!--onchange="angular.element(this).scope().getVideoFile()"-->
                     <md-button id="addVideoButton" class="md-raised md-primary" aria-label="Open"
                                ng-click="openFileDialog()" flex="20">
                         Browse
@@ -48,8 +50,9 @@
         </md-button>
     </div>
     <div flex="5">
-        <md-button class="md-icon-button md-48">
+        <md-button ng-click="loadImages()" class="md-icon-button md-48">
             <i class="material-icons md-36">color_lens</i>
+            <md-tooltip>Get Annotations</md-tooltip>
         </md-button>
     </div>
     <div flex layout="column" layout-fill>

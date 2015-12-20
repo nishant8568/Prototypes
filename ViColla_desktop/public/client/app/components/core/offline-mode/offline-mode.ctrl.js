@@ -1,13 +1,13 @@
 /**
- * Created by Nishant on 11/21/2015.
+ * Created by Antony on 11/21/2015.
  */
-offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil, $mdSidenav, $log, $mdDialog, $compile) {
+offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdSidenav', '$log', '$mdDialog', '$compile', 'databaseService', function ($scope, $mdUtil, $mdSidenav, $log, $mdDialog, $compile, databaseService) {
     'use strict';
-
+    $scope.max = 3;
+    $scope.selectedIndex = 2;
     $scope.volumeStatus = "volume_up";
     $scope.toggleLeft = buildToggler('left');
-    $scope.resourceDir = 'assets/resources/';
-    $scope.uploadButton = document.getElementById('upload');
+    $scope.openVideoButton = document.getElementById('openVideo');
     $scope.canvasElement = document.getElementById('outputCanvas');
     $scope.videoObject = document.getElementById("videoBackgrounddata");
     $scope.ctx = $scope.canvasElement.getContext('2d');
@@ -25,14 +25,11 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
     $scope.brushThickness = 1;
 
     // Drawing styles data structures
-    $scope.penClicks = [];
-    $scope.tempLines = [];
+    $scope.penStrokes = [];
+    $scope.penStrokeTemp = [];
     $scope.drawnLines = [];
-    $scope.tempRectangles = [];
     $scope.drawnRectangles = [];
-    $scope.tempCircles = [];
     $scope.drawnCircles = [];
-    $scope.tempTriangles = [];
     $scope.drawnTriangles = [];
     $scope.drawnText = [];
 
@@ -49,6 +46,7 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
     var isVideoPaused = true;
 
     $scope.videoCache = [];
+
     /**
      * Build handler to open/close a SideNav; when animation finishes
      * report completion in console
@@ -85,16 +83,24 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
         return time;
     };
 
+    $scope.$watch(function(){return $scope.videoFile}, function handleFooChange( newValue, oldValue ) {
+        console.log( "video file changed, call get video file");
+        if(newValue != oldValue)
+            $scope.getVideoFile();
+    });
+
     /**
      * Get the video file to be played
      */
     $scope.getVideoFile = function () {
-        $scope.videoName = $scope.uploadButton.value;
+        var vFile = $scope.videoFile;
+        $scope.videoName = $scope.openVideoButton.value;
         if ($scope.videoName != null) {
             var nameSplit = $scope.videoName.split("\\");
             $scope.videoName = nameSplit[nameSplit.length - 1];
             var videoNode = document.querySelector('video');
-            videoNode.src = $scope.resourceDir + $scope.videoName;
+            videoNode.src = window.URL.createObjectURL(vFile);
+            console.log(videoNode.src);
             isVideoReady = true;
             // trigger enable/disable tools in toolsController
             $scope.$broadcast ('toggleDisable');
@@ -109,7 +115,7 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
      * Open file browser
      */
     $scope.openFileDialog = function () {
-        $scope.uploadButton.click();
+        $scope.openVideoButton.click();
     };
 
     /**
@@ -234,191 +240,96 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
             $scope.ctx.fillText($scope.drawnText[i].value, $scope.drawnText[i].left, $scope.drawnText[i].top);
         }
     };
+
     // freehand pen drawing
-    $scope.drawPenStrokes = function () {
-        for (var i = 1; i < $scope.penClicks.length; i++) {
-            $scope.ctx.beginPath();
-            if ($scope.penClicks[i].drag) {
-                $scope.ctx.moveTo($scope.penClicks[i - 1].posX, $scope.penClicks[i - 1].posY);
-                console.log("1. From : (" + $scope.penClicks[i - 1].posX + ", " + $scope.penClicks[i - 1].posY + ")");
-            } else {
-                $scope.ctx.moveTo($scope.penClicks[i].posX - 1, $scope.penClicks[i].posY);
-                console.log("From : (" + $scope.penClicks[i].posX - 1 + ", " + $scope.penClicks[i].posY + ")");
+    $scope.drawAllPenStrokes = function () {
+        for (var i = 0; i < $scope.penStrokes.length; i++) {
+            var currentPen = $scope.penStrokes[i];
+            for(var j = 1; j<currentPen.length; j++){
+                $scope.drawLine(currentPen[j-1].posX, currentPen[j-1].posY, currentPen[j].posX, currentPen[j].posY, currentPen[j].thickness, currentPen[j].color);
             }
-            $scope.ctx.lineTo($scope.penClicks[i].posX, $scope.penClicks[i].posY);
-            console.log("To : (" + $scope.penClicks[i].posX + ", " + $scope.penClicks[i].posY + ")");
-            $scope.ctx.lineWidth = $scope.penClicks[i].thickness;
-            $scope.ctx.strokeStyle = $scope.penClicks[i].color;
-            $scope.ctx.stroke();
         }
     };
+
     // lines
-    $scope.drawLineStrokes = function () {
+    $scope.drawLine = function(startX, startY, endX, endY, thickness, color){
         $scope.ctx.beginPath();
-        var numberOfTempLines = $scope.tempLines.length;
-        if (numberOfTempLines > 0) {
-            // introduced drawVideoOnCanvas() here while moving from video to photo as base for drawing
-            $scope.drawVideoOnCanvas();
-            $scope.ctx.moveTo($scope.tempLines[numberOfTempLines - 1].startX, $scope.tempLines[numberOfTempLines - 1].startY);
-            $scope.ctx.lineTo($scope.tempLines[numberOfTempLines - 1].endX, $scope.tempLines[numberOfTempLines - 1].endY);
-            //$scope.ctx.strokeStyle = $scope.strokeColor;//"#4bf";
-            $scope.ctx.lineWidth = $scope.tempLines[numberOfTempLines - 1].thickness;
-            $scope.ctx.strokeStyle = $scope.tempLines[numberOfTempLines - 1].color;
-            $scope.ctx.stroke();
-        }
-        $scope.drawFinalLines();
-        $scope.drawFinalTriangles();
-        $scope.drawFinalRectangles();
-        $scope.drawFinalCircles();
+        $scope.ctx.moveTo(startX, startY);
+        $scope.ctx.lineTo(endX, endY);
+        $scope.ctx.lineWidth = thickness;
+        $scope.ctx.strokeStyle = color;
+        $scope.ctx.stroke();
     };
-    // circles
-    $scope.drawCircleStrokes = function () {
-        $scope.ctx.beginPath();
-        var numberOfTempCircles = $scope.tempCircles.length;
-        if (numberOfTempCircles > 0) {
-            // introduced drawVideoOnCanvas() here while moving from video to photo as base for drawing
-            $scope.drawVideoOnCanvas();
-            var radiusX = ($scope.tempCircles[numberOfTempCircles - 1].endX - $scope.tempCircles[numberOfTempCircles - 1].startX) * 0.5;
-            var radiusY = ($scope.tempCircles[numberOfTempCircles - 1].endY - $scope.tempCircles[numberOfTempCircles - 1].startY) * 0.5;
-            var centerX = $scope.tempCircles[numberOfTempCircles - 1].startX + radiusX;
-            var centerY = $scope.tempCircles[numberOfTempCircles - 1].startY + radiusY;
-            var step = 0.01;
-            var a = step;
-            var pi2 = Math.PI * 2 - step;
-            $scope.ctx.moveTo(centerX + radiusX * Math.cos(0), centerY + radiusY * Math.sin(0));
-            for (; a < pi2; a += step) {
-                $scope.ctx.lineTo(centerX + radiusX * Math.cos(a), centerY + radiusY * Math.sin(a));
-            }
-            $scope.ctx.closePath();
-            $scope.ctx.lineWidth = $scope.tempCircles[numberOfTempCircles - 1].thickness;
-            $scope.ctx.strokeStyle = $scope.tempCircles[numberOfTempCircles - 1].color;//"#4bf";
-            $scope.ctx.stroke();
-        }
-        $scope.drawFinalLines();
-        $scope.drawFinalTriangles();
-        $scope.drawFinalRectangles();
-        $scope.drawFinalCircles();
-    };
-    // triangles
-    $scope.drawTriangleStrokes = function () {
-        $scope.ctx.beginPath();
-        var numberOfTempTriangles = $scope.tempTriangles.length;
-        if (numberOfTempTriangles > 0) {
-            // introduced drawVideoOnCanvas() here while moving from video to photo as base for drawing
-            $scope.drawVideoOnCanvas();
-            $scope.ctx.moveTo($scope.tempTriangles[numberOfTempTriangles - 1].startX, $scope.tempTriangles[numberOfTempTriangles - 1].startY);
-            $scope.ctx.lineTo($scope.tempTriangles[numberOfTempTriangles - 1].endX, $scope.tempTriangles[numberOfTempTriangles - 1].endY);
-            $scope.ctx.lineTo($scope.tempTriangles[numberOfTempTriangles - 1].thirdX, $scope.tempTriangles[numberOfTempTriangles - 1].thirdY);
-            $scope.ctx.lineTo($scope.tempTriangles[numberOfTempTriangles - 1].startX, $scope.tempTriangles[numberOfTempTriangles - 1].startY);
-            $scope.ctx.lineWidth = $scope.tempTriangles[numberOfTempTriangles - 1].thickness;
-            $scope.ctx.strokeStyle = $scope.tempTriangles[numberOfTempTriangles - 1].color;
-            $scope.ctx.stroke();
-        }
-        $scope.drawFinalLines();
-        $scope.drawFinalTriangles();
-        $scope.drawFinalRectangles();
-        $scope.drawFinalCircles();
-    };
-    $scope.drawFinalLines = function () {
+
+    $scope.drawAllLines = function(){
         for (var i = 0; i < $scope.drawnLines.length; i++) {
-            $scope.ctx.beginPath();
-            $scope.ctx.moveTo($scope.drawnLines[i].startX, $scope.drawnLines[i].startY);
-            $scope.ctx.lineTo($scope.drawnLines[i].endX, $scope.drawnLines[i].endY);
-            //$scope.ctx.strokeStyle = $scope.strokeColor;//"#4bf";
-            $scope.ctx.lineWidth = $scope.drawnLines[i].thickness;
-            $scope.ctx.strokeStyle = $scope.drawnLines[i].color;
-            $scope.ctx.stroke();
+            var currentLine = $scope.drawnLines[i];
+            $scope.drawLine(currentLine.startX, currentLine.startY, currentLine.endX, currentLine.endY, currentLine.thickness, currentLine.color);
         }
     };
-    $scope.drawFinalRectangles = function () {
-        for (var i = 0; i < $scope.drawnRectangles.length; i++) {
-            $scope.ctx.beginPath();
-            $scope.ctx.rect($scope.drawnRectangles[i].startX, $scope.drawnRectangles[i].startY,
-                $scope.drawnRectangles[i].sizeX, $scope.drawnRectangles[i].sizeY);
-            $scope.ctx.lineWidth = $scope.drawnRectangles[i].thickness;
-            $scope.ctx.strokeStyle = $scope.drawnRectangles[i].color;
-            $scope.ctx.stroke();
-        }
-    };
-    // rectangles
-    $scope.drawRectangleStrokes = function () {
+
+    // circles
+    $scope.drawCircle = function(startX, startY, radius, thickness, color){
         $scope.ctx.beginPath();
-        var numberOfTempRectangles = $scope.tempRectangles.length;
-        if (numberOfTempRectangles > 0) {
-            // introduced drawVideoOnCanvas() here while moving from video to photo as base for drawing
-            $scope.drawVideoOnCanvas();
-            $scope.ctx.rect($scope.tempRectangles[numberOfTempRectangles - 1].startX,
-                $scope.tempRectangles[numberOfTempRectangles - 1].startY,
-                $scope.tempRectangles[numberOfTempRectangles - 1].sizeX,
-                $scope.tempRectangles[numberOfTempRectangles - 1].sizeY);
-            $scope.ctx.lineWidth = $scope.tempRectangles[numberOfTempRectangles - 1].thickness;
-            $scope.ctx.strokeStyle = $scope.tempRectangles[numberOfTempRectangles - 1].color;
-            $scope.ctx.stroke();
-        }
-        $scope.drawFinalLines();
-        $scope.drawFinalTriangles();
-        $scope.drawFinalRectangles();
-        $scope.drawFinalCircles();
+        $scope.ctx.arc(startX, startY, radius, 0, 2 * Math.PI, false);
+        $scope.ctx.closePath();
+        $scope.ctx.lineWidth = thickness;
+        $scope.ctx.strokeStyle = color;//"#4bf";
+        $scope.ctx.stroke();
     };
-    $scope.drawFinalCircles = function () {
+
+    $scope.drawAllCircles = function () {
         for (var i = 0; i < $scope.drawnCircles.length; i++) {
-            $scope.ctx.beginPath();
-            var radiusX = ($scope.drawnCircles[i].endX - $scope.drawnCircles[i].startX) * 0.5;
-            var radiusY = ($scope.drawnCircles[i].endY - $scope.drawnCircles[i].startY) * 0.5;
-            var centerX = $scope.drawnCircles[i].startX + radiusX;
-            var centerY = $scope.drawnCircles[i].startY + radiusY;
-            var step = 0.01;
-            var a = step;
-            var pi2 = Math.PI * 2 - step;
-            //$scope.ctx.beginPath();
-            $scope.ctx.moveTo(centerX + radiusX * Math.cos(0), centerY + radiusY * Math.sin(0));
-            for (; a < pi2; a += step) {
-                $scope.ctx.lineTo(centerX + radiusX * Math.cos(a), centerY + radiusY * Math.sin(a));
-            }
-            $scope.ctx.closePath();
-            $scope.ctx.lineWidth = $scope.drawnCircles[i].thickness;
-            $scope.ctx.strokeStyle = $scope.drawnCircles[i].color;//'#4bf';
-            $scope.ctx.stroke();
+            var currentCircle = $scope.drawnCircles[i];
+            $scope.drawCircle(currentCircle.startX, currentCircle.startY, currentCircle.radius, currentCircle.thickness, currentCircle.color);
         }
     };
-    $scope.drawFinalCircles = function () {
-        for (var i = 0; i < $scope.drawnCircles.length; i++) {
-            $scope.ctx.beginPath();
-            var radiusX = ($scope.drawnCircles[i].endX - $scope.drawnCircles[i].startX) * 0.5;
-            var radiusY = ($scope.drawnCircles[i].endY - $scope.drawnCircles[i].startY) * 0.5;
-            var centerX = $scope.drawnCircles[i].startX + radiusX;
-            var centerY = $scope.drawnCircles[i].startY + radiusY;
-            var step = 0.01;
-            var a = step;
-            var pi2 = Math.PI * 2 - step;
-            //$scope.ctx.beginPath();
-            $scope.ctx.moveTo(centerX + radiusX * Math.cos(0), centerY + radiusY * Math.sin(0));
-            for (; a < pi2; a += step) {
-                $scope.ctx.lineTo(centerX + radiusX * Math.cos(a), centerY + radiusY * Math.sin(a));
-            }
-            $scope.ctx.closePath();
-            $scope.ctx.lineWidth = $scope.drawnCircles[i].thickness;
-            $scope.ctx.strokeStyle = $scope.drawnCircles[i].color;//'#4bf';
-            $scope.ctx.stroke();
+
+    // triangles
+    $scope.drawTriangle = function(startX, startY, endX, endY,thirdX, thirdY, thickness, color){
+        $scope.ctx.beginPath();
+        $scope.ctx.moveTo(startX, startY);
+        $scope.ctx.lineTo(endX, endY);
+        $scope.ctx.lineTo(thirdX, thirdY);
+        $scope.ctx.lineTo(startX, startY);
+        $scope.ctx.lineWidth = thickness;
+        $scope.ctx.strokeStyle = color;
+        $scope.ctx.stroke();
+    };
+
+    $scope.drawAllTriangles = function () {
+        for(var i=0; i<$scope.drawnTriangles.length; i++){
+            var currentTriangle = $scope.drawnTriangles[i];
+            $scope.drawTriangle(currentTriangle.startX, currentTriangle.startY, currentTriangle.endX, currentTriangle.endY,
+                currentTriangle.thirdX, currentTriangle.thirdY, currentTriangle.thickness, currentTriangle.color);
         }
     };
-    $scope.drawFinalTriangles = function () {
-        for (var i = 0; i < $scope.drawnTriangles.length; i++) {
-            $scope.ctx.beginPath();
-            $scope.ctx.moveTo($scope.drawnTriangles[i].startX, $scope.drawnTriangles[i].startY);
-            $scope.ctx.lineTo($scope.drawnTriangles[i].endX, $scope.drawnTriangles[i].endY);
-            $scope.ctx.lineTo($scope.drawnTriangles[i].thirdX, $scope.drawnTriangles[i].thirdY);
-            $scope.ctx.lineTo($scope.drawnTriangles[i].startX, $scope.drawnTriangles[i].startY);
-            $scope.ctx.lineWidth = $scope.drawnTriangles[i].thickness;
-            $scope.ctx.strokeStyle = $scope.drawnTriangles[i].color;//"#4bf";
-            $scope.ctx.stroke();
+
+    // rectangles
+    $scope.drawRectangle= function(startX, startY, width, height,thickness, color){
+        $scope.ctx.beginPath();
+        $scope.ctx.rect(startX, startY, width, height);
+        $scope.ctx.lineWidth = thickness;
+        $scope.ctx.strokeStyle = color;
+        $scope.ctx.stroke();
+    };
+
+    $scope.drawAllRectangles = function(){
+        for (var i = 0; i < $scope.drawnRectangles.length; i++) {
+            var currentRectangle = $scope.drawnRectangles[i];
+            $scope.drawRectangle(currentRectangle.startX, currentRectangle.startY, currentRectangle.width, currentRectangle.height,currentRectangle.thickness, currentRectangle.color);
         }
     };
+
+    $scope.drawUserDrawings = function(){
+        $scope.drawAllTriangles();
+        $scope.drawAllCircles();
+        $scope.drawAllRectangles();
+        $scope.drawAllLines();
+        $scope.drawAllPenStrokes();
+    };
+
     $scope.clearDrawings = function () {
-        $scope.tempCircles = [];
-        $scope.tempTriangles = [];
-        $scope.tempLines = [];
-        $scope.tempRectangles = [];
         $scope.drawnCircles = [];
         $scope.drawnTriangles = [];
         $scope.drawnLines = [];
@@ -428,6 +339,7 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
             $scope.drawVideoOnCanvas();
         }
     };
+
     $scope.createInputsForText = function (color, videoObject) {
         var idText = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -453,57 +365,86 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
             $scope.applyText(idInputBox, idContainer, leftPos, topPos, color, videoObject);
         };
     };
+
     /**
      * Show snapshot attributes dialog and save snapshot
      */
     $scope.saveSnapshot = function () {
         var videoObject = document.getElementById("videoBackgrounddata");
         var durationSet = 3;
+        var description = "";
         var playbackTime = videoObject.currentTime;
         $mdDialog.show({
-                controller: 'snapshotsAttributesController',
-                templateUrl: 'app/components/others/snapshotsAttributesDialog/snapshotsAttributesDialog.tpl.html',
-                locals: {playbackTime: playbackTime},
-                parent: angular.element(document.body)
-            })
+            controller: 'snapshotsAttributesController',
+            templateUrl: 'app/components/others/snapshotsAttributesDialog/snapshotsAttributesDialog.tpl.html',
+            locals: {playbackTime: playbackTime},
+            parent: angular.element(document.body)
+        })
             .then(function (answer) {
                 durationSet = answer[0];
                 playbackTime = answer[1];
+                description = answer[2];
                 console.log("duration : " + durationSet);
                 console.log("playbackTime : " + playbackTime);
-                $scope.saveImage(playbackTime, durationSet);
+                console.log("description : " + description);
+                $scope.saveImage(playbackTime, durationSet, description);
             }, function () {
                 console.log('text duration dialog closed');
             });
     };
-    $scope.saveImage = function (playbackTime, duration) {
-        var backgroundObject = document.getElementById("videoBackgrounddata");
-        var width = ($scope.canvasElement.width);
-        var height = ($scope.canvasElement.height);
-        if ($scope.ctx) {
-            $scope.ctx.drawImage(backgroundObject, 0, 0, width, height);
-        }
+    $scope.saveImage = function (playbackTime, duration, description) {
+        updateCanvas();
         var imgData = $scope.ctx.getImageData(0, 0, $scope.canvasElement.width, $scope.canvasElement.height);
-        console.log("drawing video on canvas...");
-        // draw all strokes over canvas
-        $scope.ctx.putImageData(imgData, 0, 0);
-        $scope.ctx.beginPath();
-        $scope.drawPenStrokes();
-        $scope.drawRectangleStrokes();
-        $scope.drawLineStrokes();
-        $scope.drawTriangleStrokes();
-        $scope.drawCircleStrokes();
-        $scope.drawTextStrokes();
-
         // clear strokes data from respective arrays
         $scope.clearDrawings();
 
+        var dataURL = $scope.canvasElement.toDataURL();
+        var newImage = {
+            description: description,
+            duration: duration,
+            playbackTime: playbackTime,
+            dataURL: dataURL,
+            videoName: $scope.videoName
+        };
+        databaseService.saveImage(newImage).then(function(data){
+            if(data.success){
+                var imageId = data.id;
+                appendImageToSnapshots(imageId,playbackTime,duration, dataURL);
+                var savedSnapshot = {
+                    imageId: 'canvasImg_' + imageId,
+                    playbackTime: playbackTime,
+                    duration: duration,
+                    description: description
+                };
+                $scope.savedSnapshotsData.push(savedSnapshot);
+            }else{
+                alert(data.message);
+            }
+        });
+    };
+
+    $scope.loadImages = function(){
+      databaseService.loadImages($scope.videoName).then(function(data){
+          if(data.success){
+              var snapshotsNode = document.getElementById("snapshots");
+              while (snapshotsNode.firstChild) {
+                  snapshotsNode.removeChild(snapshotsNode.firstChild);
+              }
+              for(var i = 0; i< data.images.length; i++){
+                  var image = data.images[i];
+                  appendImageToSnapshots(image._id, image.playbackTime, image.duration, image.dataURL);
+              }
+          }
+      })
+    };
+
+    var appendImageToSnapshots = function(imageId, playbackTime, duration, dataURL){
         var snapshotElement =
             "<md-grid-list layout-padding id=\"snapshotsList_" + playbackTime + "\" md-cols=\"1\" md-row-height=\"" +
             $scope.ctx.canvas.width + ":" + $scope.ctx.canvas.height + "\" " +
             "style=\"border: 1px solid green\">" +
-            "<md-grid-tile id=\"snapshot_" + playbackTime + "\">" +
-            "<img id=\"canvasImg_" + playbackTime + "\" " +
+            "<md-grid-tile id=\"snapshot_" + imageId + "\">" +
+            "<img id=\"canvasImg_" + imageId + "\" " +
             "style=\"position: relative; width: 100%; height: 100%;\">" +
             "<md-grid-tile-footer layout=\"row\" layout-align=\"space-between center\">" +
             "<h3>Time : " + playbackTime + "</h3>" +
@@ -513,17 +454,15 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
             "</md-grid-list>";
         var childNode = $compile(snapshotElement)($scope);
         document.getElementById('snapshots').appendChild(childNode[0]);
-        // save canvas image as data url (png format by default)
-        var dataURL = $scope.canvasElement.toDataURL();
         // set canvasImg image src to dataURL so it can be saved as an image
-        document.getElementById('canvasImg_' + playbackTime).src = dataURL;
-        var savedSnapshot = {
-            imageId: 'canvasImg_' + playbackTime,
-            playbackTime: playbackTime,
-            duration: duration
-        };
-        $scope.savedSnapshotsData.push(savedSnapshot);
+        document.getElementById('canvasImg_' + imageId).src = dataURL;
     };
+
+    var updateCanvas = function(){
+        $scope.drawVideoOnCanvas();
+        $scope.drawUserDrawings();
+    };
+
     $scope.applyText = function (textId, containerId, leftPos, topPos, color, videoObject) {
         var textToWrite = {
             value: document.getElementById(textId).value,
@@ -549,11 +488,11 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
         $scope.isVideoPaused = backgroundObject.paused;
         if (backgroundObject.paused) {
             if ($event.offsetX !== undefined) {
-                $scope.lastX = $event.offsetX;
-                $scope.lastY = $event.offsetY;
+                $scope.lastX = ($scope.canvasElement.width/$event.currentTarget.offsetWidth) * $event.offsetX;
+                $scope.lastY = ($scope.canvasElement.height/$event.currentTarget.offsetHeight) * $event.offsetY;
             } else {
-                $scope.lastX = $event.layerX - $event.currentTarget.offsetLeft;
-                $scope.lastY = $event.layerY - $event.currentTarget.offsetTop;
+                $scope.lastX = ($scope.canvasElement.width/$event.currentTarget.offsetWidth) * $event.layerX;
+                $scope.lastY = ($scope.canvasElement.height/$event.currentTarget.offsetHeight) * $event.layerX;
             }
             console.log("X : " + $scope.lastX + " : Y : " + $scope.lastY);
             var color = $scope.strokeColor;
@@ -566,7 +505,7 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
                     color: color,
                     thickness: thickness
                 };
-                $scope.penClicks.push(penClick);
+                $scope.penStrokeTemp.push(penClick);
             } else if ($scope.drawingStyle.toLowerCase() == "text") {
                 var videoObject = document.getElementById("videoBackgrounddata");
                 videoObject.pause();
@@ -579,18 +518,18 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
     };
     $scope.mouseMoveHandler = function ($event) {
         if ($scope.drawing) {
-            console.log("mouse moving over canvas...");
+
             var currentX = 0;
             var currentY = 0;
             // get current mouse position
             if ($event.offsetX !== undefined) {
-                currentX = $event.offsetX;
-                currentY = $event.offsetY;
+                currentX = ($scope.canvasElement.width/$event.currentTarget.offsetWidth) * $event.offsetX;
+                currentY = ($scope.canvasElement.height/$event.currentTarget.offsetHeight) * $event.offsetY;
             } else {
-                currentX = $event.layerX - $event.currentTarget.offsetLeft;
-                currentY = $event.layerY - $event.currentTarget.offsetTop;
+                currentX = ($scope.canvasElement.width/$event.currentTarget.offsetWidth) * $event.layerX;
+                currentY = ($scope.canvasElement.height/$event.currentTarget.offsetHeight) * $event.layerX;
             }
-            console.log("currentX : " + currentX + " : currentY : " + currentY);
+            //console.log("currentX : " + currentX + " : currentY : " + currentY);
             var color = $scope.strokeColor;
             var thickness = $scope.brushThickness;
             if ($scope.drawingStyle.toLowerCase() == "pen") {
@@ -601,54 +540,28 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
                     color: color,
                     thickness: thickness
                 };
-                $scope.penClicks.push(penClick);
-                $scope.drawPenStrokes();
+                var index = $scope.penStrokeTemp.length;
+                if(index > 0){
+                    $scope.drawLine($scope.penStrokeTemp[index-1].posX, $scope.penStrokeTemp[index-1].posY, currentX, currentY, thickness, color)
+                }
+                $scope.penStrokeTemp.push(penClick);
             } else if ($scope.drawingStyle.toLowerCase() == "rectangle") {
-                var drawnRectangle = {
-                    startX: $scope.lastX,
-                    startY: $scope.lastY,
-                    sizeX: currentX - $scope.lastX,
-                    sizeY: currentY - $scope.lastY,
-                    color: color,
-                    thickness: thickness
-                };
-                $scope.tempRectangles.push(drawnRectangle);
-                $scope.drawRectangleStrokes();
+                var width = currentX - $scope.lastX;
+                var height = currentY - $scope.lastY;
+                updateCanvas();
+                $scope.drawRectangle($scope.lastX, $scope.lastY, width, height, thickness, color);
             } else if ($scope.drawingStyle.toLowerCase() == "line") {
-                var drawnLine = {
-                    startX: $scope.lastX,
-                    startY: $scope.lastY,
-                    endX: currentX,
-                    endY: currentY,
-                    color: color,
-                    thickness: thickness
-                };
-                $scope.tempLines.push(drawnLine);
-                $scope.drawLineStrokes();
+                updateCanvas();
+                $scope.drawLine($scope.lastX, $scope.lastY, currentX, currentY, thickness, color)
             } else if ($scope.drawingStyle.toLowerCase() == "circle") {
-                var drawnCircle = {
-                    startX: $scope.lastX,
-                    startY: $scope.lastY,
-                    endX: currentX,
-                    endY: currentY,
-                    color: color,
-                    thickness: thickness
-                };
-                $scope.tempCircles.push(drawnCircle);
-                $scope.drawCircleStrokes();
+                updateCanvas();
+                var radius = Math.sqrt((Math.pow(Math.abs(currentX - $scope.lastX), 2) + Math.pow(Math.abs(currentY - $scope.lastY), 2)));
+                $scope.drawCircle($scope.lastX, $scope.lastY, radius, thickness, color);
             } else if ($scope.drawingStyle.toLowerCase() == "triangle") {
-                var drawnTriangle = {
-                    startX: $scope.lastX,
-                    startY: $scope.lastY,
-                    endX: currentX,
-                    endY: currentY,
-                    thirdX: $scope.lastX + 2 * (currentX - $scope.lastX),
-                    thirdY: $scope.lastY,
-                    color: color,
-                    thickness: thickness
-                };
-                $scope.tempTriangles.push(drawnTriangle);
-                $scope.drawTriangleStrokes();
+                updateCanvas();
+                var thirdX =  $scope.lastX + 2 * (currentX - $scope.lastX);
+                var thirdY = $scope.lastY;
+                $scope.drawTriangle($scope.lastX, $scope.lastY, currentX, currentY,thirdX, thirdY, thickness, color);
             }
         }
     };
@@ -658,15 +571,27 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
         var currentX = 0;
         var currentY = 0;
         if ($event.offsetX !== undefined) {
-            currentX = $event.offsetX;
-            currentY = $event.offsetY;
+            currentX = ($scope.canvasElement.width/$event.currentTarget.offsetWidth) * $event.offsetX;
+            currentY = ($scope.canvasElement.height/$event.currentTarget.offsetHeight) * $event.offsetY;
         } else {
-            currentX = $event.layerX - $event.currentTarget.offsetLeft;
-            currentY = $event.layerY - $event.currentTarget.offsetTop;
+            currentX = ($scope.canvasElement.width/$event.currentTarget.offsetWidth) * $event.layerX;
+            currentY = ($scope.canvasElement.height/$event.currentTarget.offsetHeight) * $event.layerX;
         }
         var color = $scope.strokeColor;
         var thickness = $scope.brushThickness;
-        if ($scope.drawingStyle.toLowerCase() == "line") {
+        if ($scope.drawingStyle.toLowerCase() == "pen") {
+            var penClick = {
+                posX: currentX,
+                posY: currentY,
+                drag: true,
+                color: color,
+                thickness: thickness
+            };
+            $scope.penStrokeTemp.push(penClick);
+            $scope.penStrokes.push($scope.penStrokeTemp);
+			$scope.penStrokeTemp = [];
+            updateCanvas();
+        } else if ($scope.drawingStyle.toLowerCase() == "line") {
             var drawnLine = {
                 startX: $scope.lastX,
                 startY: $scope.lastY,
@@ -676,26 +601,29 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
                 thickness: thickness
             };
             $scope.drawnLines.push(drawnLine);
+            updateCanvas();
         } else if ($scope.drawingStyle.toLowerCase() == "rectangle") {
             var drawnRectangle = {
                 startX: $scope.lastX,
                 startY: $scope.lastY,
-                sizeX: currentX - $scope.lastX,
-                sizeY: currentY - $scope.lastY,
+                width: currentX - $scope.lastX,
+                height: currentY - $scope.lastY,
                 color: color,
                 thickness: thickness
             };
             $scope.drawnRectangles.push(drawnRectangle);
+            updateCanvas()
         } else if ($scope.drawingStyle.toLowerCase() == "circle") {
             var drawnCircle = {
                 startX: $scope.lastX,
                 startY: $scope.lastY,
-                endX: currentX,
-                endY: currentY,
+                radius: Math.sqrt((Math.pow(Math.abs(currentX - $scope.lastX), 2) + Math.pow(Math.abs(currentY - $scope.lastY), 2))),
                 color: color,
                 thickness: thickness
             };
             $scope.drawnCircles.push(drawnCircle);
+            updateCanvas();
+
         } else if ($scope.drawingStyle.toLowerCase() == "triangle") {
             var drawnTriangle = {
                 startX: $scope.lastX,
@@ -708,8 +636,7 @@ offlineModeModule.controller('offlineModeController', function ($scope, $mdUtil,
                 thickness: thickness
             };
             $scope.drawnTriangles.push(drawnTriangle);
+            updateCanvas();
         }
-
-
     };
-});
+}]);

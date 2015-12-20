@@ -1,19 +1,20 @@
 <md-content layout="column" flex>
-    <md-tabs flex layout="column" md-border-bottom md-selected="0" md-dynamic-height="false">
-        <md-tab id="onlineModeTab" flex layout="column" layout-fill>
+    <md-tabs flex layout="column" md-selected="selectedIndex" md-border-bottom md-dynamic-height="false">
+        <md-tab id="onlineModeTab" ng-click="loadCallHistory()" flex layout="column" layout-fill>
             <md-tab-label>
                 <i class="material-icons md-dark">history</i>
             </md-tab-label>
             <md-tab-body flex layout-fill>
-                <online-mode></online-mode>
+                <online-mode history="callHistory"></online-mode>
+
             </md-tab-body>
         </md-tab>
-        <md-tab id="contactsTab" flex>
+        <md-tab id="contactsTab" ng-click="loadContacts()" flex>
             <md-tab-label>
                 <i class="material-icons md-dark">contacts</i>
             </md-tab-label>
             <md-tab-body>
-                <contacts layout="column"></contacts>
+                <contacts contacts="contacts" layout="column"></contacts>
             </md-tab-body>
         </md-tab>
         <md-tab id="offlineModeTab">
@@ -22,6 +23,14 @@
             </md-tab-label>
             <md-tab-body flex layout-fill>
                 <offline-mode></offline-mode>
+            </md-tab-body>
+        </md-tab>
+        <md-tab id="videochatTab" ng-click="videoChatData()" flex>
+            <md-tab-label>
+                <i class="material-icons md-dark">picture_in_picture</i>
+            </md-tab-label>
+            <md-tab-body flex layout-fill>
+               <videochat layout="column" videouser="videoChat"></videochat>
             </md-tab-body>
         </md-tab>
     </md-tabs>

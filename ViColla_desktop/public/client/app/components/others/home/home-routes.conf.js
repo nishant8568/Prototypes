@@ -1,12 +1,13 @@
 /**
- * Created by Nishant on 11/21/2015.
+ * Created by Antony on 11/21/2015.
  */
 
 homeModule.config(function ($stateProvider) {
     $stateProvider
-        .state('home', {
-            url: '/home',
+        .state('login', {
+            url: '/login',
             templateUrl: 'app/components/others/home/home.tpl.html',
-            controller: 'HomeController'
+            controller: 'HomeController',
+            controllerAs: 'homeCtrl'
         });
 });
