@@ -17,7 +17,6 @@ homeModule.controller('HomeController', ['$scope', 'authService', '$window', '$l
                     if (data.success) {
                         $scope.appCtrl.user = data["user"];
                         localStorage.setItem('username', $scope.appCtrl.user.username);
-                        //console.log($scope.appCtrl.user.username);
                         $location.path('/')
                     } else {
                         $window.alert(data["message"]);

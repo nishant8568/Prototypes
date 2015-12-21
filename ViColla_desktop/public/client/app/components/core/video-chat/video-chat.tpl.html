@@ -1,39 +1,71 @@
-<md-content layout="column" layout-align="center center" layout-margin flex="25">
-    <video class="img-responsive" flex id='localVideo' autoplay muted style="max-height: 70%; max-width: 70%;"></video>
-</md-content>
-<md-content id="remoteVideoContainer" layout="column" layout-margin layout-padding layout-align="center" flex="50">
-    <h3 class="text-center">Remote Video</h3>
-    <md-whiteframe class="md-whiteframe-24dp" flex layout-margin layout-align="center center" style="background-color: black;">
-        <div>
-            <video class="img-responsive" id='remoteVideo' autoplay style="max-width: 100%; max-height: 100%;"></video>
+<div layout="row" flex>
+    <div layout="column" flex="15" layout-margin="">
+        <div layout="column" layout-align="start end" ng-repeat="option in options">
+            <md-button class="md-icon-button md-48" ng-click="optionClicked($index)"
+                       ng-class="{elementSelected:optionSelected == options[$index].name}">
+                <i class="material-icons md-36">{{option.icon}}</i>
+                <md-tooltip>{{option.tooltip}}</md-tooltip>
+            </md-button>
+            <!--<md-button class="md-icon-button md-48">
+                <i class="material-icons md-36">phone_in_talk</i>
+                <md-tooltip>Video Call</md-tooltip>
+            </md-button>
+            <md-button class="md-icon-button md-48">
+                <i class="material-icons md-36">thumbs_up_down</i>
+                <md-tooltip>Collaborate</md-tooltip>
+            </md-button>
+            <md-button class="md-icon-button md-48">
+                <i class="material-icons md-36">color_lens</i>
+                <md-tooltip>Get Annotations</md-tooltip>
+            </md-button>-->
         </div>
-    </md-whiteframe>
-</md-content>
-<md-content layout="column" flex>
-
+        <span flex=""></span>
+        <md-content layout="column" layout-align="center center">
+            <md-whiteframe class="md-whiteframe-24dp" flex layout-align="center center"
+                           style="max-height: 80%; max-width: 80%;">
+                <video class="img-responsive" flex id='localVideo' autoplay muted>
+                </video>
+            </md-whiteframe>
+        </md-content>
+    </div>
+    <md-content id="remoteVideoContainer" layout="column" layout-padding="" layout-align="center" flex="70">
+        <md-whiteframe class="md-whiteframe-24dp" flex layout-margin layout-align="center center"
+                       style="background-color: black;">
+            <div>
+                <video class="img-responsive" id='remoteVideo' autoplay
+                       style="max-width: 100%; max-height: 100%;"></video>
+            </div>
+        </md-whiteframe>
+    </md-content>
     <md-content layout-margin flex="10">
         <button class="btn btn-danger" ng-show="busy" ng-click="callend()">End Call</button>
-        <md-content class="pull-right logout_btn">
-            <button class="btn btn-success" ng-click="logout()">Log out</button>
-        </md-content>
     </md-content>
-    <md-content layout="column" layout-margin flex style="border: solid brown 3px;">
-        <md-toolbar flex="10" class="md-primary">
-            <div class="md-toolbar-tools">
-                <h2>Online Users</h2>
-            </div>
-        </md-toolbar>
-        <md-content flex>
-            <md-list>
-                <md-list-item layout="row" layout-align="space-between center" ng-repeat="vdouser in userlist" ng-hide="nickname==vdouser">
-                    <img ng-src="./../../assets/test.png" class="md-avatar">
+    <!--
+    <md-content layout="column" flex="">
+        <md-content layout-margin flex="10">
+            <button class="btn btn-danger" ng-show="busy" ng-click="callend()">End Call</button>
+        </md-content>
+        <md-content layout="column" layout-padding flex class="coverage_brown">
+            <md-toolbar flex="10" class="md-primary">
+                <div class="md-toolbar-tools">
+                    <h2>Online Users</h2>
+                </div>
+            </md-toolbar>
+            <md-content flex>
+                <md-list>
+                    <md-list-item layout="row" layout-align="space-between center" ng-repeat="vdouser in userlist"
+                                  ng-hide="nickname==vdouser">
+                        <img ng-src="./../../assets/test.png" class="md-avatar">
 
-                    <div class="md-list-item-text" layout="column">
-                        <h5>{{vdouser}} </h5>
-                    </div>
-                    <md-button class="md-raised md-primary" ng-click="calluser(vdouser)" ng-hide="busy">Call</md-button>
-                </md-list-item>
-            </md-list>
+                        <div class="md-list-item-text" layout="column">
+                            <h5>{{vdouser}} </h5>
+                        </div>
+                        <md-button class="md-raised md-primary" ng-click="calluser(vdouser)" ng-hide="busy">Call
+                        </md-button>
+                    </md-list-item>
+                </md-list>
+            </md-content>
         </md-content>
     </md-content>
-</md-content>
+    -->
+</div>

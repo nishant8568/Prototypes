@@ -8,9 +8,7 @@
             <md-content layout="column" flex>
                 <div layout="row" layout-align="start center">
                     <input type="file" aria-label="" class="form-control" id="openVideo"
-
                            file-model="videoFile" ng-show=false accept=".mp4">
-                    <!--onchange="angular.element(this).scope().getVideoFile()"-->
                     <md-button id="addVideoButton" class="md-raised md-primary" aria-label="Open"
                                ng-click="openFileDialog()" flex="20">
                         Browse
@@ -56,8 +54,8 @@
         </md-button>
     </div>
     <div flex layout="column" layout-fill>
-        <div id="canvasContainer" layout="row" class="coverage_red" flex>
-            <canvas id="outputCanvas" class="coverage_green" flex
+        <div id="canvasContainer" layout="row" flex>
+            <canvas id="outputCanvas" flex
                     ng-mousedown="mouseDownHandler($event)"
                     ng-mousemove="mouseMoveHandler($event)"
                     ng-mouseup="mouseUpHandler($event)">

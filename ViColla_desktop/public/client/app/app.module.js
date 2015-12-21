@@ -17,6 +17,7 @@ var snapshotsModule = angular.module('snapshotsModule', []);
 var snapshotsAttributesModule = angular.module('snapshotsAttributesModule', []);
 var incomingCallModule = angular.module('incomingCallModule', []);
 var videochatModule = angular.module('videochatModule', []);
+var utilityModule = angular.module('utilityModule', []);
 
 var app = angular.module('AbcApp', [
     'ngMaterial',
@@ -35,7 +36,8 @@ var app = angular.module('AbcApp', [
     'authModule',
     'callHistoryModule',
     'databaseModule',
-    'videochatModule'
+    'videochatModule',
+    'utilityModule'
     
 ]);
 

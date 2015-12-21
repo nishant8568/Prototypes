@@ -1,12 +1,21 @@
 <md-content layout="column" layout-padding flex layout-fill>
     <md-card ng-repeat="caller in onlineModeCtrl.callHistory" layout="row" layout-align="start center">
-        <div>
-            <i class="material-icons md-48">face</i>
-        </div>
-        <div layout="column" layout-margin layout-align="space-around start">
-            <div class="md-list-item-text" layout="column">
-                <b id="expertName">{{caller.callername}}</b>
+        <md-content layout="row" layout-align="center start" flex="10">
+            <div layout="column">
+                <md-card class="card-contact">
+                    <img ng-src="./img/ic_person_black_48dp.png" class="md-card-image">
+                </md-card>
             </div>
+        </md-content>
+        <div layout="column" layout-margin layout-align="start start">
+            <div class="md-list-item-text" layout="column">
+                <strong id="expertName">{{caller.callername}}</strong>
+            </div>
+            <div>
+                <span style="font-size: small; color: green">{{caller.designation}}</span>
+                <small>{{caller.designation}}</small>
+            </div>
+            <span flex=""></span>
             <div>
                 <i class="material-icons" ng-class="{red: caller.status=='call_missed',
                     green: caller.status=='call_received'}">
@@ -15,8 +24,9 @@
             </div>
         </div>
         <span flex=""></span>
-        <div layout-margin>
-            <h6>{{caller.dateTime}}</h6>
+        <div layout-margin layout="column" layout-align="center end">
+            <strong>{{caller.startDate}}</strong>
+            <h6>{{utilityService.formatDuration(caller.duration)}}</h6>
         </div>
     </md-card>
 </md-content>

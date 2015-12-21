@@ -14,6 +14,10 @@
     border: 3px black solid;
 }
 
+.coverage_brown {
+    border: 3px brown solid;
+}
+
 h6, h4, p, b {
     color: black;
 }
@@ -39,4 +43,12 @@ div.ng-scope {
 }
 .card-contact {
     background-color: lightgray;
+}
+
+.online {
+    border-right: 7px solid green;
+}
+.expertiseTag {
+    font-style: italic;
+    color: #0f7595;
 }

@@ -7,6 +7,7 @@ videochatModule.directive('videochat', function () {
        templateUrl: 'app/components/core/video-chat/video-chat.tpl.html',
        controller: 'videoChatController',
        controllerAs: 'vdoChatCtrl',
-       bindToController: true       
+       bindToController: true,
+       replace: true
    }
 });

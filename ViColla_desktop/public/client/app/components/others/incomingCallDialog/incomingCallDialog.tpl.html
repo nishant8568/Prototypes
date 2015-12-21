@@ -3,13 +3,6 @@
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>Incoming Call...</h2>
-                <span flex></span>
-                <md-button class="md-icon-button" ng-click="cancel()">
-                    <md-icon>
-                        <i class="material-icons">close</i>
-                        <md-tooltip>Close</md-tooltip>
-                    </md-icon>
-                </md-button>
             </div>
         </md-toolbar>
         <md-dialog-content layout="column" layout-margin>
@@ -23,6 +16,7 @@
                             <b style="font-size: x-large">{{user.firstName}} {{user.lastName}}</b>
                             <b style="font-size: small">{{user.designation}}</b>
                             <b style="font-size: small">{{user.place}}</b>
+                            <b style="font-size: small">{{userDetails.callername}}</b>
                         </div>
                         <md-switch class="md-primary" md-no-ink aria-label="Record" ng-model="recordVideo">
                             <b style="font-size: small">Record</b>

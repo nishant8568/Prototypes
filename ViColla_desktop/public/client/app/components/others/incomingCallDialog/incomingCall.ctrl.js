@@ -1,7 +1,7 @@
 /**
  * Created by Antony on 12/6/2015.
  */
-incomingCallModule.controller('incomingCallDialogController', function ($scope) {
+incomingCallModule.controller('incomingCallDialogController', function ($scope, $mdDialog, message) {
     'use strict';
 
     $scope.user = {
@@ -9,5 +9,10 @@ incomingCallModule.controller('incomingCallDialogController', function ($scope) 
         lastName: "Smith",
         place: "Augsburg",
         designation: "Field Engineer"
+    };
+
+    $scope.userDetails = message;
+    $scope.answer = function(answer) {
+        $mdDialog.hide($scope.userDetails.callername);
     };
 });

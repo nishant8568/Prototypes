@@ -13,6 +13,8 @@ navTabsModule.controller('NavTabsController', ['$scope', 'authService', '$locati
             databaseService.loadContacts().then(function (data) {
                 if (data.success) {
                     $scope.contacts = data['contacts'];
+                    console.log("navigation-tabs.ctrl.js >> loadContacts >> contacts");
+                    console.log($scope.contacts);
                 } else {
                     alert(data.message);
                 }
@@ -29,13 +31,9 @@ navTabsModule.controller('NavTabsController', ['$scope', 'authService', '$locati
             })
         };
         $scope.videoChatData = function () {
-            // alert("23");
             databaseService.videoChatData($scope.appCtrl.user.id).then(function (data) {
-
                 if (data.success) {
                     $scope.videoChat = data["videoChat"];
-                    //$location.path("/videoChatuser");
-                    //console.log("data",$scope.videoChat);
                 } else {
                     alert(data.message);
                 }

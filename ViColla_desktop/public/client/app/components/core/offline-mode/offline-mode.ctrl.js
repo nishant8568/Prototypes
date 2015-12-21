@@ -1,7 +1,7 @@
 /**
  * Created by Antony on 11/21/2015.
  */
-offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdSidenav', '$log', '$mdDialog', '$compile', 'databaseService', function ($scope, $mdUtil, $mdSidenav, $log, $mdDialog, $compile, databaseService) {
+offlineModeModule.controller('offlineModeController', ['$scope', '$mdUtil', '$mdSidenav', '$log', '$mdDialog', '$compile', 'databaseService', function ($scope, $mdUtil, $mdSidenav, $log, $mdDialog, $compile, databaseService) {
     'use strict';
     $scope.max = 3;
     $scope.selectedIndex = 2;
@@ -83,9 +83,11 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
         return time;
     };
 
-    $scope.$watch(function(){return $scope.videoFile}, function handleFooChange( newValue, oldValue ) {
-        console.log( "video file changed, call get video file");
-        if(newValue != oldValue)
+    $scope.$watch(function () {
+        return $scope.videoFile
+    }, function handleFooChange(newValue, oldValue) {
+        console.log("video file changed, call get video file");
+        if (newValue != oldValue)
             $scope.getVideoFile();
     });
 
@@ -103,7 +105,7 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
             console.log(videoNode.src);
             isVideoReady = true;
             // trigger enable/disable tools in toolsController
-            $scope.$broadcast ('toggleDisable');
+            $scope.$broadcast('toggleDisable');
             $scope.clearDrawings();
             videoEnded = false;
         } else {
@@ -184,14 +186,14 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
                 videoObject.play();
                 $scope.playPlauseButton = "pause_arrow";
                 // trigger enable/disable tools in toolsController
-                $scope.$broadcast ('toggleDisable');
+                $scope.$broadcast('toggleDisable');
                 updateVideoCache();
                 $scope.drawCanvas();
             } else {
                 videoObject.pause();
                 $scope.playPlauseButton = "play_arrow";
                 // trigger enable/disable tools in toolsController
-                $scope.$broadcast ('toggleDisable');
+                $scope.$broadcast('toggleDisable');
                 console.log("Video Paused. Stopping the video draw on canvas");
             }
             //videoObject.play();
@@ -245,14 +247,14 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
     $scope.drawAllPenStrokes = function () {
         for (var i = 0; i < $scope.penStrokes.length; i++) {
             var currentPen = $scope.penStrokes[i];
-            for(var j = 1; j<currentPen.length; j++){
-                $scope.drawLine(currentPen[j-1].posX, currentPen[j-1].posY, currentPen[j].posX, currentPen[j].posY, currentPen[j].thickness, currentPen[j].color);
+            for (var j = 1; j < currentPen.length; j++) {
+                $scope.drawLine(currentPen[j - 1].posX, currentPen[j - 1].posY, currentPen[j].posX, currentPen[j].posY, currentPen[j].thickness, currentPen[j].color);
             }
         }
     };
 
     // lines
-    $scope.drawLine = function(startX, startY, endX, endY, thickness, color){
+    $scope.drawLine = function (startX, startY, endX, endY, thickness, color) {
         $scope.ctx.beginPath();
         $scope.ctx.moveTo(startX, startY);
         $scope.ctx.lineTo(endX, endY);
@@ -261,7 +263,7 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
         $scope.ctx.stroke();
     };
 
-    $scope.drawAllLines = function(){
+    $scope.drawAllLines = function () {
         for (var i = 0; i < $scope.drawnLines.length; i++) {
             var currentLine = $scope.drawnLines[i];
             $scope.drawLine(currentLine.startX, currentLine.startY, currentLine.endX, currentLine.endY, currentLine.thickness, currentLine.color);
@@ -269,7 +271,7 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
     };
 
     // circles
-    $scope.drawCircle = function(startX, startY, radius, thickness, color){
+    $scope.drawCircle = function (startX, startY, radius, thickness, color) {
         $scope.ctx.beginPath();
         $scope.ctx.arc(startX, startY, radius, 0, 2 * Math.PI, false);
         $scope.ctx.closePath();
@@ -286,7 +288,7 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
     };
 
     // triangles
-    $scope.drawTriangle = function(startX, startY, endX, endY,thirdX, thirdY, thickness, color){
+    $scope.drawTriangle = function (startX, startY, endX, endY, thirdX, thirdY, thickness, color) {
         $scope.ctx.beginPath();
         $scope.ctx.moveTo(startX, startY);
         $scope.ctx.lineTo(endX, endY);
@@ -298,7 +300,7 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
     };
 
     $scope.drawAllTriangles = function () {
-        for(var i=0; i<$scope.drawnTriangles.length; i++){
+        for (var i = 0; i < $scope.drawnTriangles.length; i++) {
             var currentTriangle = $scope.drawnTriangles[i];
             $scope.drawTriangle(currentTriangle.startX, currentTriangle.startY, currentTriangle.endX, currentTriangle.endY,
                 currentTriangle.thirdX, currentTriangle.thirdY, currentTriangle.thickness, currentTriangle.color);
@@ -306,7 +308,7 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
     };
 
     // rectangles
-    $scope.drawRectangle= function(startX, startY, width, height,thickness, color){
+    $scope.drawRectangle = function (startX, startY, width, height, thickness, color) {
         $scope.ctx.beginPath();
         $scope.ctx.rect(startX, startY, width, height);
         $scope.ctx.lineWidth = thickness;
@@ -314,14 +316,14 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
         $scope.ctx.stroke();
     };
 
-    $scope.drawAllRectangles = function(){
+    $scope.drawAllRectangles = function () {
         for (var i = 0; i < $scope.drawnRectangles.length; i++) {
             var currentRectangle = $scope.drawnRectangles[i];
-            $scope.drawRectangle(currentRectangle.startX, currentRectangle.startY, currentRectangle.width, currentRectangle.height,currentRectangle.thickness, currentRectangle.color);
+            $scope.drawRectangle(currentRectangle.startX, currentRectangle.startY, currentRectangle.width, currentRectangle.height, currentRectangle.thickness, currentRectangle.color);
         }
     };
 
-    $scope.drawUserDrawings = function(){
+    $scope.drawUserDrawings = function () {
         $scope.drawAllTriangles();
         $scope.drawAllCircles();
         $scope.drawAllRectangles();
@@ -375,11 +377,11 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
         var description = "";
         var playbackTime = videoObject.currentTime;
         $mdDialog.show({
-            controller: 'snapshotsAttributesController',
-            templateUrl: 'app/components/others/snapshotsAttributesDialog/snapshotsAttributesDialog.tpl.html',
-            locals: {playbackTime: playbackTime},
-            parent: angular.element(document.body)
-        })
+                controller: 'snapshotsAttributesController',
+                templateUrl: 'app/components/others/snapshotsAttributesDialog/snapshotsAttributesDialog.tpl.html',
+                locals: {playbackTime: playbackTime},
+                parent: angular.element(document.body)
+            })
             .then(function (answer) {
                 durationSet = answer[0];
                 playbackTime = answer[1];
@@ -406,10 +408,10 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
             dataURL: dataURL,
             videoName: $scope.videoName
         };
-        databaseService.saveImage(newImage).then(function(data){
-            if(data.success){
+        databaseService.saveImage(newImage).then(function (data) {
+            if (data.success) {
                 var imageId = data.id;
-                appendImageToSnapshots(imageId,playbackTime,duration, dataURL);
+                appendImageToSnapshots(imageId, playbackTime, duration, dataURL);
                 var savedSnapshot = {
                     imageId: 'canvasImg_' + imageId,
                     playbackTime: playbackTime,
@@ -417,28 +419,28 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
                     description: description
                 };
                 $scope.savedSnapshotsData.push(savedSnapshot);
-            }else{
+            } else {
                 alert(data.message);
             }
         });
     };
 
-    $scope.loadImages = function(){
-      databaseService.loadImages($scope.videoName).then(function(data){
-          if(data.success){
-              var snapshotsNode = document.getElementById("snapshots");
-              while (snapshotsNode.firstChild) {
-                  snapshotsNode.removeChild(snapshotsNode.firstChild);
-              }
-              for(var i = 0; i< data.images.length; i++){
-                  var image = data.images[i];
-                  appendImageToSnapshots(image._id, image.playbackTime, image.duration, image.dataURL);
-              }
-          }
-      })
+    $scope.loadImages = function () {
+        databaseService.loadImages($scope.videoName).then(function (data) {
+            if (data.success) {
+                var snapshotsNode = document.getElementById("snapshots");
+                while (snapshotsNode.firstChild) {
+                    snapshotsNode.removeChild(snapshotsNode.firstChild);
+                }
+                for (var i = 0; i < data.images.length; i++) {
+                    var image = data.images[i];
+                    appendImageToSnapshots(image._id, image.playbackTime, image.duration, image.dataURL);
+                }
+            }
+        })
     };
 
-    var appendImageToSnapshots = function(imageId, playbackTime, duration, dataURL){
+    var appendImageToSnapshots = function (imageId, playbackTime, duration, dataURL) {
         var snapshotElement =
             "<md-grid-list layout-padding id=\"snapshotsList_" + playbackTime + "\" md-cols=\"1\" md-row-height=\"" +
             $scope.ctx.canvas.width + ":" + $scope.ctx.canvas.height + "\" " +
@@ -458,7 +460,7 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
         document.getElementById('canvasImg_' + imageId).src = dataURL;
     };
 
-    var updateCanvas = function(){
+    var updateCanvas = function () {
         $scope.drawVideoOnCanvas();
         $scope.drawUserDrawings();
     };
@@ -488,11 +490,11 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
         $scope.isVideoPaused = backgroundObject.paused;
         if (backgroundObject.paused) {
             if ($event.offsetX !== undefined) {
-                $scope.lastX = ($scope.canvasElement.width/$event.currentTarget.offsetWidth) * $event.offsetX;
-                $scope.lastY = ($scope.canvasElement.height/$event.currentTarget.offsetHeight) * $event.offsetY;
+                $scope.lastX = ($scope.canvasElement.width / $event.currentTarget.offsetWidth) * $event.offsetX;
+                $scope.lastY = ($scope.canvasElement.height / $event.currentTarget.offsetHeight) * $event.offsetY;
             } else {
-                $scope.lastX = ($scope.canvasElement.width/$event.currentTarget.offsetWidth) * $event.layerX;
-                $scope.lastY = ($scope.canvasElement.height/$event.currentTarget.offsetHeight) * $event.layerX;
+                $scope.lastX = ($scope.canvasElement.width / $event.currentTarget.offsetWidth) * $event.layerX;
+                $scope.lastY = ($scope.canvasElement.height / $event.currentTarget.offsetHeight) * $event.layerX;
             }
             console.log("X : " + $scope.lastX + " : Y : " + $scope.lastY);
             var color = $scope.strokeColor;
@@ -523,11 +525,11 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
             var currentY = 0;
             // get current mouse position
             if ($event.offsetX !== undefined) {
-                currentX = ($scope.canvasElement.width/$event.currentTarget.offsetWidth) * $event.offsetX;
-                currentY = ($scope.canvasElement.height/$event.currentTarget.offsetHeight) * $event.offsetY;
+                currentX = ($scope.canvasElement.width / $event.currentTarget.offsetWidth) * $event.offsetX;
+                currentY = ($scope.canvasElement.height / $event.currentTarget.offsetHeight) * $event.offsetY;
             } else {
-                currentX = ($scope.canvasElement.width/$event.currentTarget.offsetWidth) * $event.layerX;
-                currentY = ($scope.canvasElement.height/$event.currentTarget.offsetHeight) * $event.layerX;
+                currentX = ($scope.canvasElement.width / $event.currentTarget.offsetWidth) * $event.layerX;
+                currentY = ($scope.canvasElement.height / $event.currentTarget.offsetHeight) * $event.layerX;
             }
             //console.log("currentX : " + currentX + " : currentY : " + currentY);
             var color = $scope.strokeColor;
@@ -541,8 +543,8 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
                     thickness: thickness
                 };
                 var index = $scope.penStrokeTemp.length;
-                if(index > 0){
-                    $scope.drawLine($scope.penStrokeTemp[index-1].posX, $scope.penStrokeTemp[index-1].posY, currentX, currentY, thickness, color)
+                if (index > 0) {
+                    $scope.drawLine($scope.penStrokeTemp[index - 1].posX, $scope.penStrokeTemp[index - 1].posY, currentX, currentY, thickness, color)
                 }
                 $scope.penStrokeTemp.push(penClick);
             } else if ($scope.drawingStyle.toLowerCase() == "rectangle") {
@@ -559,9 +561,9 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
                 $scope.drawCircle($scope.lastX, $scope.lastY, radius, thickness, color);
             } else if ($scope.drawingStyle.toLowerCase() == "triangle") {
                 updateCanvas();
-                var thirdX =  $scope.lastX + 2 * (currentX - $scope.lastX);
+                var thirdX = $scope.lastX + 2 * (currentX - $scope.lastX);
                 var thirdY = $scope.lastY;
-                $scope.drawTriangle($scope.lastX, $scope.lastY, currentX, currentY,thirdX, thirdY, thickness, color);
+                $scope.drawTriangle($scope.lastX, $scope.lastY, currentX, currentY, thirdX, thirdY, thickness, color);
             }
         }
     };
@@ -571,11 +573,11 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
         var currentX = 0;
         var currentY = 0;
         if ($event.offsetX !== undefined) {
-            currentX = ($scope.canvasElement.width/$event.currentTarget.offsetWidth) * $event.offsetX;
-            currentY = ($scope.canvasElement.height/$event.currentTarget.offsetHeight) * $event.offsetY;
+            currentX = ($scope.canvasElement.width / $event.currentTarget.offsetWidth) * $event.offsetX;
+            currentY = ($scope.canvasElement.height / $event.currentTarget.offsetHeight) * $event.offsetY;
         } else {
-            currentX = ($scope.canvasElement.width/$event.currentTarget.offsetWidth) * $event.layerX;
-            currentY = ($scope.canvasElement.height/$event.currentTarget.offsetHeight) * $event.layerX;
+            currentX = ($scope.canvasElement.width / $event.currentTarget.offsetWidth) * $event.layerX;
+            currentY = ($scope.canvasElement.height / $event.currentTarget.offsetHeight) * $event.layerX;
         }
         var color = $scope.strokeColor;
         var thickness = $scope.brushThickness;
@@ -589,7 +591,7 @@ offlineModeModule.controller('offlineModeController',['$scope', '$mdUtil', '$mdS
             };
             $scope.penStrokeTemp.push(penClick);
             $scope.penStrokes.push($scope.penStrokeTemp);
-			$scope.penStrokeTemp = [];
+            $scope.penStrokeTemp = [];
             updateCanvas();
         } else if ($scope.drawingStyle.toLowerCase() == "line") {
             var drawnLine = {

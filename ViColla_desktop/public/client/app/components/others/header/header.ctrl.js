@@ -7,7 +7,7 @@ headerModule.controller('HeaderController', ['$scope', '$location', 'authService
     var vm = this;
 
     $scope.logout = function () {
-        $scope.appCtrl.user = {};       
+        $scope.appCtrl.user = {};
 
         authService.logout()
             .then(function (data) {

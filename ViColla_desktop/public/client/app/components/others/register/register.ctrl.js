@@ -1,10 +1,10 @@
 /**
  * Created by Antony on 11/29/2015.
  */
-registerModule.controller('RegisterController', ['$scope', 'authService', '$window', '$location', function ($scope, authService,$window, $location) {
+registerModule.controller('RegisterController', ['$scope', 'authService', '$window', '$location', function ($scope, authService, $window, $location) {
     'use strict';
 
-    var vm  = this;
+    var vm = this;
 
     vm.user = {
         userName: "",
@@ -20,56 +20,52 @@ registerModule.controller('RegisterController', ['$scope', 'authService', '$wind
         designation: "",
         isExpert: false,
         tags: [],
-	status:true
+        status: true
     };
 
     $scope.selectPhotoButton = document.getElementById('browsePhoto');
 
-    vm.signUp = function(){
+    vm.signUp = function () {
         vm.user.birthDate = (vm.user.birthDate != null) ? create_utc_date(vm.user.birthDate) : null;
-        vm.user.status=true;
-        //console.log(vm.user);
+        vm.user.status = true;
         registerUser(vm.user);
     };
 
-    var registerUser = function(data){
+    var registerUser = function (data) {
         console.log("register.ctrl >> registerUser()");
         console.log(JSON.stringify(data));
-        authService.register(data).then(function(response){
-            if (response.success){
+        authService.register(data).then(function (response) {
+            if (response.success) {
                 console.log(JSON.stringify(response));
                 $scope.appCtrl.user = response.user;
-                if(data.logo != null){
-                    localStorage.setItem('username', $scope.appCtrl.user.username);
-                    //console.log("logo:",$scope.appCtrl.user);
+                localStorage.setItem('username', $scope.appCtrl.user.username);
+                if (data.logo != null) {
                     uploadLogo({'file': data.logo})
-                }else{
-                    localStorage.setItem('username', $scope.appCtrl.user.username);
-                    //console.log("withoutlogo:",$scope.appCtrl.user);
+                } else {
                     $location.path('/');
                 }
-            }else{
+            } else {
                 $window.alert(response.message);
             }
         });
     };
 
-    var uploadLogo = function(data){
-        authService.uploadLogo(data).success(function(response){
-            if (response.success){
+    var uploadLogo = function (data) {
+        authService.uploadLogo(data).success(function (response) {
+            if (response.success) {
                 $location.path('/');
-            }else{
+            } else {
                 $location.path('/');
             }
         });
     };
 
-    var create_utc_date = function(old_date){
+    var create_utc_date = function (old_date) {
         console.log(old_date);
         return new Date(Date.UTC(old_date.getFullYear(), old_date.getMonth(), old_date.getDate()))
     };
 
-    $scope.selectPhoto = function() {
+    $scope.selectPhoto = function () {
         $scope.selectPhotoButton.click();
     }
 }]);

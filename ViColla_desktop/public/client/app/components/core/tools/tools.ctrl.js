@@ -76,6 +76,4 @@ toolsModule.controller('toolsController', function ($scope, $q, $timeout) {
             $scope.save();
         }
     };
-
-
 });

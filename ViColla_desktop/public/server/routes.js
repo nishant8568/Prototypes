@@ -145,8 +145,6 @@ module.exports = function (app, passport) {
                 if (err) {
                     res.json({"success": false, "message": "Error while storing called data."});
                 } else {
-                    // console.log("user:"+req.user);
-                    // console.log(req.body);
                     var callingData = new models.CallHistory();
                     callingData._caller = req.user._id;
                     callingData._receiver = req.user._id;
@@ -156,6 +154,9 @@ module.exports = function (app, passport) {
                     callingData.startDate = Moment.utc().format();
                     callingData.duration = req.body.duration;
                     callingData.save(function (err, getCallersInfo) {
+                        if(err) {
+                            res.json({success: false, message: "Unable to save call details to call logs"});
+                        }
                         res.json({"success": true, "callHistory": getCallersInfo});
                     });
                 }
