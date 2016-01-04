@@ -133,7 +133,7 @@ server.listen(port, function () {
 
         socket.on('disconnect', function (data) {
             console.log('disconnected', socket.username);
-            if (socket.nickname == undefined) return;
+            if (socket.username == undefined) return;
             delete users[socket.username];
             io.sockets.emit('all users', Object.keys(users));
         });

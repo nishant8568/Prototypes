@@ -23,7 +23,7 @@ info: socket.io started
 [0mGET /app/app.landing.ctrl.js [36m304 [0m5.911 ms - -[0m
 [0mGET /app/components/others/home/home-routes.conf.js [36m304 [0m5.196 ms - -[0m
 [0mGET /app/components/others/home/home.ctrl.js [36m304 [0m9.997 ms - -[0m
-[0mGET /app/components/others/auth/services.js [36m304 [0m7.912 ms - -[0m
+[0mGET /app/components/others/auth/auth-database-services.js [36m304 [0m7.912 ms - -[0m
 [0mGET /app/components/others/register/register-routes.conf.js [36m304 [0m9.166 ms - -[0m
 [0mGET /app/components/others/register/register.ctrl.js [36m304 [0m8.685 ms - -[0m
 [0mGET /app/components/core/online-mode/online-mode.ctrl.js [36m304 [0m7.654 ms - -[0m
@@ -45,13 +45,13 @@ info: socket.io started
 [0mGET /app/components/others/header/header.ctrl.js [36m304 [0m7.808 ms - -[0m
 [0mGET /app/components/others/header/header.drv.js [36m304 [0m9.974 ms - -[0m
 [0mGET /app/components/others/footer/footer.drv.js [36m304 [0m6.762 ms - -[0m
-[0mGET /app/components/others/database/services.js [36m304 [0m5.867 ms - -[0m
+[0mGET /app/components/others/database/auth-database-services.js [36m304 [0m5.867 ms - -[0m
 [0mGET /app/services/utilities/utility-service.js [36m304 [0m6.489 ms - -[0m
-[0mGET /app/services/services.js [36m304 [0m6.333 ms - -[0m
+[0mGET /app/services/auth-database-services.js [36m304 [0m6.333 ms - -[0m
 [0mGET /app/components/core/tabs/navigation-tabs.ctrl.js [36m304 [0m6.515 ms - -[0m
 [0mGET /app/components/core/tabs/navigation-tabs.drv.js [36m304 [0m11.675 ms - -[0m
 [0mGET /app/components/core/tabs/navigation-tabs-routes.conf.js [36m304 [0m10.748 ms - -[0m
-[0mGET /app/components/core/tabs/navigation-tabs.services.js [36m304 [0m10.013 ms - -[0m
+[0mGET /app/components/core/tabs/navigation-tabs.auth-database-services.js [36m304 [0m10.013 ms - -[0m
 [0mGET /bower_components/bootstrap/dist/js/bootstrap.js [36m304 [0m14.169 ms - -[0m
 debug: served static content /socket.io.js
 debug: client authorized
@@ -112,7 +112,7 @@ debug: websocket writing 5:::{"name":"onlineusers","args":[null]}
 [0mGET /app/app.landing.ctrl.js [32m200 [0m7.531 ms - 711[0m
 [0mGET /app/components/others/home/home-routes.conf.js [32m200 [0m6.606 ms - 326[0m
 [0mGET /app/components/others/home/home.ctrl.js [32m200 [0m9.085 ms - 1458[0m
-[0mGET /app/components/others/auth/services.js [32m200 [0m9.003 ms - 2940[0m
+[0mGET /app/components/others/auth/auth-database-services.js [32m200 [0m9.003 ms - 2940[0m
 [0mGET /app/components/others/register/register-routes.conf.js [32m200 [0m8.158 ms - 362[0m
 [0mGET /app/components/others/register/register.ctrl.js [32m200 [0m6.435 ms - 2159[0m
 [0mGET /app/components/core/online-mode/online-mode.ctrl.js [32m200 [0m6.905 ms - 750[0m
@@ -136,14 +136,14 @@ debug: websocket writing 5:::{"name":"onlineusers","args":[null]}
 [0mGET /app/components/others/header/header.drv.js [32m200 [0m7.652 ms - 247[0m
 [0mGET /app/components/core/incomingCallDialog/incomingCall.ctrl.js [32m200 [0m11.871 ms - 437[0m
 [0mGET /app/components/others/footer/footer.drv.js [32m200 [0m8.073 ms - 47[0m
-[0mGET /app/components/others/database/services.js [32m200 [0m11.265 ms - 3405[0m
+[0mGET /app/components/others/database/auth-database-services.js [32m200 [0m11.265 ms - 3405[0m
 [0mGET /app/services/utilities/utility-service.js [32m200 [0m11.831 ms - 2079[0m
-[0mGET /app/services/services.js [32m200 [0m9.609 ms - 1278[0m
+[0mGET /app/services/auth-database-services.js [32m200 [0m9.609 ms - 1278[0m
 [0mGET /app/components/core/tabs/navigation-tabs.ctrl.js [32m200 [0m8.228 ms - 3672[0m
 [0mGET /app/components/core/tabs/navigation-tabs.drv.js [32m200 [0m9.231 ms - 299[0m
 [0mGET /app/components/core/tabs/navigation-tabs-routes.conf.js [32m200 [0m8.946 ms - 1839[0m
 debug: served static content /socket.io.js
-[0mGET /app/components/core/tabs/navigation-tabs.services.js [32m200 [0m8.531 ms - 1387[0m
+[0mGET /app/components/core/tabs/navigation-tabs.auth-database-services.js [32m200 [0m8.531 ms - 1387[0m
 [0mGET /bower_components/bootstrap/dist/js/bootstrap.js [32m200 [0m6.890 ms - 68954[0m
 [0mGET /bower_components/angular-material/angular-material.js [36m304 [0m1.411 ms - -[0m
 [0mGET /bower_components/lodash/lodash.js [36m304 [0m1.331 ms - -[0m
@@ -153,7 +153,7 @@ debug: served static content /socket.io.js
 [0mGET /app/app.landing.ctrl.js [36m304 [0m2.359 ms - -[0m
 [0mGET /app/components/others/home/home-routes.conf.js [36m304 [0m2.333 ms - -[0m
 [0mGET /app/components/others/home/home.ctrl.js [36m304 [0m10.268 ms - -[0m
-[0mGET /app/components/others/auth/services.js [36m304 [0m2.970 ms - -[0m
+[0mGET /app/components/others/auth/auth-database-services.js [36m304 [0m2.970 ms - -[0m
 [0mGET /app/components/others/register/register-routes.conf.js [36m304 [0m2.856 ms - -[0m
 [0mGET /app/components/others/register/register.ctrl.js [36m304 [0m3.361 ms - -[0m
 [0mGET /app/components/core/online-mode/online-mode.ctrl.js [36m304 [0m1.298 ms - -[0m

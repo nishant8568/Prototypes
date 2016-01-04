@@ -1,31 +1,27 @@
 /**
  * Created by Antony on 11/29/2015.
  */
-contactsModule.controller('contactsController', ['databaseService', '$scope', '$http', 'authService', '$location', '$window', '$timeout', 'config', 'socket','$state',
-    function (databaseService, $scope, $http, authService, $location, $window, $timeout, config, socket, $state) {
-    'use strict';
+contactsModule.controller('contactsController', ['databaseService', '$scope', '$rootScope', '$http', 'authService', '$location', '$window', '$timeout', 'config', 'socket', '$state',
+    function (databaseService, $scope, $rootScope, $http, authService, $location, $window, $timeout, config, socket, $state) {
+        'use strict';
 
-    var vm = this;
-    $scope.searchContactByName = '';
-    $scope.searchContactByTag = '';
+        var vm = this;
+        $scope.searchContactByName = '';
+        $scope.searchContactByTag = '';
 
+        vm.contacts = [];
 
-    $scope.max = 3;
-    $scope.selectedIndex = 1;
+        $scope.max = 3;
+        $scope.selectedIndex = 1;
 
 
         vm.loadContacts = function () {
             databaseService.loadContacts().then(function (data) {
                 if (data.success) {
                     vm.contacts = data['contacts'];
-                    for(var i=0; i<vm.contacts.length; i++){
-                        var contact = vm.contacts[i];
-                        if ($scope.appCtrl.usersList.indexOf(contact.username) != -1){
-                            contact.status = true;
-                        }else{
-                            contact.status = false;
-                        }
-                    }
+
+                    updateOnlineStatus();
+
                     console.log("navigation-tabs.ctrl.js >> loadContacts >> contacts");
                     console.log(vm.contacts);
                 } else {
@@ -35,18 +31,30 @@ contactsModule.controller('contactsController', ['databaseService', '$scope', '$
         };
         vm.loadContacts();
 
-    $scope.videoCall = function (receivername) {
-
-        var caller = {
-            callername: $scope.appCtrl.user.username,
-            callerinfo: $scope.appCtrl.user,
-            receivername: receivername,
-            roomname: $scope.$parent.navTabsCtrl.room,
-            startDateTime: Date.now()
+        var updateOnlineStatus = function(){
+            for(var i=0; i<vm.contacts.length; i++){
+                var contact = vm.contacts[i];
+                contact.status = $scope.appCtrl.usersList.indexOf(contact.username) != -1;
+            }
         };
-        socket.emit('calling', JSON.stringify(caller));
-        $state.go('tabs.onlineMode');
-        databaseService.addItem(3);
-    };
 
-}]);
+        $rootScope.$on("updateOnlineStatus", function(e){
+            console.log("broadcast updateOnlineStatus");
+            updateOnlineStatus();
+        });
+
+        $scope.videoCall = function (receivername) {
+
+            var caller = {
+                callername: $scope.appCtrl.user.username,
+                callerinfo: $scope.appCtrl.user,
+                receivername: receivername,
+                roomname: $scope.$parent.navTabsCtrl.room,
+                startDateTime: Date.now()
+            };
+            socket.emit('calling', JSON.stringify(caller));
+            $state.go('tabs.onlineMode');
+            databaseService.addItem(3);
+        };
+
+    }]);

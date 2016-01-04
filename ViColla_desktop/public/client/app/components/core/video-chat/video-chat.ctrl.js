@@ -109,7 +109,7 @@ videochatModule.controller('videoChatController',
                 console.log("i got user media");
                 $timeout(function () {
                     maybeStart();
-                }, 2000);
+                }, 1000);
             } else if (message.type === 'offer') {
                 if (callerdetails.receivername == username) {
                     //answer = window.confirm(message.callername + ' calling...');

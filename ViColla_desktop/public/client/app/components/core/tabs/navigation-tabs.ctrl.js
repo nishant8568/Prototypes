@@ -2,8 +2,8 @@
  * Created by Antony on 11/21/2015.
  */
 
-navTabsModule.controller('NavTabsController', ['$scope', 'authService', '$location', 'databaseService', 'socket', '$state', 'utilityService',
-    function ($scope, authService, $location, databaseService, socket,  $state, utilityService) {
+navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authService', '$location', 'databaseService', 'socket', '$state', 'utilityService',
+    function ($scope, $rootScope, authService, $location, databaseService, socket,  $state, utilityService) {
         'use strict';
 
         var vm = this;
@@ -77,6 +77,7 @@ navTabsModule.controller('NavTabsController', ['$scope', 'authService', '$locati
             console.log('socket.on("all users") >> ');
             console.log(usernames);
             $scope.appCtrl.usersList = usernames;
+            $rootScope.$broadcast("updateOnlineStatus");
         });
 
         socket.on('log', function (array) {
@@ -96,7 +97,7 @@ navTabsModule.controller('NavTabsController', ['$scope', 'authService', '$locati
                 $scope.isInitiator = true;
             }
             //if($state.url != "onlineMode"){
-                $state.go('tabs.onlineMode',{test: "test test"});
+                $state.go('tabs.onlineMode');
             //}
         });
     }]);

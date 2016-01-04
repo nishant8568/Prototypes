@@ -13,7 +13,6 @@ socketWrapper.factory('socket', function ($rootScope) {
             //socket = io.connect(null, {'force new connection': true});
         },
         on: function (eventName, callback) {
-            console.log("services >> on event : " + eventName);
             socket.on(eventName, function () {
                 var args = arguments;
                 $rootScope.$apply(function () {
