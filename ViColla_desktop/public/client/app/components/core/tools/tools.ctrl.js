@@ -43,11 +43,11 @@ toolsModule.controller('toolsController', function ($scope, $q, $timeout) {
         }
     ];
     $scope.actions = [
-        {
+        /*{
             name: 'undo',
             icon: 'undo',
             method: 'undo'
-        },
+        },*/
         {
             name: 'save',
             icon: 'save',

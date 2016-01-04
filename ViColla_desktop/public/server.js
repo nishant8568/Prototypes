@@ -47,6 +47,8 @@ app.use('/api', apiRouter);
 //start server
 server.listen(port, function () {
     var io = require('socket.io').listen(server);
+    var users = {};
+    var room;
     io.sockets.on('connection', function (socket) {
 
         function log() {
@@ -63,8 +65,9 @@ server.listen(port, function () {
         });
 
         socket.on('create or join', function (userinfo) {
+
             var userdetail = JSON.parse(userinfo);
-            var room = userdetail.room;
+            room = userdetail.room;
             var username = userdetail.username;
             var numClients = io.sockets.clients(room).length;
 
@@ -79,38 +82,62 @@ server.listen(port, function () {
             }
 
             socket.join(room);
-            socket.emit('joined', room);
 
+            joined = {userinfo: username, room: room};
 
-            //broadcast to all users in room userslist
-            socket.on('users', function (usernames) {
-                io.sockets.in(room).emit('onlineusers', usernames);
-            });
-
-            socket.on('calling', function (caller) {
-                var calldetails = JSON.parse(caller);
-                io.sockets.in(calldetails.roomname).emit('called', caller);
-            });
-            socket.on('callending', function (callended) {
-                var callend = JSON.parse(callended);
-                io.sockets.in(callend.roomname).emit('callended', callended);
-            });
-            socket.on('userlogout', function (userdetails) {
-                var userinfo = JSON.parse(userdetails);
-                io.sockets.in(userinfo.roomname).emit('userout', userdetails);
-            })
-
-            socket.on('logoutme', function (userdetails) {
-                var userinfo = JSON.parse(userdetails);
-                console.log("user disconnected " + userinfo.roomname);
-                socket.leave(userinfo.roomname);
-            })
-
-
-            socket.emit('emit(): client ' + socket.id + ' joined room ' + room);
-            socket.broadcast.emit('broadcast(): client ' + socket.id + ' joined room ' + room);
+            socket.emit('joined', joined);
 
         });
+        //broadcast to all users in room userslist
+        socket.on('users', function (usernames) {
+            io.sockets.in(room).emit('onlineusers', usernames);
+        });
+
+        socket.on('calling', function (caller) {
+            var calldetails = JSON.parse(caller);
+            console.log(calldetails);
+            io.sockets.in(calldetails.roomname).emit('called', caller);
+        });
+        socket.on('callending', function (callended) {
+            var callend = JSON.parse(callended);
+            io.sockets.in(callend.roomname).emit('callended', callended);
+        });
+        socket.on('userlogout', function (userdetails) {
+            var userinfo = JSON.parse(userdetails);
+            io.sockets.in(userinfo.roomname).emit('userout', userdetails);
+        });
+
+        socket.on('logoutme', function (userdetails) {
+            var userinfo = JSON.parse(userdetails);
+            console.log("user disconnected " + userinfo.roomname);
+            socket.leave(userinfo.roomname);
+            delete users[userinfo.username];
+            io.sockets.emit('all users', Object.keys(users));
+
+        });
+
+        socket.on('userLogin', function(username){
+            if (!(username in users)){
+                users[username] = socket;
+                socket.username = username;
+            }
+            io.sockets.emit('all users', Object.keys(users));
+        });
+
+
+        socket.emit('emit(): client ' + socket.id + ' joined room ' + room);
+        socket.broadcast.emit('broadcast(): client ' + socket.id + ' joined room ' + room);
+
+        socket.on('disconnect', function(data){
+            console.log('disconnected', socket.username);
+            if(socket.nickname == undefined) return;
+            delete users[socket.username];
+            io.sockets.emit('all users', Object.keys(users));
+        });
+
+        //});
     });
 });
+
+
 console.log('Server running on port ' + port);

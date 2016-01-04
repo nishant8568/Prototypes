@@ -1,8 +1,8 @@
 /**
  * Created by Antony on 11/21/2015.
  */
-homeModule.controller('HomeController', ['$scope', 'authService', '$window', '$location',
-    function ($scope, authService, $window, $location) {
+homeModule.controller('HomeController', ['$scope', 'authService', '$window', '$location', 'socket', 'utilityService',
+    function ($scope, authService, $window, $location, socket, utilityService) {
         'use strict';
 
         var vm = this;
@@ -17,7 +17,14 @@ homeModule.controller('HomeController', ['$scope', 'authService', '$window', '$l
                     if (data.success) {
                         $scope.appCtrl.user = data["user"];
                         localStorage.setItem('username', $scope.appCtrl.user.username);
-                        $location.path('/')
+                        console.log("emit user login");
+                        utilityService.setExpertFlag($scope.appCtrl.user.isExpert);
+                        socket.emit('userLogin', $scope.appCtrl.user.username);
+                        if(utilityService.getExpertFlag()) {
+                            $location.path('/callHistory');
+                        } else {
+                            $location.path('/experts');
+                        }
                     } else {
                         $window.alert(data["message"]);
                     }
@@ -28,6 +35,7 @@ homeModule.controller('HomeController', ['$scope', 'authService', '$window', '$l
             authService.test_session()
 
         };
+
         vm.logout = function () {
             authService.logout()
 

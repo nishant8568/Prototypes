@@ -148,11 +148,14 @@ module.exports = function (app, passport) {
                     var callingData = new models.CallHistory();
                     callingData._caller = req.user._id;
                     callingData._receiver = req.user._id;
+                    callingData.callerFirstName = req.body.callerFirstName;
+                    callingData.callerLastName = req.body.callerLastName;
                     callingData.callername = req.body.to;
                     callingData.receivername = req.body.callendedby;
                     callingData.status = req.body.status;
                     callingData.startDate = Moment.utc().format();
                     callingData.duration = req.body.duration;
+                    callingData.callerDesignation = req.body.callerDesignation;
                     callingData.save(function (err, getCallersInfo) {
                         if(err) {
                             res.json({success: false, message: "Unable to save call details to call logs"});
@@ -180,6 +183,51 @@ module.exports = function (app, passport) {
                 res.json({success: true, message: "Image successfully saved.", id: image._id});
             });
         }
+    });
+
+    app.post('/update/image', function (req, res, next) {
+        if (isLoggedIn(req, res)) {
+            console.log("updating..............");
+            console.log(req.body.imageInfo.imageId);
+            console.log(req.body.imageInfo.duration);
+            console.log(req.body.imageInfo.description);
+            models.ImageSnapshot.update({_id: req.body.imageInfo.imageId}, {$set:{
+                duration: req.body.imageInfo.duration,
+                description : req.body.imageInfo.description
+            }}, function(err, updatedInfo) {
+                if (err) {
+                    res.json({
+                        "success": false,
+                        "message": "Error while updating snapshot."
+                    });
+                }
+                else {
+                    res.json({
+                        "success": true,
+                        "updatedInfo": updatedInfo
+                    });
+                }
+            })
+        }
+    });
+
+    app.post('/remove/image', function(req, res, next) {
+       if(isLoggedIn(req, res)) {
+           models.ImageSnapshot.find({_id: req.body.imageId}).remove(function(err,removed) {
+               if (err) {
+                   res.json({
+                       "success": false,
+                       "message": "Error while removing snapshot."
+                   });
+               }
+               else {
+                   res.json({
+                       "success": true,
+                       "removedSnapshots": removed
+                   });
+               }
+           });
+       }
     });
 
     app.get('/images', function (req, res, next) {

@@ -4,9 +4,9 @@
 contactsModule.directive('contacts', function () {
     return {
         restrict: 'E',
-        scope: {
+        /*scope: {
             contacts: '=contacts'
-        },
+        },*/
         templateUrl: 'app/components/core/contacts/contacts.tpl.html',
         controller: 'contactsController',
         controllerAs: 'contactsCtrl',

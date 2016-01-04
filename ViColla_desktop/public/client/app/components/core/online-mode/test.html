@@ -1,0 +1,11 @@
+{{navTabsCtrl.optionSelected}}
+
+<div ng-switch on="navTabsCtrl.optionSelected">
+    <div ng-switch-when="call"><div ui-view="onlineModeCall"></div></div>
+    <div ng-switch-when="collaborate"><div ui-view="onlineModeCollaborate"></div></div>
+    <div ng-switch-when="annotate"><div ui-view="onlineModeAnnotate"></div></div>
+
+    <div ng-switch-default>
+        <div ui-view="onlineMode"></div>
+    </div>
+</div>

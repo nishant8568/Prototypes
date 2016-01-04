@@ -10,6 +10,8 @@ databaseModule.service('databaseService', ['$rootScope', '$http', '$q', function
         loadCallHistory: loadCallHistory,
         loadImages: loadImages,
         saveImage: saveImage,
+        removeImage: removeImage,
+        updateImage: updateImage,
         videoChatData: videoChatData,
         addItem: addItem
     });
@@ -34,6 +36,28 @@ databaseModule.service('databaseService', ['$rootScope', '$http', '$q', function
         var request = $http({
             method: 'post',
             url: 'api/save/image',
+            data: {
+                imageInfo: imageInfo
+            }
+        });
+        return (request.then(handleSuccess, handleError))
+    }
+
+    function removeImage(snapshotId) {
+        var request = $http({
+            method: 'post',
+            url: '/api/remove/image',
+            data: {
+                imageId: snapshotId
+            }
+        });
+        return (request.then(handleSuccess, handleError))
+    }
+
+    function updateImage(imageInfo) {
+        var request = $http({
+            method: 'post',
+            url: '/api/update/image',
             data: {
                 imageInfo: imageInfo
             }

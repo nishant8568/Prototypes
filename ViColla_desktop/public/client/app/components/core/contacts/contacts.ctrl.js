@@ -1,68 +1,52 @@
 /**
  * Created by Antony on 11/29/2015.
  */
-contactsModule.controller('contactsController', function (databaseService, $scope, $http, authService, $location, $window, $timeout, config) {
+contactsModule.controller('contactsController', ['databaseService', '$scope', '$http', 'authService', '$location', '$window', '$timeout', 'config', 'socket','$state',
+    function (databaseService, $scope, $http, authService, $location, $window, $timeout, config, socket, $state) {
     'use strict';
 
+    var vm = this;
     $scope.searchContactByName = '';
     $scope.searchContactByTag = '';
-    var vm = this;
-    var isInitiator;
+
+
     $scope.max = 3;
     $scope.selectedIndex = 1;
-    // var pc_config = webrtcDetectedBrowser === 'firefox' ?
-    //   {'iceServers':[{'url':config.stunip}]} : // number IP
-    //   {'iceServers': [{'url': config.stunurl}]};
 
-    // var pc_constraints = {
-    // 'optional': [
-    //     {'DtlsSrtpKeyAgreement': true},
-    //     {'RtpDataChannels': true}
-    // ]};
 
-    // Set up audio and video regardless of what devices are present.
-    // var sdpConstraints = {'mandatory': {
-    //           'OfferToReceiveAudio':true,
-    //           'OfferToReceiveVideo':true }};
-
-    var room = 'ChatRoom';
-    var callerdetails;
-    var username = localStorage.getItem('username');
-    var socket = io.connect(null, {'force new connection': true});
-
-    var userinfo = {
-        room: 'ChatRoom',
-        username: localStorage.getItem('username')
-    };
-    if (room !== '') {
-        console.log('Create or join room...', JSON.stringify(userinfo));
-        socket.emit('create or join', JSON.stringify(userinfo));
-    }
-    socket.on('called', function (caller) {
-        callerdetails = JSON.parse(caller);
-        if (callerdetails.callername == username) {
-            console.log("caller:", caller);
-            isInitiator = true;
-            //maybeStart();
-        }
-    });
+        vm.loadContacts = function () {
+            databaseService.loadContacts().then(function (data) {
+                if (data.success) {
+                    vm.contacts = data['contacts'];
+                    for(var i=0; i<vm.contacts.length; i++){
+                        var contact = vm.contacts[i];
+                        if ($scope.appCtrl.usersList.indexOf(contact.username) != -1){
+                            contact.status = true;
+                        }else{
+                            contact.status = false;
+                        }
+                    }
+                    console.log("navigation-tabs.ctrl.js >> loadContacts >> contacts");
+                    console.log(vm.contacts);
+                } else {
+                    alert(data.message);
+                }
+            })
+        };
+        vm.loadContacts();
 
     $scope.videoCall = function (receivername) {
+
         var caller = {
-            callername: username,
+            callername: $scope.appCtrl.user.username,
+            callerinfo: $scope.appCtrl.user,
             receivername: receivername,
-            roomname: room,
+            roomname: $scope.$parent.navTabsCtrl.room,
             startDateTime: Date.now()
         };
         socket.emit('calling', JSON.stringify(caller));
+        $state.go('tabs.onlineMode');
         databaseService.addItem(3);
     };
 
-    // $scope.videoCall=function(receivername){
-
-    // 	databaseService.addItem(3);
-
-    // };
-
-
-});
+}]);

@@ -5,19 +5,20 @@
 'use strict';
 
 var authModule = angular.module('authModule', []);
-var homeModule = angular.module('homeModule', ['authModule']);
+var homeModule = angular.module('homeModule', ['authModule', 'socketWrapper']);
 var registerModule = angular.module('registerModule', ['authModule']);
-var headerModule = angular.module('headerModule', []);
-var navTabsModule = angular.module('navTabsModule', ['authModule', 'databaseModule']);
-var onlineModeModule = angular.module('onlineModeModule', ['callHistoryModule']);
-var contactsModule = angular.module('contactsModule', []);
+var headerModule = angular.module('headerModule', ['socketWrapper']);
+var navTabsModule = angular.module('navTabsModule', ['authModule', 'databaseModule', 'socketWrapper']);
+var onlineModeModule = angular.module('onlineModeModule', ['callHistoryModule', 'databaseModule']);
+var contactsModule = angular.module('contactsModule', ['socketWrapper']);
 var offlineModeModule = angular.module('offlineModeModule', ["databaseModule"]);
 var toolsModule = angular.module('toolsModule', []);
 var snapshotsModule = angular.module('snapshotsModule', []);
 var snapshotsAttributesModule = angular.module('snapshotsAttributesModule', []);
 var incomingCallModule = angular.module('incomingCallModule', []);
-var videochatModule = angular.module('videochatModule', []);
+var videochatModule = angular.module('videochatModule', ['socketWrapper']);
 var utilityModule = angular.module('utilityModule', []);
+var socketWrapper = angular.module('socketWrapper', []);
 
 var app = angular.module('AbcApp', [
     'ngMaterial',
@@ -37,8 +38,8 @@ var app = angular.module('AbcApp', [
     'callHistoryModule',
     'databaseModule',
     'videochatModule',
-    'utilityModule'
-    
+    'utilityModule',
+    'socketWrapper'
 ]);
 
 app.directive('fileModel', ['$parse', function ($parse) {

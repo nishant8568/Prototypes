@@ -7,17 +7,20 @@
 //       });
 // });
 videochatModule.controller('videoChatController',
-    function ($scope, $http, authService, databaseService, $stateParams, $location, $window, $timeout, config, $mdDialog) {
+    function ($scope, $http, authService, databaseService, $stateParams, $location, $window, $timeout, config, $mdDialog, socket, $state) {
         'use strict';
         var vm = this;
         var sendChannel;
-        var isChannelReady;
-        var isInitiator;
+        var isChannelReady = $scope.$parent.isChannelReady;
+        var isInitiator = $scope.$parent.isInitiator;
+        var room = $scope.$parent.room;
+        var callerdetails = $scope.$parent.callerdetails;
         var isStarted;
         var localStream;
         var pc = null;
         var remoteStream;
         var turnReady;
+
 
         $scope.optionSelected = "call";
         $scope.options = [
@@ -38,9 +41,20 @@ videochatModule.controller('videoChatController',
             }
         ];
 
-        $scope.optionClicked = function ($index) {
-            alert($index);
-            $scope.optionSelected = $scope.options[$index].name;
+        $scope.optionClicked = function (option) {
+            switch(option.name){
+                case "call":
+                    $state.go("tabs.onlineMode.call");
+                    break;
+                case "collaborate":
+                    $state.go("tabs.onlineMode.collaborate");
+                    break;
+                case "annotate":
+                    $state.go("tabs.onlineMode.annotate");
+                    break;
+            }
+            $scope.$parent.optionSelected = option.name;
+
         };
 
         $scope.isoffercall = false;
@@ -68,62 +82,18 @@ videochatModule.controller('videoChatController',
         /////////////////////////////////////////////
 
 
-        var room = 'ChatRoom';
-        var callerdetails;
         $scope.nickname = localStorage.getItem('username');
         var username = localStorage.getItem('username');
         var userinfo = {
             room: 'ChatRoom',
             username: localStorage.getItem('username')
-        }
+        };
         $scope.busy = false;
         var answer = false;
-        //var socket = io.connect();
-        var socket = io.connect(null, {'force new connection': true});
-        if (room !== '') {
-            console.log('Create or join room', JSON.stringify(userinfo));
-            console.log("called one time");
-            socket.emit('create or join', JSON.stringify(userinfo));
-        }
+
 
         socket.on('full', function (room) {
             console.log('Room ' + room + ' is full');
-        });
-
-        socket.on('join', function (message) {
-            console.log(message);
-            if (message == "no users") {
-                console.log("room created user");
-                if ($scope.userlist.indexOf(username) == -1) {
-                    $scope.userlist.push(username);
-                    $scope.$apply();
-                }
-            }
-            else {
-                console.log("room joined user");
-                if ($scope.userlist.indexOf(message) == -1) {
-                    $scope.userlist.push(message);
-                    $scope.$apply();
-                }
-            }
-            socket.emit('users', $scope.userlist);
-            isChannelReady = true;
-        });
-
-        socket.on('joined', function (room) {
-            console.log('This peer has joined room ' + room);
-            isChannelReady = true;
-        });
-
-        socket.on('log', function (array) {
-            console.log.apply(console, array);
-        });
-
-        socket.on('onlineusers', function (user) {
-            console.log("userlists");
-            $scope.userlist = user;
-            console.log($scope.userlist);
-            //$scope.$apply();
         });
 
         ////////////////////////////////////////////////
@@ -133,21 +103,22 @@ videochatModule.controller('videoChatController',
         }
 
         socket.on('message', function (message) {
+            console.log("message received from io : ");
+            console.log(message);
             if (message === 'got user media') {
                 console.log("i got user media");
                 maybeStart();
             } else if (message.type === 'offer') {
-                console.log("offer received");
                 if (callerdetails.receivername == username) {
                     //answer = window.confirm(message.callername + ' calling...');
                     var confirm = $mdDialog.confirm({
                         controller: 'incomingCallDialogController',
-                        templateUrl: 'app/components/others/incomingCallDialog/incomingCallDialog.tpl.html',
-                        locals: {message: message},
+                        templateUrl: 'app/components/core/incomingCallDialog/incomingCallDialog.tpl.html',
+                        locals: {message: message, callerinfo: callerdetails.callerinfo},
                         parent: angular.element(document.body)
                     });
                     $mdDialog.show(confirm).then(function() {
-                        databaseService.addItem(3);
+                        //databaseService.addItem(3);
                         if (pc == null) {
                             maybeStart();
 
@@ -181,7 +152,7 @@ videochatModule.controller('videoChatController',
                 console.log(message);
                 console.log(message.answername + " answered the call");
                 $scope.busy = true;
-                $scope.$apply();
+                //$scope.$apply();
                 pc.setRemoteDescription(new RTCSessionDescription(message.sessiondescription));
             } else if (message.type === 'candidate' && isStarted) {
                 console.log("received candidate from remote and added");
@@ -193,15 +164,22 @@ videochatModule.controller('videoChatController',
             }
         });
 
-        socket.on('called', function (caller) {
-            callerdetails = JSON.parse(caller);
-            if (callerdetails.callername == username) {
-                console.log("caller:", caller);
-                isInitiator = true;
-                maybeStart();
-            }
-        });
 
+        if ($scope.isInitiator){
+            maybeStart();
+        }
+        //socket.on('called', function (caller) {
+        //    callerdetails = JSON.parse(caller);
+        //    if (callerdetails.callername == username) {
+        //        console.log("caller:", caller);
+        //        isInitiator = true;
+        //        maybeStart();
+        //    }
+        //});
+
+        $scope.$on('$destroy', function(event){
+            stop();
+        });
         ////////////////////////////////////////////////////
 
         var localVideo = document.querySelector('#localVideo');
@@ -220,7 +198,7 @@ videochatModule.controller('videoChatController',
             console.log(callenddetails.to);
             if (callenddetails.to == username) {
                 $scope.busy = false;
-                $scope.$apply();
+                //$scope.$apply();
                 stop();
             }
         });
@@ -233,10 +211,14 @@ videochatModule.controller('videoChatController',
             };
             if (callend.callendedby == callerdetails.receivername) {
                 callend.to = callerdetails.callername;
+                callend.callerFirstName = callerdetails.callerinfo.firstName;
+                callend.callerLastName = callerdetails.callerinfo.lastName;
                 callend.status = 'call_received';
                 callend.startDate = callerdetails.startDateTime;
                 callend.duration = callEndDateTime - callerdetails.startDateTime;
+                callend.callerDesignation = callerdetails.callerinfo.designation;
                 alert("callend.. Sending POST request to save to call history.. : " + JSON.stringify(callend));
+                console.log(callerdetails);
                 $http.post('/api/callHistory', callend).success(function (calldetails) {
                     alert(JSON.stringify(calldetails));
                 });
@@ -256,7 +238,6 @@ videochatModule.controller('videoChatController',
                 roomname: room
             };
             socket.emit('calling', JSON.stringify(caller));
-
         };
 
 
@@ -264,7 +245,7 @@ videochatModule.controller('videoChatController',
             var userinfo = {
                 username: username,
                 roomname: room
-            }
+            };
             console.log("user logout" + JSON.stringify(userinfo));
             socket.emit('userlogout', JSON.stringify(userinfo));
             $location.path("/");
@@ -292,16 +273,17 @@ videochatModule.controller('videoChatController',
                     $location.path('/login');
                 }, 2000);
             }
-            $scope.$apply();
+            //$scope.$apply();
         };
         socket.on('userout', function (user) {
             console.log("user out details" + user);
             $scope.removelogoutuser(user);
         });
 
+
         function handleUserMediaError(error) {
             console.log('getUserMedia error: ', error);
-        };
+        }
 
         var constraints = {video: true, audio: true};
 
@@ -315,8 +297,10 @@ videochatModule.controller('videoChatController',
                 createPeerConnection();
                 pc.addStream(localStream);
                 isStarted = true;
-                if (isInitiator)
+                if (isInitiator) {
+                    console.log("I am the initiator. Initiating call....");
                     doCall();
+                }
             }
         }
 
@@ -326,8 +310,8 @@ videochatModule.controller('videoChatController',
                 $scope.logout();
             }
             $scope.userlist = [];
-            $scope.$apply();
-        }
+            //$scope.$apply();
+        };
 
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -409,6 +393,7 @@ videochatModule.controller('videoChatController',
                     }
                 }
             }
+            console.log("doCall >> initiating call.....");
             constraints = mergeConstraints(constraints, sdpConstraints);
             pc.createOffer(setLocalAndSendOffer, null, constraints);
         }
@@ -416,7 +401,7 @@ videochatModule.controller('videoChatController',
         function doAnswer() {
             pc.createAnswer(setLocalAndSendAnswer, null, sdpConstraints);
             $scope.busy = true;
-            $scope.$apply();
+            //$scope.$apply();
         }
 
         function mergeConstraints(cons1, cons2) {
@@ -505,9 +490,10 @@ videochatModule.controller('videoChatController',
             isInitiator = false;
             isStarted = false;
             $scope.busy = false;
-            pc.close();
+            if(pc){
+                pc.close();
+            }
             pc = null;
-            $scope.$apply();
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -586,5 +572,4 @@ videochatModule.controller('videoChatController',
             sdpLines[mLineIndex] = mLineElements.join(' ');
             return sdpLines;
         }
-
     });

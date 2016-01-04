@@ -40,6 +40,9 @@ var User = mongoose.model('User', userSchema);
 var callHistorySchema = Schema({
     _caller: {type: Schema.Types.ObjectId, ref: 'User'},
     _receiver: {type: Schema.Types.ObjectId, ref: 'User'},
+    callerFirstName: String,
+    callerLastName: String,
+    callerDesignation: String,
     callername: String,
     receivername: String,
     status: String,

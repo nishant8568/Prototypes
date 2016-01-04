@@ -1,19 +1,13 @@
 /**
- * Created by Antony on 11/21/2015.
+ * Created by Antony on 11/29/2015.
  */
-'use strict';
-
-app.config(function ($stateProvider, $urlRouterProvider) {
+/*
+navTabsModule.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider
         .when('/', '/callHistory')
         .otherwise('/callHistory');
 
     $stateProvider
-        .state('tabs', {
-            abstract: true,
-            url: '/',
-            template: '<navigation-tabs layout="column" flex></navigation-tabs>'
-        })
         .state('tabs.callHistory', {
             url: 'callHistory',
             data: {
@@ -22,9 +16,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             views: {
                 'callHistory': {
                     template: '<online-mode></online-mode>'
-                },
-                'contacts': {
-                    template: '<contacts layout="column"></contacts>'
                 }
             }
         })
@@ -53,7 +44,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         .state('tabs.onlineMode', {
             url: 'onlineMode',
             data: {
-                'selectedTab': 2
+                'selectedTab': 2,
+                'test': 11
             },
             views: {
                 'onlineMode': {
@@ -62,34 +54,15 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             }
         })
         .state('tabs.onlineMode.call', {
-            url: '/call',
-            views: {
-                'onlineModeCall': {
-                    template: '<videochat layout="column" layout-fill="" videouser="videoChat"></videochat>'
-                }
-            }
+            url: 'onlineMode/call'
+
         })
         .state('tabs.onlineMode.collaborate', {
-            url: '/collaborate',
-            controller: function ($scope){
-                console.log("collaborate tab");
-            },
-            views: {
-                'onlineModeCollaborate': {
-                    template: '<div><span>Collaborate view</span></div>'
-                }
-            }
+            url: 'onlineMode/collaborate'
+
         })
         .state('tabs.onlineMode.annotate', {
-            url: '/annotate',
+            url: 'onlineMode/annotate'
 
-            views: {
-                'onlineModeAnnotate': {
-                    templateUrl: 'app/components/core/online-mode/annotate/annotate-online.html',
-                    controller: function ($scope){
-                        console.log("annotate tab");
-                    }
-                }
-            }
         })
-});
+});*/

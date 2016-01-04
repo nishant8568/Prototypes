@@ -9,10 +9,10 @@
         </md-content>
         <div layout="column" layout-margin layout-align="start start">
             <div class="md-list-item-text" layout="column">
-                <strong id="expertName">{{caller.callername}}</strong>
+                <strong id="expertName">{{caller.callerFirstName}} {{caller.callerLastName}}</strong>
             </div>
             <div>
-                <span style="font-size: small; color: green">{{caller.designation}}</span>
+                <span style="font-size: small; color: green">{{caller.callerDesignation}}</span>
                 <small>{{caller.designation}}</small>
             </div>
             <span flex=""></span>
@@ -25,7 +25,7 @@
         </div>
         <span flex=""></span>
         <div layout-margin layout="column" layout-align="center end">
-            <strong>{{caller.startDate}}</strong>
+            <strong>{{utilityService.formatDateTime(caller.startDate)}}</strong>
             <h6>{{utilityService.formatDuration(caller.duration)}}</h6>
         </div>
     </md-card>

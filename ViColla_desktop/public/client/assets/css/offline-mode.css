@@ -2,8 +2,9 @@
 #outputCanvas{
     border-bottom: 2px solid rgba(0,0,0,0.3);
     background-color: black;
-    box-shadow: 0 9px 20px -5px rgba(0,0,0,0.8);
+    #box-shadow: 0 9px 20px -5px rgba(0,0,0,0.8);
     cursor: crosshair;
+    margin: auto;
 
     #background: -webkit-linear-gradient(90deg, #517fa4 10%, #243949 90%); /* Chrome 10+, Saf5.1+ */
     #background:    -moz-linear-gradient(90deg, #517fa4 10%, #243949 90%); /* FF3.6+ */

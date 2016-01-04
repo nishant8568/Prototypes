@@ -1,23 +1,11 @@
 <div layout="row" flex>
     <div layout="column" flex="15" layout-margin="">
         <div layout="column" layout-align="start end" ng-repeat="option in options">
-            <md-button class="md-icon-button md-48" ng-click="optionClicked($index)"
+            <md-button class="md-icon-button md-48" ng-click="optionClicked(option)"
                        ng-class="{elementSelected:optionSelected == options[$index].name}">
                 <i class="material-icons md-36">{{option.icon}}</i>
                 <md-tooltip>{{option.tooltip}}</md-tooltip>
             </md-button>
-            <!--<md-button class="md-icon-button md-48">
-                <i class="material-icons md-36">phone_in_talk</i>
-                <md-tooltip>Video Call</md-tooltip>
-            </md-button>
-            <md-button class="md-icon-button md-48">
-                <i class="material-icons md-36">thumbs_up_down</i>
-                <md-tooltip>Collaborate</md-tooltip>
-            </md-button>
-            <md-button class="md-icon-button md-48">
-                <i class="material-icons md-36">color_lens</i>
-                <md-tooltip>Get Annotations</md-tooltip>
-            </md-button>-->
         </div>
         <span flex=""></span>
         <md-content layout="column" layout-align="center center">
@@ -29,8 +17,7 @@
         </md-content>
     </div>
     <md-content id="remoteVideoContainer" layout="column" layout-padding="" layout-align="center" flex="70">
-        <md-whiteframe class="md-whiteframe-24dp" flex layout-margin layout-align="center center"
-                       style="background-color: black;">
+        <md-whiteframe class="md-whiteframe-24dp" flex layout-margin layout-align="center center">
             <div>
                 <video class="img-responsive" id='remoteVideo' autoplay
                        style="max-width: 100%; max-height: 100%;"></video>
@@ -40,32 +27,4 @@
     <md-content layout-margin flex="10">
         <button class="btn btn-danger" ng-show="busy" ng-click="callend()">End Call</button>
     </md-content>
-    <!--
-    <md-content layout="column" flex="">
-        <md-content layout-margin flex="10">
-            <button class="btn btn-danger" ng-show="busy" ng-click="callend()">End Call</button>
-        </md-content>
-        <md-content layout="column" layout-padding flex class="coverage_brown">
-            <md-toolbar flex="10" class="md-primary">
-                <div class="md-toolbar-tools">
-                    <h2>Online Users</h2>
-                </div>
-            </md-toolbar>
-            <md-content flex>
-                <md-list>
-                    <md-list-item layout="row" layout-align="space-between center" ng-repeat="vdouser in userlist"
-                                  ng-hide="nickname==vdouser">
-                        <img ng-src="./../../assets/test.png" class="md-avatar">
-
-                        <div class="md-list-item-text" layout="column">
-                            <h5>{{vdouser}} </h5>
-                        </div>
-                        <md-button class="md-raised md-primary" ng-click="calluser(vdouser)" ng-hide="busy">Call
-                        </md-button>
-                    </md-list-item>
-                </md-list>
-            </md-content>
-        </md-content>
-    </md-content>
-    -->
 </div>
