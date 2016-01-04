@@ -118,8 +118,8 @@ server.listen(port, function () {
 
         });
 
-        socket.on('userLogin', function(username){
-            if (!(username in users)){
+        socket.on('userLogin', function (username) {
+            if (!(username in users)) {
                 users[username] = socket;
                 socket.username = username;
             }
@@ -130,9 +130,9 @@ server.listen(port, function () {
         socket.emit('emit(): client ' + socket.id + ' joined room ' + room);
         socket.broadcast.emit('broadcast(): client ' + socket.id + ' joined room ' + room);
 
-        socket.on('disconnect', function(data){
+        socket.on('disconnect', function (data) {
             console.log('disconnected', socket.username);
-            if(socket.nickname == undefined) return;
+            if (socket.nickname == undefined) return;
             delete users[socket.username];
             io.sockets.emit('all users', Object.keys(users));
         });

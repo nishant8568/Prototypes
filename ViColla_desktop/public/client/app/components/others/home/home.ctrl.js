@@ -20,7 +20,7 @@ homeModule.controller('HomeController', ['$scope', 'authService', '$window', '$l
                         console.log("emit user login");
                         utilityService.setExpertFlag($scope.appCtrl.user.isExpert);
                         socket.emit('userLogin', $scope.appCtrl.user.username);
-                        if(utilityService.getExpertFlag()) {
+                        if (utilityService.getExpertFlag()) {
                             $location.path('/callHistory');
                         } else {
                             $location.path('/experts');

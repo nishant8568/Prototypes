@@ -119,30 +119,31 @@ videochatModule.controller('videoChatController',
                         locals: {message: message, callerinfo: callerdetails.callerinfo},
                         parent: angular.element(document.body)
                     });
-                    $mdDialog.show(confirm).then(function () {
-                        //databaseService.addItem(3);
-                        if (pc == null) {
-                            maybeStart();
-
+                    $mdDialog.show(confirm).then(function (answer) {
+                        if (typeof answer != 'undefined') {
+                            //databaseService.addItem(3);
+                            if (pc == null) {
+                                maybeStart();
+                            }
+                            if (!isInitiator && !isStarted) {
+                                console.log("rare offer received");
+                                maybeStart();
+                            }
+                            pc.setRemoteDescription(new RTCSessionDescription(message.sessiondescription));
+                            doAnswer();
                         }
-                        if (!isInitiator && !isStarted) {
-                            console.log("rare offer received");
-                            maybeStart();
-                        }
-                        pc.setRemoteDescription(new RTCSessionDescription(message.sessiondescription));
-                        doAnswer();
                     }, function () {
                         console.log('incoming call dialog closed');
                     });
                     /*if (answer) {
-                     console.log("peer connection value is " + pc);
-                     databaseService.addItem(3);
+                     //console.log("peer connection value is " + pc);
+                     //databaseService.addItem(3);
                      if (pc == null) {
                      maybeStart();
 
                      }
                      if (!isInitiator && !isStarted) {
-                     console.log("rare offer received");
+                     console.log("rare offer received....");
                      maybeStart();
                      }
                      pc.setRemoteDescription(new RTCSessionDescription(message.sessiondescription));
@@ -310,7 +311,6 @@ videochatModule.controller('videoChatController',
         }
 
         $window.onbeforeunload = function (event) {
-            alert("");
             if (window.confirm("do you want reload")) {
                 $scope.logout();
             }
