@@ -42,7 +42,7 @@ videochatModule.controller('videoChatController',
         ];
 
         $scope.optionClicked = function (option) {
-            switch(option.name){
+            switch (option.name) {
                 case "call":
                     $state.go("tabs.onlineMode.call");
                     break;
@@ -107,7 +107,9 @@ videochatModule.controller('videoChatController',
             console.log(message);
             if (message === 'got user media') {
                 console.log("i got user media");
-                maybeStart();
+                $timeout(function () {
+                    maybeStart();
+                }, 2000);
             } else if (message.type === 'offer') {
                 if (callerdetails.receivername == username) {
                     //answer = window.confirm(message.callername + ' calling...');
@@ -117,7 +119,7 @@ videochatModule.controller('videoChatController',
                         locals: {message: message, callerinfo: callerdetails.callerinfo},
                         parent: angular.element(document.body)
                     });
-                    $mdDialog.show(confirm).then(function() {
+                    $mdDialog.show(confirm).then(function () {
                         //databaseService.addItem(3);
                         if (pc == null) {
                             maybeStart();
@@ -165,7 +167,7 @@ videochatModule.controller('videoChatController',
         });
 
 
-        if ($scope.isInitiator){
+        if ($scope.isInitiator) {
             maybeStart();
         }
         //socket.on('called', function (caller) {
@@ -177,7 +179,7 @@ videochatModule.controller('videoChatController',
         //    }
         //});
 
-        $scope.$on('$destroy', function(event){
+        $scope.$on('$destroy', function (event) {
             stop();
         });
         ////////////////////////////////////////////////////
@@ -186,7 +188,8 @@ videochatModule.controller('videoChatController',
         var remoteVideo = document.querySelector('#remoteVideo');
 
         function handleUserMedia(stream) {
-            console.log(stream);
+            console.log("handleUserMedia >> stream.... ");
+            console.log(JSON.stringify(stream));
             localStream = stream;
             attachMediaStream(localVideo, stream);
             console.log('Adding local stream.');
@@ -293,6 +296,8 @@ videochatModule.controller('videoChatController',
         }
 
         function maybeStart() {
+            console.log("maybeStart.....");
+            console.log("localstream : " + localStream + " , isChannelReady : " + isChannelReady);
             if (localStream && isChannelReady) {
                 createPeerConnection();
                 pc.addStream(localStream);
@@ -320,7 +325,7 @@ videochatModule.controller('videoChatController',
             try {
                 pc = new RTCPeerConnection(pc_config, pc_constraints);
                 pc.onicecandidate = handleIceCandidate;
-                console.log("connection state" + pc.iceConnectionState);
+                console.log("connection state : " + pc.iceConnectionState);
             } catch (e) {
                 console.log('Failed to create PeerConnection, exception: ' + e.message);
                 alert('Cannot create RTCPeerConnection object.');
@@ -490,7 +495,7 @@ videochatModule.controller('videoChatController',
             isInitiator = false;
             isStarted = false;
             $scope.busy = false;
-            if(pc){
+            if (pc) {
                 pc.close();
             }
             pc = null;

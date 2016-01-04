@@ -95,8 +95,8 @@ navTabsModule.controller('NavTabsController', ['$scope', 'authService', '$locati
             if ($scope.callerdetails.callername == $scope.appCtrl.user.username) {
                 $scope.isInitiator = true;
             }
-            if($state.url != "onlineMode"){
+            //if($state.url != "onlineMode"){
                 $state.go('tabs.onlineMode',{test: "test test"});
-            }
+            //}
         });
     }]);

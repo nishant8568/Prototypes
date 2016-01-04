@@ -96,6 +96,8 @@ server.listen(port, function () {
         socket.on('calling', function (caller) {
             var calldetails = JSON.parse(caller);
             console.log(calldetails);
+            console.log(calldetails.callername + "calling....... : " + calldetails.receivername +
+                " : in chat room : " + calldetails.roomname);
             io.sockets.in(calldetails.roomname).emit('called', caller);
         });
         socket.on('callending', function (callended) {
