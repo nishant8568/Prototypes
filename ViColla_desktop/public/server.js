@@ -52,7 +52,7 @@ server.listen(port, function () {
     io.sockets.on('connection', function (socket) {
 
         function log() {
-            var array = [">>> "];
+            var array = [">>>>>>>>>> "];
             for (var i = 0; i < arguments.length; i++) {
                 array.push(arguments[i]);
             }
@@ -60,7 +60,8 @@ server.listen(port, function () {
         }
 
         socket.on('message', function (message) {
-            log('Got message: ', message);
+            log('Got message: ', message + " : from : " + socket.username);
+            console.log('Got message: ', message + " : from : " + socket.username);
             socket.broadcast.emit('message', message); // should be room only
         });
 

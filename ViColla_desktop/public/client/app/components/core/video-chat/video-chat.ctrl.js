@@ -136,7 +136,6 @@ videochatModule.controller('videoChatController',
                         console.log('incoming call dialog closed');
                     });
                     /*if (answer) {
-                     //console.log("peer connection value is " + pc);
                      //databaseService.addItem(3);
                      if (pc == null) {
                      maybeStart();
@@ -231,7 +230,6 @@ videochatModule.controller('videoChatController',
                 callend.to = callerdetails.receivername;
             }
             console.log("callend:", callend);
-
             socket.emit('callending', JSON.stringify(callend));
             stop();
         };

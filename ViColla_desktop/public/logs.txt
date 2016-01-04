@@ -1,0 +1,411 @@
+{ [Error: Cannot find module '../build/Release/bson'] code: 'MODULE_NOT_FOUND' }
+Server running on port 9000
+info: socket.io started
+[0mGET / [36m304 [0m15.765 ms - -[0m
+[0mGET /bower_components/angular-material/angular-material.css [36m304 [0m18.139 ms - -[0m
+[0mGET /bower_components/bootstrap/dist/css/bootstrap-theme.css [36m304 [0m11.268 ms - -[0m
+[0mGET /bower_components/bootstrap/dist/css/bootstrap.css [36m304 [0m9.705 ms - -[0m
+[0mGET /assets/css/icons.css [36m304 [0m8.918 ms - -[0m
+[0mGET /assets/css/global.css [36m304 [0m8.189 ms - -[0m
+[0mGET /assets/css/header.css [36m304 [0m7.524 ms - -[0m
+[0mGET /assets/css/online-mode.css [36m304 [0m9.237 ms - -[0m
+[0mGET /assets/css/offline-mode.css [36m304 [0m24.338 ms - -[0m
+[0mGET /bower_components/angular/angular.js [36m304 [0m23.845 ms - -[0m
+[0mGET /bower_components/jquery/dist/jquery.js [36m304 [0m23.034 ms - -[0m
+[0mGET /bower_components/angular-ui-router/release/angular-ui-router.js [36m304 [0m26.687 ms - -[0m
+[0mGET /bower_components/angular-aria/angular-aria.js [36m304 [0m27.026 ms - -[0m
+[0mGET /bower_components/angular-animate/angular-animate.js [36m304 [0m12.894 ms - -[0m
+[0mGET /bower_components/angular-material/angular-material.js [36m304 [0m12.167 ms - -[0m
+[0mGET /bower_components/lodash/lodash.js [36m304 [0m11.492 ms - -[0m
+[0mGET /bower_components/moment/moment.js [36m304 [0m5.853 ms - -[0m
+[0mGET /app/app.module.js [36m304 [0m4.602 ms - -[0m
+[0mGET /app/app.route.js [36m304 [0m4.142 ms - -[0m
+[0mGET /app/app.landing.ctrl.js [36m304 [0m5.911 ms - -[0m
+[0mGET /app/components/others/home/home-routes.conf.js [36m304 [0m5.196 ms - -[0m
+[0mGET /app/components/others/home/home.ctrl.js [36m304 [0m9.997 ms - -[0m
+[0mGET /app/components/others/auth/services.js [36m304 [0m7.912 ms - -[0m
+[0mGET /app/components/others/register/register-routes.conf.js [36m304 [0m9.166 ms - -[0m
+[0mGET /app/components/others/register/register.ctrl.js [36m304 [0m8.685 ms - -[0m
+[0mGET /app/components/core/online-mode/online-mode.ctrl.js [36m304 [0m7.654 ms - -[0m
+[0mGET /app/components/core/online-mode/online-mode.drv.js [36m304 [0m9.985 ms - -[0m
+[0mGET /app/components/core/contacts/contacts.ctrl.js [36m304 [0m9.535 ms - -[0m
+[0mGET /app/components/core/contacts/contacts.drv.js [36m304 [0m9.483 ms - -[0m
+[0mGET /app/components/core/offline-mode/offline-mode.ctrl.js [36m304 [0m9.968 ms - -[0m
+[0mGET /app/components/core/offline-mode/offline-mode.drv.js [36m304 [0m1.684 ms - -[0m
+[0mGET /app/components/core/video-chat/video-chat.ctrl.js [32m200 [0m18.613 ms - 21572[0m
+[0mGET /app/components/core/video-chat/video-chat.drv.js [36m304 [0m14.178 ms - -[0m
+[0mGET /app/components/core/adapter.js [36m304 [0m13.302 ms - -[0m
+[0mGET /app/components/core/config.js [36m304 [0m12.429 ms - -[0m
+[0mGET /app/components/core/tools/tools.ctrl.js [36m304 [0m16.554 ms - -[0m
+[0mGET /app/components/core/tools/tools.drv.js [36m304 [0m12.578 ms - -[0m
+[0mGET /app/components/core/snapshotsAttributesDialog/snapshotsAttributesDialog.ctrl.js [36m304 [0m8.151 ms - -[0m
+[0mGET /app/components/core/snapshots/snapshots.ctrl.js [36m304 [0m10.331 ms - -[0m
+[0mGET /app/components/core/snapshots/snapshots.drv.js [36m304 [0m10.211 ms - -[0m
+[0mGET /app/components/core/incomingCallDialog/incomingCall.ctrl.js [36m304 [0m10.453 ms - -[0m
+[0mGET /app/components/others/header/header.ctrl.js [36m304 [0m7.808 ms - -[0m
+[0mGET /app/components/others/header/header.drv.js [36m304 [0m9.974 ms - -[0m
+[0mGET /app/components/others/footer/footer.drv.js [36m304 [0m6.762 ms - -[0m
+[0mGET /app/components/others/database/services.js [36m304 [0m5.867 ms - -[0m
+[0mGET /app/services/utilities/utility-service.js [36m304 [0m6.489 ms - -[0m
+[0mGET /app/services/services.js [36m304 [0m6.333 ms - -[0m
+[0mGET /app/components/core/tabs/navigation-tabs.ctrl.js [36m304 [0m6.515 ms - -[0m
+[0mGET /app/components/core/tabs/navigation-tabs.drv.js [36m304 [0m11.675 ms - -[0m
+[0mGET /app/components/core/tabs/navigation-tabs-routes.conf.js [36m304 [0m10.748 ms - -[0m
+[0mGET /app/components/core/tabs/navigation-tabs.services.js [36m304 [0m10.013 ms - -[0m
+[0mGET /bower_components/bootstrap/dist/js/bootstrap.js [36m304 [0m14.169 ms - -[0m
+debug: served static content /socket.io.js
+debug: client authorized
+info: handshake authorized jSw8IxYXiegQ85fC2DcO
+[0mGET /app/components/others/header/header.tpl.html [36m304 [0m4.134 ms - -[0m
+[0mGET /api/check/session [36m304 [0m7.548 ms - -[0m
+[0mGET /app/components/core/tabs/navigation-tabs.tpl.html [36m304 [0m1.696 ms - -[0m
+debug: setting request GET /socket.io/1/websocket/jSw8IxYXiegQ85fC2DcO
+debug: set heartbeat interval for client jSw8IxYXiegQ85fC2DcO
+debug: client authorized for 
+debug: websocket writing 1::
+debug: websocket writing 5:::{"name":"emit(): client jSw8IxYXiegQ85fC2DcO joined room undefined"}
+debug: broadcasting packet
+[0mGET /bower_components/angular-material/angular-material.css [36m304 [0m7.002 ms - -[0m
+[0mGET /bower_components/bootstrap/dist/css/bootstrap-theme.css [36m304 [0m5.847 ms - -[0m
+[0mGET /bower_components/bootstrap/dist/css/bootstrap.css [36m304 [0m8.096 ms - -[0m
+[0mGET /assets/css/icons.css [36m304 [0m6.516 ms - -[0m
+[0mGET /assets/css/global.css [36m304 [0m4.065 ms - -[0m
+[0mGET /assets/css/header.css [36m304 [0m3.525 ms - -[0m
+[0mGET /assets/css/online-mode.css [36m304 [0m2.872 ms - -[0m
+[0mGET /assets/css/offline-mode.css [36m304 [0m2.350 ms - -[0m
+[0mGET /app/components/others/home/home.tpl.html [36m304 [0m6.460 ms - -[0m
+[0mGET /app/components/core/contacts/contacts.tpl.html [36m304 [0m2.090 ms - -[0m
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Room ChatRoom has 0 client(s)"]]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Request to create or join room","ChatRoom"]]}
+debug: websocket writing 5:::{"name":"join","args":["no users"]}
+debug: websocket writing 5:::{"name":"joined","args":[{"room":"ChatRoom"}]}
+[0mGET /bower_components/bootstrap/dist/css/bootstrap-theme.css.map [36m304 [0m3.753 ms - -[0m
+[0mGET /bower_components/bootstrap/dist/css/bootstrap.css.map [36m304 [0m2.445 ms - -[0m
+[0mPOST /api/login [36m302 [0m113.672 ms - 51[0m
+[0mGET /api/loginSuccess [36m304 [0m7.953 ms - -[0m
+debug: websocket writing 5:::{"name":"all users","args":[["abc"]]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Room ChatRoom has 1 client(s)"]]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Request to create or join room","ChatRoom"]]}
+debug: websocket writing 5:::{"name":"join","args":["abc"]}
+debug: websocket writing 5:::{"name":"joined","args":[{"userinfo":"abc","room":"ChatRoom"}]}
+[0mGET /app/components/core/online-mode/online-mode.tpl.html [36m304 [0m5.028 ms - -[0m
+debug: websocket writing 5:::{"name":"onlineusers","args":[null]}
+[0mGET /api/call/history?userId=5676a1cf76fdab90108db3c7 [36m304 [0m64.602 ms - -[0m
+[0mGET /img/ic_person_black_48dp.png [36m304 [0m3.710 ms - -[0m
+[0mGET / [32m200 [0m3.756 ms - 4382[0m
+[0mGET /bower_components/bootstrap/dist/css/bootstrap-theme.css [32m200 [0m11.144 ms - 26132[0m
+[0mGET /assets/css/icons.css [32m200 [0m9.514 ms - 852[0m
+[0mGET /assets/css/global.css [32m200 [0m8.688 ms - 852[0m
+[0mGET /assets/css/header.css [32m200 [0m7.260 ms - 143[0m
+[0mGET /bower_components/bootstrap/dist/css/bootstrap.css [32m200 [0m22.405 ms - 146082[0m
+[0mGET /assets/css/online-mode.css [32m200 [0m6.620 ms - 159[0m
+[0mGET /assets/css/offline-mode.css [32m200 [0m5.975 ms - 911[0m
+[0mGET /bower_components/angular-material/angular-material.css [32m200 [0m42.145 ms - 298023[0m
+[0mGET /bower_components/jquery/dist/jquery.js [32m200 [0m15.826 ms - 247597[0m
+[0mGET /bower_components/angular-aria/angular-aria.js [32m200 [0m12.062 ms - 14593[0m
+[0mGET /bower_components/angular-animate/angular-animate.js [32m200 [0m15.805 ms - 141532[0m
+[0mGET /bower_components/angular-ui-router/release/angular-ui-router.js [32m200 [0m38.952 ms - 162905[0m
+[0mGET /bower_components/moment/moment.js [32m200 [0m6.951 ms - 116296[0m
+[0mGET /bower_components/lodash/lodash.js [32m200 [0m37.549 ms - 411376[0m
+[0mGET /app/app.module.js [32m200 [0m7.713 ms - 2143[0m
+[0mGET /app/app.route.js [32m200 [0m6.836 ms - 2885[0m
+[0mGET /app/app.landing.ctrl.js [32m200 [0m7.531 ms - 711[0m
+[0mGET /app/components/others/home/home-routes.conf.js [32m200 [0m6.606 ms - 326[0m
+[0mGET /app/components/others/home/home.ctrl.js [32m200 [0m9.085 ms - 1458[0m
+[0mGET /app/components/others/auth/services.js [32m200 [0m9.003 ms - 2940[0m
+[0mGET /app/components/others/register/register-routes.conf.js [32m200 [0m8.158 ms - 362[0m
+[0mGET /app/components/others/register/register.ctrl.js [32m200 [0m6.435 ms - 2159[0m
+[0mGET /app/components/core/online-mode/online-mode.ctrl.js [32m200 [0m6.905 ms - 750[0m
+[0mGET /app/components/core/online-mode/online-mode.drv.js [32m200 [0m5.850 ms - 407[0m
+[0mGET /app/components/core/contacts/contacts.ctrl.js [32m200 [0m4.739 ms - 1850[0m
+[0mGET /app/components/core/contacts/contacts.drv.js [32m200 [0m6.332 ms - 404[0m
+[0mGET /app/components/core/offline-mode/offline-mode.ctrl.js [32m200 [0m5.183 ms - 40825[0m
+[0mGET /app/components/core/offline-mode/offline-mode.drv.js [32m200 [0m4.425 ms - 292[0m
+[0mGET /app/components/core/video-chat/video-chat.ctrl.js [32m200 [0m6.577 ms - 21572[0m
+[0mGET /app/components/core/video-chat/video-chat.drv.js [32m200 [0m5.392 ms - 371[0m
+[0mGET /app/components/core/adapter.js [32m200 [0m4.114 ms - 4989[0m
+[0mGET /app/components/core/tools/tools.ctrl.js [32m200 [0m4.764 ms - 1843[0m
+[0mGET /app/components/core/tools/tools.drv.js [32m200 [0m6.737 ms - 425[0m
+[0mGET /app/components/core/config.js [32m200 [0m14.247 ms - 117[0m
+[0mGET /app/components/core/snapshotsAttributesDialog/snapshotsAttributesDialog.ctrl.js [32m200 [0m7.947 ms - 743[0m
+[0mGET /app/components/core/snapshots/snapshots.drv.js [32m200 [0m3.526 ms - 288[0m
+[0mGET /app/components/core/snapshots/snapshots.ctrl.js [32m200 [0m9.939 ms - 154[0m
+[0mGET /bower_components/angular/angular.js [32m200 [0m143.833 ms - 1070726[0m
+[0mGET /bower_components/angular-material/angular-material.js [32m200 [0m120.992 ms - 781248[0m
+[0mGET /app/components/others/header/header.ctrl.js [32m200 [0m8.768 ms - 840[0m
+[0mGET /app/components/others/header/header.drv.js [32m200 [0m7.652 ms - 247[0m
+[0mGET /app/components/core/incomingCallDialog/incomingCall.ctrl.js [32m200 [0m11.871 ms - 437[0m
+[0mGET /app/components/others/footer/footer.drv.js [32m200 [0m8.073 ms - 47[0m
+[0mGET /app/components/others/database/services.js [32m200 [0m11.265 ms - 3405[0m
+[0mGET /app/services/utilities/utility-service.js [32m200 [0m11.831 ms - 2079[0m
+[0mGET /app/services/services.js [32m200 [0m9.609 ms - 1278[0m
+[0mGET /app/components/core/tabs/navigation-tabs.ctrl.js [32m200 [0m8.228 ms - 3672[0m
+[0mGET /app/components/core/tabs/navigation-tabs.drv.js [32m200 [0m9.231 ms - 299[0m
+[0mGET /app/components/core/tabs/navigation-tabs-routes.conf.js [32m200 [0m8.946 ms - 1839[0m
+debug: served static content /socket.io.js
+[0mGET /app/components/core/tabs/navigation-tabs.services.js [32m200 [0m8.531 ms - 1387[0m
+[0mGET /bower_components/bootstrap/dist/js/bootstrap.js [32m200 [0m6.890 ms - 68954[0m
+[0mGET /bower_components/angular-material/angular-material.js [36m304 [0m1.411 ms - -[0m
+[0mGET /bower_components/lodash/lodash.js [36m304 [0m1.331 ms - -[0m
+[0mGET /bower_components/moment/moment.js [36m304 [0m1.193 ms - -[0m
+[0mGET /app/app.module.js [36m304 [0m2.933 ms - -[0m
+[0mGET /app/app.route.js [36m304 [0m3.009 ms - -[0m
+[0mGET /app/app.landing.ctrl.js [36m304 [0m2.359 ms - -[0m
+[0mGET /app/components/others/home/home-routes.conf.js [36m304 [0m2.333 ms - -[0m
+[0mGET /app/components/others/home/home.ctrl.js [36m304 [0m10.268 ms - -[0m
+[0mGET /app/components/others/auth/services.js [36m304 [0m2.970 ms - -[0m
+[0mGET /app/components/others/register/register-routes.conf.js [36m304 [0m2.856 ms - -[0m
+[0mGET /app/components/others/register/register.ctrl.js [36m304 [0m3.361 ms - -[0m
+[0mGET /app/components/core/online-mode/online-mode.ctrl.js [36m304 [0m1.298 ms - -[0m
+[0mGET /app/components/core/online-mode/online-mode.drv.js [36m304 [0m1.533 ms - -[0m
+[0mGET /app/components/core/contacts/contacts.ctrl.js [36m304 [0m1.363 ms - -[0m
+[0mGET /app/components/core/contacts/contacts.drv.js [36m304 [0m1.195 ms - -[0m
+[0mGET /app/components/core/offline-mode/offline-mode.ctrl.js [36m304 [0m1.267 ms - -[0m
+[0mGET /app/components/core/offline-mode/offline-mode.drv.js [36m304 [0m1.339 ms - -[0m
+[0mGET /app/components/core/video-chat/video-chat.ctrl.js [36m304 [0m1.258 ms - -[0m
+[0mGET /app/components/core/video-chat/video-chat.drv.js [36m304 [0m1.560 ms - -[0m
+[0mGET /app/components/core/adapter.js [36m304 [0m1.311 ms - -[0m
+debug: client authorized
+info: handshake authorized epqMaAUEAZP1r88e2DcP
+[0mGET /api/check/session [32m200 [0m4.601 ms - 17[0m
+[0mGET /app/components/others/header/header.tpl.html [32m200 [0m7.203 ms - 3545[0m
+[0mGET /app/components/core/tabs/navigation-tabs.tpl.html [32m200 [0m2.952 ms - 1797[0m
+debug: setting request GET /socket.io/1/websocket/epqMaAUEAZP1r88e2DcP
+debug: set heartbeat interval for client epqMaAUEAZP1r88e2DcP
+debug: client authorized for 
+debug: websocket writing 1::
+debug: websocket writing 5:::{"name":"emit(): client epqMaAUEAZP1r88e2DcP joined room ChatRoom"}
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"broadcast(): client epqMaAUEAZP1r88e2DcP joined room ChatRoom"}
+[0mGET /app/components/others/home/home.tpl.html [32m200 [0m15.726 ms - 1723[0m
+[0mGET /app/components/core/contacts/contacts.tpl.html [32m200 [0m1.810 ms - 2173[0m
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Room ChatRoom has 1 client(s)"]]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Request to create or join room","ChatRoom"]]}
+debug: websocket writing 5:::{"name":"join","args":[null]}
+debug: websocket writing 5:::{"name":"joined","args":[{"room":"ChatRoom"}]}
+debug: websocket writing 5:::{"name":"onlineusers","args":[null]}
+debug: websocket writing 5:::{"name":"onlineusers","args":[null]}
+[0mGET /bower_components/angular-material/angular-material.css [36m304 [0m2.913 ms - -[0m
+[0mGET /bower_components/bootstrap/dist/css/bootstrap-theme.css [36m304 [0m2.245 ms - -[0m
+[0mGET /bower_components/bootstrap/dist/css/bootstrap.css [36m304 [0m4.605 ms - -[0m
+[0mGET /assets/css/icons.css [36m304 [0m6.087 ms - -[0m
+[0mGET /assets/css/global.css [36m304 [0m5.401 ms - -[0m
+[0mGET /assets/css/header.css [36m304 [0m3.729 ms - -[0m
+[0mGET /assets/css/online-mode.css [36m304 [0m4.096 ms - -[0m
+[0mGET /assets/css/offline-mode.css [36m304 [0m2.040 ms - -[0m
+[0mGET /bower_components/bootstrap/dist/css/bootstrap-theme.css.map [32m200 [0m2.724 ms - 47706[0m
+[0mGET /bower_components/bootstrap/dist/css/bootstrap.css.map [32m200 [0m5.065 ms - 389227[0m
+[0mPOST /api/login [36m302 [0m88.255 ms - 51[0m
+[0mGET /api/loginSuccess [32m200 [0m4.035 ms - 195[0m
+debug: websocket writing 5:::{"name":"all users","args":[["abc","asd"]]}
+debug: websocket writing 5:::{"name":"all users","args":[["abc","asd"]]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Room ChatRoom has 2 client(s)"]]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Request to create or join room","ChatRoom"]]}
+debug: websocket writing 5:::{"name":"join","args":["asd"]}
+debug: websocket writing 5:::{"name":"join","args":["asd"]}
+debug: websocket writing 5:::{"name":"joined","args":[{"userinfo":"asd","room":"ChatRoom"}]}
+debug: websocket writing 5:::{"name":"onlineusers","args":[null]}
+debug: websocket writing 5:::{"name":"onlineusers","args":[null]}
+[0mGET /api/contacts [32m200 [0m13.561 ms - 640[0m
+debug: websocket writing 5:::{"name":"onlineusers","args":[null]}
+debug: websocket writing 5:::{"name":"onlineusers","args":[null]}
+[0mGET /img/ic_person_black_48dp.png [32m200 [0m6.040 ms - 428[0m
+debug: emitting heartbeat for client jSw8IxYXiegQ85fC2DcO
+debug: websocket writing 2::
+debug: set heartbeat timeout for client jSw8IxYXiegQ85fC2DcO
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client jSw8IxYXiegQ85fC2DcO
+debug: set heartbeat interval for client jSw8IxYXiegQ85fC2DcO
+{ callername: 'asd',
+  callerinfo: 
+   { id: '56826e38f2f7c82024c4409c',
+     firstName: 'asd',
+     lastName: 'asd',
+     email: 'asd@asd.com',
+     username: 'asd',
+     designation: 'worker',
+     isExpert: false,
+     tags: [],
+     status: true },
+  receivername: 'abc',
+  startDateTime: 1451931249289 }
+asdcalling....... : abc : in chat room : undefined
+debug: websocket writing 5:::{"name":"called","args":["{\"callername\":\"asd\",\"callerinfo\":{\"id\":\"56826e38f2f7c82024c4409c\",\"firstName\":\"asd\",\"lastName\":\"asd\",\"email\":\"asd@asd.com\",\"username\":\"asd\",\"designation\":\"worker\",\"isExpert\":false,\"tags\":[],\"status\":true},\"receivername\":\"abc\",\"startDateTime\":1451931249289}"]}
+debug: websocket writing 5:::{"name":"called","args":["{\"callername\":\"asd\",\"callerinfo\":{\"id\":\"56826e38f2f7c82024c4409c\",\"firstName\":\"asd\",\"lastName\":\"asd\",\"email\":\"asd@asd.com\",\"username\":\"asd\",\"designation\":\"worker\",\"isExpert\":false,\"tags\":[],\"status\":true},\"receivername\":\"abc\",\"startDateTime\":1451931249289}"]}
+[0mGET /app/components/core/video-chat/video-chat.tpl.html [36m304 [0m7.948 ms - -[0m
+[0mGET /app/components/core/video-chat/video-chat.tpl.html [32m200 [0m47.411 ms - 1523[0m
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","got user media : from : abc"]]}
+Got message:  got user media : from : abc
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":["got user media"]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","got user media : from : asd"]]}
+Got message:  got user media : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":["got user media"]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"sessiondescription":{"type":"offer","sdp":"v=0\r\no=- 4896681504249567783 2 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE audio video data\r\na=msid-semantic: WMS EgkDdN45jQvk1vVC5HXWOZiJy8xorfLyHxaV\r\nm=audio 9 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 126\r\nc=IN IP4 0.0.0.0\r\na=rtcp:9 IN IP4 0.0.0.0\r\na=ice-ufrag:EkweaL5qo7nIjdt7\r\na=ice-pwd:FvqaiW6Fk/8JC/in0vUlN3D+\r\na=fingerprint:sha-256 C2:8E:A8:BB:DD:8E:07:69:4F:08:6F:8A:4B:F1:A8:2E:63:11:08:91:9C:AC:23:3B:82:4C:F6:79:45:29:01:F7\r\na=setup:actpass\r\na=mid:audio\r\na=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level\r\na=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\na=sendrecv\r\na=rtcp-mux\r\na=rtpmap:111 opus/48000/2\r\na=fmtp:111 minptime=10; useinbandfec=1\r\na=rtpmap:103 ISAC/16000\r\na=rtpmap:104 ISAC/32000\r\na=rtpmap:9 G722/8000\r\na=rtpmap:0 PCMU/8000\r\na=rtpmap:8 PCMA/8000\r\na=rtpmap:126 telephone-event/8000\r\na=maxptime:60\r\na=ssrc:762626663 cname:o6w3DPSLMDH05q++\r\na=ssrc:762626663 msid:EgkDdN45jQvk1vVC5HXWOZiJy8xorfLyHxaV 539bae22-81ff-410d-abb2-537fd2b2df28\r\na=ssrc:762626663 mslabel:EgkDdN45jQvk1vVC5HXWOZiJy8xorfLyHxaV\r\na=ssrc:762626663 label:539bae22-81ff-410d-abb2-537fd2b2df28\r\nm=video 9 UDP/TLS/RTP/SAVPF 100 116 117 96\r\nc=IN IP4 0.0.0.0\r\na=rtcp:9 IN IP4 0.0.0.0\r\na=ice-ufrag:EkweaL5qo7nIjdt7\r\na=ice-pwd:FvqaiW6Fk/8JC/in0vUlN3D+\r\na=fingerprint:sha-256 C2:8E:A8:BB:DD:8E:07:69:4F:08:6F:8A:4B:F1:A8:2E:63:11:08:91:9C:AC:23:3B:82:4C:F6:79:45:29:01:F7\r\na=setup:actpass\r\na=mid:video\r\na=extmap:2 urn:ietf:params:rtp-hdrext:toffset\r\na=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\na=extmap:4 urn:3gpp:video-orientation\r\na=sendrecv\r\na=rtcp-mux\r\na=rtpmap:100 VP8/90000\r\na=rtcp-fb:100 ccm fir\r\na=rtcp-fb:100 nack\r\na=rtcp-fb:100 nack pli\r\na=rtcp-fb:100 goog-remb\r\na=rtpmap:116 red/90000\r\na=rtpmap:117 ulpfec/90000\r\na=rtpmap:96 rtx/90000\r\na=fmtp:96 apt=100\r\na=ssrc-group:FID 2261284611 1643525217\r\na=ssrc:2261284611 cname:o6w3DPSLMDH05q++\r\na=ssrc:2261284611 msid:EgkDdN45jQvk1vVC5HXWOZiJy8xorfLyHxaV 683d3993-71e9-47ae-a802-22a23922a7d3\r\na=ssrc:2261284611 mslabel:EgkDdN45jQvk1vVC5HXWOZiJy8xorfLyHxaV\r\na=ssrc:2261284611 label:683d3993-71e9-47ae-a802-22a23922a7d3\r\na=ssrc:1643525217 cname:o6w3DPSLMDH05q++\r\na=ssrc:1643525217 msid:EgkDdN45jQvk1vVC5HXWOZiJy8xorfLyHxaV 683d3993-71e9-47ae-a802-22a23922a7d3\r\na=ssrc:1643525217 mslabel:EgkDdN45jQvk1vVC5HXWOZiJy8xorfLyHxaV\r\na=ssrc:1643525217 label:683d3993-71e9-47ae-a802-22a23922a7d3\r\nm=application 9 UDP/TLS/RTP/SAVPF 101\r\nc=IN IP4 0.0.0.0\r\nb=AS:30\r\na=rtcp:9 IN IP4 0.0.0.0\r\na=ice-ufrag:EkweaL5qo7nIjdt7\r\na=ice-pwd:FvqaiW6Fk/8JC/in0vUlN3D+\r\na=fingerprint:sha-256 C2:8E:A8:BB:DD:8E:07:69:4F:08:6F:8A:4B:F1:A8:2E:63:11:08:91:9C:AC:23:3B:82:4C:F6:79:45:29:01:F7\r\na=setup:actpass\r\na=mid:data\r\na=sendrecv\r\na=rtcp-mux\r\na=rtpmap:101 google-data/90000\r\na=ssrc:1050035322 cname:95BxEyOzjqHPbJPb\r\na=ssrc:1050035322 msid:sendDataChannel sendDataChannel\r\na=ssrc:1050035322 mslabel:sendDataChannel\r\na=ssrc:1050035322 label:sendDataChannel\r\n"},"callername":"asd","type":"offer"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":0,"id":"audio","candidate":"candidate:2999745851 1 udp 2122260223 192.168.56.1 65383 typ host generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":0,"id":"audio","candidate":"candidate:704553097 1 udp 2122194687 192.168.1.3 65384 typ host generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":0,"id":"audio","candidate":"candidate:2999745851 2 udp 2122260222 192.168.56.1 65385 typ host generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":0,"id":"audio","candidate":"candidate:704553097 2 udp 2122194686 192.168.1.3 65386 typ host generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":2,"id":"data","candidate":"candidate:2999745851 1 udp 2122260223 192.168.56.1 65387 typ host generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":2,"id":"data","candidate":"candidate:704553097 1 udp 2122194687 192.168.1.3 65388 typ host generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":2,"id":"data","candidate":"candidate:2999745851 2 udp 2122260222 192.168.56.1 65389 typ host generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":2,"id":"data","candidate":"candidate:704553097 2 udp 2122194686 192.168.1.3 65390 typ host generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":1,"id":"video","candidate":"candidate:2999745851 1 udp 2122260223 192.168.56.1 65391 typ host generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":1,"id":"video","candidate":"candidate:704553097 1 udp 2122194687 192.168.1.3 65392 typ host generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":1,"id":"video","candidate":"candidate:2999745851 2 udp 2122260222 192.168.56.1 65393 typ host generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":1,"id":"video","candidate":"candidate:704553097 2 udp 2122194686 192.168.1.3 65394 typ host generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":0,"id":"audio","candidate":"candidate:2158047068 1 udp 1685987071 141.84.69.71 65384 typ srflx raddr 192.168.1.3 rport 65384 generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":0,"id":"audio","candidate":"candidate:2158047068 2 udp 1685987070 141.84.69.71 65386 typ srflx raddr 192.168.1.3 rport 65386 generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":2,"id":"data","candidate":"candidate:2158047068 1 udp 1685987071 141.84.69.71 65388 typ srflx raddr 192.168.1.3 rport 65388 generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":2,"id":"data","candidate":"candidate:2158047068 2 udp 1685987070 141.84.69.71 65390 typ srflx raddr 192.168.1.3 rport 65390 generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":1,"id":"video","candidate":"candidate:2158047068 1 udp 1685987071 141.84.69.71 65392 typ srflx raddr 192.168.1.3 rport 65392 generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":1,"id":"video","candidate":"candidate:2158047068 2 udp 1685987070 141.84.69.71 65394 typ srflx raddr 192.168.1.3 rport 65394 generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":0,"id":"audio","candidate":"candidate:4233069003 1 tcp 1518280447 192.168.56.1 0 typ host tcptype active generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":0,"id":"audio","candidate":"candidate:1736268921 1 tcp 1518214911 192.168.1.3 0 typ host tcptype active generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":0,"id":"audio","candidate":"candidate:4233069003 2 tcp 1518280446 192.168.56.1 0 typ host tcptype active generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":0,"id":"audio","candidate":"candidate:1736268921 2 tcp 1518214910 192.168.1.3 0 typ host tcptype active generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":2,"id":"data","candidate":"candidate:4233069003 1 tcp 1518280447 192.168.56.1 0 typ host tcptype active generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":2,"id":"data","candidate":"candidate:1736268921 1 tcp 1518214911 192.168.1.3 0 typ host tcptype active generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":2,"id":"data","candidate":"candidate:4233069003 2 tcp 1518280446 192.168.56.1 0 typ host tcptype active generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":2,"id":"data","candidate":"candidate:1736268921 2 tcp 1518214910 192.168.1.3 0 typ host tcptype active generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":1,"id":"video","candidate":"candidate:4233069003 1 tcp 1518280447 192.168.56.1 0 typ host tcptype active generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":1,"id":"video","candidate":"candidate:1736268921 1 tcp 1518214911 192.168.1.3 0 typ host tcptype active generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":1,"id":"video","candidate":"candidate:4233069003 2 tcp 1518280446 192.168.56.1 0 typ host tcptype active generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : asd"]]}
+Got message:  [object Object] : from : asd
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"type":"candidate","label":1,"id":"video","candidate":"candidate:1736268921 2 tcp 1518214910 192.168.1.3 0 typ host tcptype active generation 0"}]}
+debug: websocket writing 5:::{"name":"log","args":[[">>>>>>>>>> ","Got message: ","[object Object] : from : abc"]]}
+Got message:  [object Object] : from : abc
+debug: broadcasting packet
+debug: websocket writing 5:::{"name":"message","args":[{"sessiondescription":{"type":"answer","sdp":"v=0\r\no=- 867646427668330386 2 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE audio video\r\na=msid-semantic: WMS R1zbOS6sL0km95fLOJBB3HnXuOcRXeeF1aeY\r\nm=audio 9 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 126\r\nc=IN IP4 0.0.0.0\r\na=rtcp:9 IN IP4 0.0.0.0\r\na=ice-ufrag:/FG2QsUw86sxMjRg\r\na=ice-pwd:mn7ul5xSNmAiBoJY9CEMzDWA\r\na=fingerprint:sha-256 19:BE:EB:BD:4C:D0:C0:75:7A:07:98:10:D6:9A:EC:1E:63:C5:2A:DE:92:0A:7E:93:37:7A:B0:BA:3B:18:70:ED\r\na=setup:active\r\na=mid:audio\r\na=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level\r\na=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\na=sendrecv\r\na=rtcp-mux\r\na=rtpmap:111 opus/48000/2\r\na=fmtp:111 minptime=10; useinbandfec=1\r\na=rtpmap:103 ISAC/16000\r\na=rtpmap:104 ISAC/32000\r\na=rtpmap:9 G722/8000\r\na=rtpmap:0 PCMU/8000\r\na=rtpmap:8 PCMA/8000\r\na=rtpmap:126 telephone-event/8000\r\na=maxptime:60\r\na=ssrc:2431761884 cname:qXZJchId170yd8nd\r\na=ssrc:2431761884 msid:R1zbOS6sL0km95fLOJBB3HnXuOcRXeeF1aeY 6d927898-b6b3-4b88-8916-e753e5e1fee5\r\na=ssrc:2431761884 mslabel:R1zbOS6sL0km95fLOJBB3HnXuOcRXeeF1aeY\r\na=ssrc:2431761884 label:6d927898-b6b3-4b88-8916-e753e5e1fee5\r\nm=video 9 UDP/TLS/RTP/SAVPF 100 116 117 96\r\nc=IN IP4 0.0.0.0\r\na=rtcp:9 IN IP4 0.0.0.0\r\na=ice-ufrag:/FG2QsUw86sxMjRg\r\na=ice-pwd:mn7ul5xSNmAiBoJY9CEMzDWA\r\na=fingerprint:sha-256 19:BE:EB:BD:4C:D0:C0:75:7A:07:98:10:D6:9A:EC:1E:63:C5:2A:DE:92:0A:7E:93:37:7A:B0:BA:3B:18:70:ED\r\na=setup:active\r\na=mid:video\r\na=extmap:2 urn:ietf:params:rtp-hdrext:toffset\r\na=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\na=extmap:4 urn:3gpp:video-orientation\r\na=sendrecv\r\na=rtcp-mux\r\na=rtpmap:100 VP8/90000\r\na=rtcp-fb:100 ccm fir\r\na=rtcp-fb:100 nack\r\na=rtcp-fb:100 nack pli\r\na=rtcp-fb:100 goog-remb\r\na=rtpmap:116 red/90000\r\na=rtpmap:117 ulpfec/90000\r\na=rtpmap:96 rtx/90000\r\na=fmtp:96 apt=100\r\na=ssrc-group:FID 2803236332 446535435\r\na=ssrc:2803236332 cname:qXZJchId170yd8nd\r\na=ssrc:2803236332 msid:R1zbOS6sL0km95fLOJBB3HnXuOcRXeeF1aeY 8780fc28-36b5-462c-9b7e-41fa02e29e91\r\na=ssrc:2803236332 mslabel:R1zbOS6sL0km95fLOJBB3HnXuOcRXeeF1aeY\r\na=ssrc:2803236332 label:8780fc28-36b5-462c-9b7e-41fa02e29e91\r\na=ssrc:446535435 cname:qXZJchId170yd8nd\r\na=ssrc:446535435 msid:R1zbOS6sL0km95fLOJBB3HnXuOcRXeeF1aeY 8780fc28-36b5-462c-9b7e-41fa02e29e91\r\na=ssrc:446535435 mslabel:R1zbOS6sL0km95fLOJBB3HnXuOcRXeeF1aeY\r\na=ssrc:446535435 label:8780fc28-36b5-462c-9b7e-41fa02e29e91\r\nm=application 0 UDP/TLS/RTP/SAVPF 101\r\nc=IN IP4 0.0.0.0\r\na=rtcp:9 IN IP4 0.0.0.0\r\na=mid:data\r\na=recvonly\r\na=rtcp-mux\r\na=rtpmap:101 google-data/90000\r\n"},"answername":"abc","type":"answer"}]}
+debug: emitting heartbeat for client epqMaAUEAZP1r88e2DcP
+debug: websocket writing 2::
+debug: set heartbeat timeout for client epqMaAUEAZP1r88e2DcP
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client epqMaAUEAZP1r88e2DcP
+debug: set heartbeat interval for client epqMaAUEAZP1r88e2DcP
+debug: websocket writing 5:::{"name":"callended","args":["{\"callendedby\":\"abc\",\"roomname\":\"ChatRoom\",\"to\":\"asd\",\"callerFirstName\":\"asd\",\"callerLastName\":\"asd\",\"status\":\"call_received\",\"startDate\":1451931249289,\"duration\":16826,\"callerDesignation\":\"worker\"}"]}
+debug: websocket writing 5:::{"name":"callended","args":["{\"callendedby\":\"abc\",\"roomname\":\"ChatRoom\",\"to\":\"asd\",\"callerFirstName\":\"asd\",\"callerLastName\":\"asd\",\"status\":\"call_received\",\"startDate\":1451931249289,\"duration\":16826,\"callerDesignation\":\"worker\"}"]}
+[0mPOST /api/callHistory [32m200 [0m81.822 ms - 346[0m
+debug: emitting heartbeat for client jSw8IxYXiegQ85fC2DcO
+debug: websocket writing 2::
+debug: set heartbeat timeout for client jSw8IxYXiegQ85fC2DcO
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client jSw8IxYXiegQ85fC2DcO
+debug: set heartbeat interval for client jSw8IxYXiegQ85fC2DcO
+debug: emitting heartbeat for client epqMaAUEAZP1r88e2DcP
+debug: websocket writing 2::
+debug: set heartbeat timeout for client epqMaAUEAZP1r88e2DcP
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client epqMaAUEAZP1r88e2DcP
+debug: set heartbeat interval for client epqMaAUEAZP1r88e2DcP
+debug: emitting heartbeat for client jSw8IxYXiegQ85fC2DcO
+debug: websocket writing 2::
+debug: set heartbeat timeout for client jSw8IxYXiegQ85fC2DcO
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client jSw8IxYXiegQ85fC2DcO
+debug: set heartbeat interval for client jSw8IxYXiegQ85fC2DcO
+info: transport end (undefined)
+debug: set close timeout for client jSw8IxYXiegQ85fC2DcO
+debug: cleared close timeout for client jSw8IxYXiegQ85fC2DcO
+debug: cleared heartbeat interval for client jSw8IxYXiegQ85fC2DcO
+disconnected abc
+debug: discarding transport
+info: transport end (undefined)
+debug: set close timeout for client epqMaAUEAZP1r88e2DcP
+debug: cleared close timeout for client epqMaAUEAZP1r88e2DcP
+debug: cleared heartbeat interval for client epqMaAUEAZP1r88e2DcP
+disconnected asd
+debug: discarding transport

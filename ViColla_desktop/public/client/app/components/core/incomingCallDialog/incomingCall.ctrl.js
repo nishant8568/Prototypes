@@ -8,8 +8,11 @@ incomingCallModule.controller('incomingCallDialogController', function ($scope, 
 
     $scope.userDetails = message;
     $scope.answer = function(answer) {
-        if(answer=='receive')
+        if(answer=='receive') {
+            console.log("userdetails.................");
+            console.log($scope.userDetails);
             $mdDialog.hide($scope.userDetails.callername);
+        }
         else
             $mdDialog.hide();
     };

@@ -76,12 +76,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             },
             views: {
                 'onlineModeCollaborate': {
-                    template: '<div><span>Collaborate view</span></div>'
+                    template: 'app/components/core/online-mode/annotate/annotate-online.html'
                 }
             }
         })
         .state('tabs.onlineMode.annotate', {
-            url: '/annotate',
+            url: '/annotateOnline',
 
             views: {
                 'onlineModeAnnotate': {
