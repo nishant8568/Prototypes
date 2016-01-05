@@ -2,11 +2,11 @@
  * Created by daniel on 10.12.2015.
  */
 
-app.controller('AbcAppLandingController', ['$scope', '$location', 'authService', 'socket', 'utilityService',
-    function ($scope, $location, authService, socket, utilityService) {
+app.controller('AbcAppLandingController', ['$scope', '$location', 'authService', 'socket', 'utilityService', 'databaseService',
+    function ($scope, $location, authService, socket, utilityService, databaseService) {
         var vm = this;
         vm.usersList = [];
-        //vm.contacts = [];
+        $scope.appCtrl.contacts = [];
 
         authService.isLoggedIn().then(function (data) {
             if (data.success) {
@@ -19,13 +19,13 @@ app.controller('AbcAppLandingController', ['$scope', '$location', 'authService',
             }
         });
 
-        /*vm.loadContacts = function () {
+        vm.loadContacts = function () {
             databaseService.loadContacts().then(function (data) {
                 if (data.success) {
-                    vm.contacts = data['contacts'];
+                    $scope.appCtrl.contacts = data['contacts'];
                     updateOnlineStatus();
                     console.log("navigation-tabs.ctrl.js >> loadContacts >> contacts");
-                    console.log(vm.contacts);
+                    console.log($scope.appCtrl.contacts);
                 } else {
                     alert(data.message);
                 }
@@ -33,10 +33,10 @@ app.controller('AbcAppLandingController', ['$scope', '$location', 'authService',
         };
 
         var updateOnlineStatus = function(){
-            for(var i=0; i<vm.contacts.length; i++){
-                var contact = vm.contacts[i];
+            for(var i=0; i<$scope.appCtrl.contacts.length; i++){
+                var contact = $scope.appCtrl.contacts[i];
                 contact.status = $scope.appCtrl.usersList.indexOf(contact.username) != -1;
             }
         };
-        vm.loadContacts();*/
+        vm.loadContacts();
     }]);

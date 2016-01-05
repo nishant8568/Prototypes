@@ -1,13 +1,5 @@
 <md-content layout-padding flex>
-    <md-input-container layout-margin="" class="md-icon-float md-block">
-        <label>Search</label>
-        <md-icon class="name">
-            <i class="material-icons blue">search</i>
-        </md-icon>
-        <input ng-model="searchContact">
-    </md-input-container>
-
-    <md-card ng-repeat="contact in contactsCtrl.contacts | filter: searchContact" layout="row"
+    <md-card ng-repeat="contact in appCtrl.contacts | filter: appCtrl.searchContact" layout="row"
              layout-align="start center">
         <md-content layout="column" layout-align="center center" layout-margin flex-sm="20" flex-gt-sm="10">
             <user-avatar></user-avatar>

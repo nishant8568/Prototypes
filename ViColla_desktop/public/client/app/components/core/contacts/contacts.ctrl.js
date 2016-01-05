@@ -6,13 +6,13 @@ contactsModule.controller('contactsController', ['databaseService', '$scope', '$
         'use strict';
 
         var vm = this;
-        vm.contacts = [];
+        //vm.contacts = [];
 
         $scope.max = 3;
         $scope.selectedIndex = 1;
 
 
-        vm.loadContacts = function () {
+        /*vm.loadContacts = function () {
             databaseService.loadContacts().then(function (data) {
                 if (data.success) {
                     vm.contacts = data['contacts'];
@@ -26,11 +26,11 @@ contactsModule.controller('contactsController', ['databaseService', '$scope', '$
                 }
             })
         };
-        vm.loadContacts();
+        vm.loadContacts();*/
 
         var updateOnlineStatus = function(){
-            for(var i=0; i<vm.contacts.length; i++){
-                var contact = vm.contacts[i];
+            for(var i=0; i<$scope.appCtrl.contacts.length; i++){
+                var contact = $scope.appCtrl.contacts[i];
                 contact.status = $scope.appCtrl.usersList.indexOf(contact.username) != -1;
             }
         };
