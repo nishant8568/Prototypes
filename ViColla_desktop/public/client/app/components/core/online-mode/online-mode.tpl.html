@@ -1,11 +1,7 @@
 <md-content layout="column" layout-padding flex layout-fill>
     <md-card ng-repeat="caller in onlineModeCtrl.callHistory" layout="row" layout-align="start center">
-        <md-content layout="row" layout-align="center start" flex="10">
-            <div layout="column">
-                <md-card class="card-contact">
-                    <img ng-src="./img/ic_person_black_48dp.png" class="md-card-image">
-                </md-card>
-            </div>
+        <md-content layout="column" layout-align="center center" layout-margin flex-sm="20" flex-gt-sm="10">
+            <user-avatar></user-avatar>
         </md-content>
         <div layout="column" layout-margin layout-align="start start">
             <div class="md-list-item-text" layout="column">
@@ -25,7 +21,8 @@
         </div>
         <span flex=""></span>
         <div layout-margin layout="column" layout-align="center end">
-            <strong>{{utilityService.formatDateTime(caller.startDate)}}</strong>
+            <strong>{{utilityService.getFormattedDate(caller.startDate)}}</strong>
+            <strong>{{utilityService.getFormattedTime(caller.startDate)}}</strong>
             <h6>{{utilityService.formatDuration(caller.duration)}}</h6>
         </div>
     </md-card>

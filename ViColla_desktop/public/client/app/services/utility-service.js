@@ -6,7 +6,8 @@ utilityModule.service('utilityService', function () {
     var isExpert = null;
     return ({
         formatDuration: formatDuration,
-        formatDateTime: formatDateTime,
+        getFormattedDate: getFormattedDate,
+        getFormattedTime: getFormattedTime,
         isExpert: isExpert,
         setExpertFlag: setExpertFlag,
         getExpertFlag: getExpertFlag
@@ -20,7 +21,7 @@ utilityModule.service('utilityService', function () {
         return isExpert;
     }
 
-    function formatDateTime(dateTimeStirng) {
+    function getFormattedDate(dateTimeStirng) {
         var monthNames = [
             "Jan", "Feb", "Mar",
             "Apr", "May", "Jun", "Jul",
@@ -32,6 +33,11 @@ utilityModule.service('utilityService', function () {
         var day = dateTime.getDate();
         var monthIndex = dateTime.getMonth();
         var year = dateTime.getFullYear();
+        return (day + ' ' + monthNames[monthIndex] + ' ' + year);
+    }
+
+    function getFormattedTime(dateTimeStirng) {
+        var dateTime = new Date(dateTimeStirng);
         var hours = dateTime.getHours();
         var dayTime = 'AM';
         if (hours > 12) {
@@ -43,8 +49,7 @@ utilityModule.service('utilityService', function () {
         if (minutes < 10) {
             minutesDigitCompensation = '0';
         }
-        return (day + ' ' + monthNames[monthIndex] + ' ' + year + ' | ' +
-        hours + ':' + minutesDigitCompensation + minutes + ' ' + dayTime);
+        return (hours + ':' + minutesDigitCompensation + minutes + ' ' + dayTime);
     }
 
     function formatDuration(timeString) {

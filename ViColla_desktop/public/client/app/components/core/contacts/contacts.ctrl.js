@@ -6,9 +6,6 @@ contactsModule.controller('contactsController', ['databaseService', '$scope', '$
         'use strict';
 
         var vm = this;
-        $scope.searchContactByName = '';
-        $scope.searchContactByTag = '';
-
         vm.contacts = [];
 
         $scope.max = 3;
@@ -44,7 +41,6 @@ contactsModule.controller('contactsController', ['databaseService', '$scope', '$
         });
 
         $scope.videoCall = function (receivername) {
-
             var caller = {
                 callername: $scope.appCtrl.user.username,
                 callerinfo: $scope.appCtrl.user,

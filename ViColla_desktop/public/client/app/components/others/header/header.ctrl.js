@@ -1,28 +1,47 @@
 /**
  * Created by Antony on 11/21/2015.
  */
-headerModule.controller('HeaderController', ['$scope', '$location', 'authService', 'socket', function ($scope, $location, authService, socket) {
-    'use strict';
+headerModule.controller('HeaderController', ['$scope', '$location', 'authService', 'socket', '$mdUtil', '$mdSidenav',
+    function ($scope, $location, authService, socket, $mdUtil, $mdSidenav) {
+        'use strict';
 
-    var vm = this;
+        var vm = this;
+        $scope.toggleSidenavMenu = buildTogglerForMenu('leftMenu');
 
-    $scope.logout = function () {
-        var userinfo = {roomname: "ChatRoom", username: $scope.appCtrl.user.username};
-        socket.emit('logoutme', JSON.stringify(userinfo));
-        $scope.appCtrl.user = {};
+        $scope.logoutUser = function() {
+            $scope.toggleSidenavMenu();
+            $scope.logout();
+        };
 
-        authService.logout()
-            .then(function (data) {
-                $location.path('/login')
-            })
-    };
-    $scope.showSettings = function () {
-        alert("showSettings");
-    };
-    $scope.showInfo = function () {
-        alert("showInfo");
-    };
-    $scope.showAccountDetails = function () {
-        alert("showAccountDetails");
-    };
-}]);
+        $scope.logout = function () {
+            var userinfo = {roomname: "ChatRoom", username: $scope.appCtrl.user.username};
+            socket.emit('logoutme', JSON.stringify(userinfo));
+            $scope.appCtrl.user = {};
+
+            authService.logout()
+                .then(function (data) {
+                    $location.path('/login')
+                })
+        };
+        $scope.showSettings = function () {
+            alert("showSettings");
+        };
+        $scope.showInfo = function () {
+            alert("showInfo");
+        };
+        $scope.showAccountDetails = function () {
+            alert("showAccountDetails");
+        };
+
+        function buildTogglerForMenu(navID) {
+            var debounceFn = $mdUtil.debounce(function () {
+                $mdSidenav(navID)
+                    .toggle()
+                    .then(function () {
+                        console.log("toggle " + navID + " is done");
+                    });
+            }, 300);
+
+            return debounceFn;
+        }
+    }]);

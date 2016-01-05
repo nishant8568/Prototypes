@@ -59,3 +59,7 @@ div.ng-scope {
     font-style: italic;
     color: #0f7595;
 }
+
+.user-avatar {
+    border-radius: 99%;
+}
