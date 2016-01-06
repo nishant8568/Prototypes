@@ -1,11 +1,12 @@
 /**
  * Created by Antony on 11/21/2015.
  */
-headerModule.controller('HeaderController', ['$scope', '$location', 'authService', 'socket', '$mdUtil', '$mdSidenav',
-    function ($scope, $location, authService, socket, $mdUtil, $mdSidenav) {
+headerModule.controller('HeaderController', ['$scope', '$location', 'authService', 'socket', '$mdUtil', '$mdSidenav', '$state',
+    function ($scope, $location, authService, socket, $mdUtil, $mdSidenav, $state) {
         'use strict';
 
         var vm = this;
+        $scope.state = $state;
         $scope.toggleSidenavMenu = buildTogglerForMenu('leftMenu');
 
         $scope.logoutUser = function() {

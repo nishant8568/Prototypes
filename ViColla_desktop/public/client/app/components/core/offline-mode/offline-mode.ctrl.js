@@ -2,8 +2,8 @@
  * Created by Antony on 11/21/2015.
  */
 offlineModeModule.controller('offlineModeController',
-    ['$scope', '$mdUtil', '$mdSidenav', '$log', '$mdDialog', '$compile', 'databaseService', 'utilityService', '$timeout',
-        function ($scope, $mdUtil, $mdSidenav, $log, $mdDialog, $compile, databaseService, utilityService, $timeout) {
+    ['$scope', '$window', '$mdUtil', '$mdSidenav', '$log', '$mdDialog', '$compile', 'databaseService', 'utilityService', '$timeout',
+        function ($scope, $window, $mdUtil, $mdSidenav, $log, $mdDialog, $compile, databaseService, utilityService, $timeout) {
             'use strict';
             $scope.max = 3;
             $scope.selectedIndex = 2;
@@ -17,8 +17,16 @@ offlineModeModule.controller('offlineModeController',
             $scope.duration = "00:00";
             $scope.playPlauseButton = "play_arrow";
 
-            $scope.ctx.canvas.width = parseInt(640);
-            $scope.ctx.canvas.height = parseInt(480);
+            //$scope.ctx.canvas.width = parseInt(640);
+            //$scope.ctx.canvas.height = parseInt(480);
+
+            $scope.canvasElement.width = ($window.innerWidth) * 0.6;
+            $scope.canvasElement.height = ($window.innerHeight) * 0.6;
+            var playerControlsContainer = document.getElementById('playerControlsContainer');
+            playerControlsContainer.style.maxWidth = $scope.canvasElement.width + 'px';
+            playerControlsContainer.style.minWidth = $scope.canvasElement.width + 'px';
+            $scope.ctx.canvas.width = parseInt($scope.canvasElement.width);
+            $scope.ctx.canvas.height = parseInt($scope.canvasElement.height);
 
             //$scope.ctx.canvas.width = $scope.ctx.canvas.offsetWidth;
             //$scope.ctx.canvas.height = $scope.ctx.canvas.offsetHeight;
@@ -253,7 +261,7 @@ offlineModeModule.controller('offlineModeController',
                         console.log("Video Ended. Stopping the video draw on canvas");
                         $scope.playPlauseButton = "play_arrow";
                         backgroundObject.currentTime = '0';
-                        if($scope.iterator != 9999) {
+                        if ($scope.iterator != 9999) {
                             $scope.iterator = 0;
                         }
                     }

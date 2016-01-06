@@ -23,14 +23,12 @@ app.controller('AbcAppLandingController', ['$scope', '$location', 'authService',
             })
         };
 
-        var updateOnlineStatus = function(){
-            for(var i=0; i<$scope.appCtrl.contacts.length; i++){
+        var updateOnlineStatus = function () {
+            for (var i = 0; i < $scope.appCtrl.contacts.length; i++) {
                 var contact = $scope.appCtrl.contacts[i];
                 contact.status = $scope.appCtrl.usersList.indexOf(contact.username) != -1;
             }
         };
-
-        //vm.loadContacts();
 
         authService.isLoggedIn().then(function (data) {
             if (data.success) {

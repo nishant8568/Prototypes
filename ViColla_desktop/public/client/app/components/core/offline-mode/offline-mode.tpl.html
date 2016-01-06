@@ -1,6 +1,5 @@
 <md-content layout="row" layout-padding flex layout-fill>
-    <span flex="10"></span>
-    <div flex="5">
+    <div flex="5" layout-margin>
         <md-sidenav class="md-sidenav-left md-whiteframe-z5" md-component-id="left"
                     layout="column" layout-align="start center">
             <md-toolbar class="md-theme-light">
@@ -48,13 +47,8 @@
             <i class="material-icons md-36">menu</i>
         </md-button>
     </div>
-    <!--<div flex="5">
-        <md-button ng-click="loadImages()" class="md-icon-button md-48">
-            <i class="material-icons md-36">color_lens</i>
-            <md-tooltip>Get Annotations</md-tooltip>
-        </md-button>
-    </div>-->
-    <div layout="column">
+    <span flex></span>
+    <div layout="column" layout-margin>
         <div id="canvasContainer" layout="row">
             <canvas id="outputCanvas"
                     ng-mousedown="mouseDownHandler($event)"
@@ -63,13 +57,14 @@
                 <p>Sorry your browser does not support HTML5</p>
             </canvas>
         </div>
-        <div layout="row" layout-align="start center" class="coverage_black_canvas">
+        <div id="playerControlsContainer" layout="row" layout-align="start center" class="coverage_black_canvas">
             <md-button class="md-icon-button md-36" aria-label="Play" ng-click="playVideo()">
                 <i class="material-icons md-36">{{playPlauseButton}}</i>
             </md-button>
             <md-button layout-margin class="md-icon-button md-36" aria-label="ToggleAnnotations"
                        ng-hide="getExpertFlag()" ng-click="toggleAnnotations()">
-                <i class="material-icons md-24" ng-class="{disabled: disableShowAnnotationsIcon}">settings_input_svideo</i>
+                <i class="material-icons md-24"
+                   ng-class="{disabled: disableShowAnnotationsIcon}">settings_input_svideo</i>
                 <md-tooltip>Toggle Annotations</md-tooltip>
             </md-button>
             <span layout-margin>
@@ -90,6 +85,6 @@
     </div>
     <tools tool="drawingStyle" ng-show="getExpertFlag()" stroke-color="strokeColor"
            undo="undo()" save="saveSnapshot()" flex="5"></tools>
-    <span flex=""></span>
-    <snapshots flex="15" ng-show="getExpertFlag()"></snapshots>
+    <span hide-gt-md flex="10"></span>
+    <snapshots layout-margin flex="15" ng-show="getExpertFlag()"></snapshots>
 </md-content>

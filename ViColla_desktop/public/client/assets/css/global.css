@@ -16,8 +16,8 @@
 
 .coverage_black_canvas {
     border: 1px black solid;
-    max-width: 640px;
-    min-width: 640px;
+    #max-width: 640px;
+    #min-width: 640px;
     #margin: auto;
 }
 

@@ -146,7 +146,8 @@
         </div>
         <span flex=""></span>
         <md-button aria-label="Search" ng-click="showSearch = !showSearch" hide-gt-md
-                   ng-hide="appCtrl.user.firstName == null || appCtrl.user.firstName.length == 0 || appCtrl.user.isExpert == true">
+                   ng-hide="appCtrl.user.firstName == null || appCtrl.user.firstName.length == 0
+                   || appCtrl.user.isExpert == true || state.current.data.selectedTab != 0">
             <md-icon>
                 <i class="material-icons">search</i>
             </md-icon>

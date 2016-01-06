@@ -2,8 +2,9 @@
  * Created by Antony on 11/21/2015.
  */
 
-navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authService', '$location', 'databaseService', 'socket', '$state', 'utilityService',
-    function ($scope, $rootScope, authService, $location, databaseService, socket,  $state, utilityService) {
+navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authService', '$location', 'databaseService',
+    'socket', '$state', 'utilityService',
+    function ($scope, $rootScope, authService, $location, databaseService, socket, $state, utilityService) {
         'use strict';
 
         var vm = this;
@@ -35,10 +36,10 @@ navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authServ
             }
         ];
 
-
-        $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-            if (toState.data){ $scope.currentTab = toState.data.selectedTab; }
-            //$scope.currentTab = toState.data.selectedTab;
+        $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            if (toState.data) {
+                $scope.currentTab = toState.data.selectedTab;
+            }
         });
 
         $scope.$on('eventFired', function (event, data) {
@@ -69,7 +70,7 @@ navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authServ
         }
 
         socket.on('joined', function (room) {
-            console.log('socket.on("joined") >> This peer '+ room.userinfo +' has joined room ' + room.room);
+            console.log('socket.on("joined") >> This peer ' + room.userinfo + ' has joined room ' + room.room);
             if ($scope.appCtrl.usersList.indexOf(room.userinfo) == -1) {
                 $scope.appCtrl.usersList.push(room.userinfo);
                 //$scope.$apply();
@@ -93,7 +94,7 @@ navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authServ
             $scope.isChannelReady = true;
         });
 
-        socket.on('all users', function(usernames){
+        socket.on('all users', function (usernames) {
             console.log('socket.on("all users") >> ');
             console.log(usernames);
             $scope.appCtrl.usersList = usernames;
@@ -116,9 +117,9 @@ navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authServ
             if ($scope.callerdetails.callername == $scope.appCtrl.user.username) {
                 $scope.isInitiator = true;
             }
-            if($state.current.name != "tabs.onlineM.onlineMode"){
+            if ($state.current.name != "tabs.onlineM.onlineMode") {
                 $state.go('tabs.onlineM.onlineMode');
-            }else{
+            } else {
                 $state.reload('tabs.onlineM.onlineMode');
             }
         });
