@@ -49,8 +49,8 @@ contactsModule.controller('contactsController', ['databaseService', '$scope', '$
                 startDateTime: Date.now()
             };
             socket.emit('calling', JSON.stringify(caller));
-            $state.go('tabs.onlineMode');
-            databaseService.addItem(3);
+            //$state.go('tabs.onlineMode');
+            //databaseService.addItem(3);
         };
 
     }]);

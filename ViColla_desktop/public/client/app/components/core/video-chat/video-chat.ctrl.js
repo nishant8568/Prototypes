@@ -21,36 +21,22 @@ videochatModule.controller('videoChatController',
         var remoteStream;
         var turnReady;
 
+        $scope.options = $scope.$parent.options;
+
 
         $scope.optionSelected = "call";
-        $scope.options = [
-            {
-                name: "call",
-                icon: "phone_in_talk",
-                tooltip: "Video Call"
-            },
-            {
-                name: "collaborate",
-                icon: "thumbs_up_down",
-                tooltip: "Collaborate"
-            },
-            {
-                name: "annotate",
-                icon: "color_lens",
-                tooltip: "Annotate"
-            }
-        ];
+
 
         $scope.optionClicked = function (option) {
             switch (option.name) {
                 case "call":
-                    $state.go("tabs.onlineMode.call");
+                    $state.go("tabs.onlineM.call");
                     break;
                 case "collaborate":
-                    $state.go("tabs.onlineMode.collaborate");
+                    $state.go("tabs.onlineM.collaborate");
                     break;
                 case "annotate":
-                    $state.go("tabs.onlineMode.annotate");
+                    $state.go("tabs.onlineM.annotate");
                     break;
             }
             $scope.$parent.optionSelected = option.name;
@@ -90,6 +76,7 @@ videochatModule.controller('videoChatController',
         };
         $scope.busy = false;
         var answer = false;
+        var modalCallShow = false;
 
 
         socket.on('full', function (room) {
@@ -102,6 +89,9 @@ videochatModule.controller('videoChatController',
             socket.emit('message', message);
         }
 
+        console.log("Video is loaded")
+
+
         socket.on('message', function (message) {
             console.log("message received from io : ");
             console.log(message);
@@ -111,6 +101,7 @@ videochatModule.controller('videoChatController',
                     maybeStart();
                 }, 1000);
             } else if (message.type === 'offer') {
+                console.log("message type: ", message.type, "\n");
                 if (callerdetails.receivername == username) {
                     //answer = window.confirm(message.callername + ' calling...');
                     var confirm = $mdDialog.confirm({
@@ -119,22 +110,28 @@ videochatModule.controller('videoChatController',
                         locals: {message: message, callerinfo: callerdetails.callerinfo},
                         parent: angular.element(document.body)
                     });
-                    $mdDialog.show(confirm).then(function (answer) {
-                        if (typeof answer != 'undefined') {
-                            //databaseService.addItem(3);
-                            if (pc == null) {
-                                maybeStart();
+                    if (!modalCallShow) {
+                        $mdDialog.show(confirm).then(function (answer) {
+                            if (typeof answer != 'undefined') {
+                                //databaseService.addItem(3);
+                                if (pc == null) {
+                                    maybeStart();
+                                }
+                                if (!isInitiator && !isStarted) {
+                                    console.log("rare offer received");
+                                    maybeStart();
+                                }
+                                pc.setRemoteDescription(new RTCSessionDescription(message.sessiondescription));
+                                doAnswer();
+                            } else {
+                                $scope.endCall('call_missed');
                             }
-                            if (!isInitiator && !isStarted) {
-                                console.log("rare offer received");
-                                maybeStart();
-                            }
-                            pc.setRemoteDescription(new RTCSessionDescription(message.sessiondescription));
-                            doAnswer();
-                        }
-                    }, function () {
-                        console.log('incoming call dialog closed');
-                    });
+                        }, function () {
+                            console.log('incoming call dialog closed');
+                        });
+                    }
+                    modalCallShow = true;
+
                     /*if (answer) {
                      //databaseService.addItem(3);
                      if (pc == null) {
@@ -166,10 +163,6 @@ videochatModule.controller('videoChatController',
             }
         });
 
-
-        if ($scope.isInitiator) {
-            maybeStart();
-        }
         //socket.on('called', function (caller) {
         //    callerdetails = JSON.parse(caller);
         //    if (callerdetails.callername == username) {
@@ -206,7 +199,7 @@ videochatModule.controller('videoChatController',
             }
         });
 
-        $scope.callend = function () {
+        $scope.endCall = function (callStatus) {
             var callEndDateTime = Date.now();
             var callend = {
                 callendedby: username,
@@ -216,7 +209,8 @@ videochatModule.controller('videoChatController',
                 callend.to = callerdetails.callername;
                 callend.callerFirstName = callerdetails.callerinfo.firstName;
                 callend.callerLastName = callerdetails.callerinfo.lastName;
-                callend.status = 'call_received';
+                //callend.status = 'call_received';
+                callend.status = callStatus;
                 callend.startDate = callerdetails.startDateTime;
                 callend.duration = callEndDateTime - callerdetails.startDateTime;
                 callend.callerDesignation = callerdetails.callerinfo.designation;

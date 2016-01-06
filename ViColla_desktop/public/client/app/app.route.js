@@ -12,7 +12,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         .state('tabs', {
             abstract: true,
             url: '/',
+            onEnter: function(){
+              console.log("enter abstract state tabs")
+            },
             template: '<navigation-tabs layout="column" flex></navigation-tabs>'
+        })
+        .state('login', {
+            url: '/login',
+            templateUrl: 'app/components/others/home/home.tpl.html',
+            controller: 'HomeController',
+            controllerAs: 'homeCtrl'
         })
         .state('tabs.callHistory', {
             url: 'callHistory',
@@ -50,46 +59,72 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('tabs.onlineMode', {
+        .state('tabs.onlineM', {
+            abstract: true,
             url: 'onlineMode',
+            template: '<div id="asdfgh" ui-view></div>'
+        })
+        .state('tabs.onlineM.onlineMode', {
+            url: '',
             data: {
                 'selectedTab': 2
             },
-            views: {
-                'onlineMode': {
-                    template: '<videochat layout="column" layout-fill="" videouser="videoChat"></videochat>'
-                }
-            }
-        })
-        .state('tabs.onlineMode.call', {
-            url: '/call',
-            views: {
-                'onlineModeCall': {
-                    template: '<videochat layout="column" layout-fill="" videouser="videoChat"></videochat>'
-                }
-            }
-        })
-        .state('tabs.onlineMode.collaborate', {
-            url: '/collaborate',
-            controller: function ($scope){
-                console.log("collaborate tab");
-            },
-            views: {
-                'onlineModeCollaborate': {
-                    template: 'app/components/core/online-mode/annotate/annotate-online.html'
-                }
-            }
-        })
-        .state('tabs.onlineMode.annotate', {
-            url: '/annotateOnline',
+            template: '<videochat layout="column" layout-fill="" videouser="videoChat"></videochat>'
 
-            views: {
-                'onlineModeAnnotate': {
-                    templateUrl: 'app/components/core/online-mode/annotate/annotate-online.html',
-                    controller: function ($scope){
-                        console.log("annotate tab");
+            //views: {
+            //    'onlineMode': {
+            //        template: '<videochat layout="column" layout-fill="" videouser="videoChat"></videochat>'
+            //    }
+            //}
+        })
+        .state('tabs.onlineM.call', {
+            url: '/call',
+            template: '<videochat layout="column" layout-fill="" videouser="videoChat"></videochat>'
+        })
+        .state('tabs.onlineM.collaborate', {
+            url: '/collaborate',
+            controller: function ($scope, $state){
+                console.log("collaborate tab");
+                $scope.options = $scope.$parent.options;
+
+                $scope.optionClicked = function (option) {
+                    switch (option.name) {
+                        case "call":
+                            $state.go("tabs.onlineM.call");
+                            break;
+                        case "collaborate":
+                            $state.go("tabs.onlineM.collaborate");
+                            break;
+                        case "annotate":
+                            $state.go("tabs.onlineM.annotate");
+                            break;
                     }
-                }
+                    $scope.$parent.optionSelected = option.name;
+                };
+            },
+            templateUrl: 'app/components/core/online-mode/collaborate/collaborate-online.html'
+        })
+        .state('tabs.onlineM.annotate', {
+            url: '/annotate',
+            templateUrl: 'app/components/core/online-mode/annotate/annotate-online.html',
+            controller: function ($scope, $state){
+                console.log("annotate tab");
+                $scope.options = $scope.$parent.options;
+
+                $scope.optionClicked = function (option) {
+                    switch (option.name) {
+                        case "call":
+                            $state.go("tabs.onlineM.call");
+                            break;
+                        case "collaborate":
+                            $state.go("tabs.onlineM.collaborate");
+                            break;
+                        case "annotate":
+                            $state.go("tabs.onlineM.annotate");
+                            break;
+                    }
+                    $scope.$parent.optionSelected = option.name;
+                };
             }
         })
 });

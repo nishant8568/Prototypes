@@ -4,9 +4,6 @@
 onlineModeModule.directive('onlineMode', function () {
    return {
        restrict: 'E',
-       /*scope:{
-           callHistory: '=history'
-       },*/
        templateUrl: 'app/components/core/online-mode/online-mode.tpl.html',
        controller: 'onlineModeController',
        controllerAs: 'onlineModeCtrl',

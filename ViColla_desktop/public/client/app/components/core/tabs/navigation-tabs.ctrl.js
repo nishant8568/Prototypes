@@ -17,8 +17,28 @@ navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authServ
         $scope.callerdetails = {};
 
 
+        $scope.options = [
+            {
+                name: "call",
+                icon: "phone_in_talk",
+                tooltip: "Video Call"
+            },
+            {
+                name: "collaborate",
+                icon: "thumbs_up_down",
+                tooltip: "Collaborate"
+            },
+            {
+                name: "annotate",
+                icon: "color_lens",
+                tooltip: "Annotate"
+            }
+        ];
+
+
         $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-            $scope.currentTab = toState.data.selectedTab;
+            if (toState.data){ $scope.currentTab = toState.data.selectedTab; }
+            //$scope.currentTab = toState.data.selectedTab;
         });
 
         $scope.$on('eventFired', function (event, data) {
@@ -96,8 +116,10 @@ navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authServ
             if ($scope.callerdetails.callername == $scope.appCtrl.user.username) {
                 $scope.isInitiator = true;
             }
-            //if($state.url != "onlineMode"){
-                $state.go('tabs.onlineMode');
-            //}
+            if($state.current.name != "tabs.onlineM.onlineMode"){
+                $state.go('tabs.onlineM.onlineMode');
+            }else{
+                $state.reload('tabs.onlineM.onlineMode');
+            }
         });
     }]);

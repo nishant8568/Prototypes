@@ -18,6 +18,7 @@ homeModule.controller('HomeController', ['$scope', 'authService', '$window', '$l
                         $scope.appCtrl.user = data["user"];
                         localStorage.setItem('username', $scope.appCtrl.user.username);
                         console.log("emit user login");
+                        $scope.appCtrl.loadContacts();
                         utilityService.setExpertFlag($scope.appCtrl.user.isExpert);
                         socket.emit('userLogin', $scope.appCtrl.user.username);
                         if (utilityService.getExpertFlag()) {

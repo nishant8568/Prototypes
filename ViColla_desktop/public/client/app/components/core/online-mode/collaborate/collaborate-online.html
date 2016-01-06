@@ -1,1 +1,10 @@
-<div><span>Collaborate view</span></div>
+<div layout="column" flex="15" layout-margin="">
+    <div><span>Collaborate view</span></div>
+    <div layout="column" layout-align="start end" ng-repeat="option in options">
+        <md-button class="md-icon-button md-48" ng-click="optionClicked(option)"
+                   ng-class="{elementSelected:optionSelected == options[$index].name}">
+            <i class="material-icons md-36">{{option.icon}}</i>
+            <md-tooltip>{{option.tooltip}}</md-tooltip>
+        </md-button>
+    </div>
+</div>

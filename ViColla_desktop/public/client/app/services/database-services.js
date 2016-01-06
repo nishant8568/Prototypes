@@ -16,9 +16,9 @@ databaseModule.service('databaseService', ['$rootScope', '$http', '$q', function
         addItem: addItem
     });
     function addItem() {
-        $rootScope.$broadcast('eventFired', {
-            data: 'something'
-        });
+        //$rootScope.$broadcast('eventFired', {
+        //    data: 'something'
+        //});
     }
 
     function loadImages(videoName) {
