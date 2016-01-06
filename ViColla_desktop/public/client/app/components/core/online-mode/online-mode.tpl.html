@@ -1,5 +1,5 @@
 <md-content layout="column" layout-padding flex layout-fill>
-    <md-card ng-repeat="caller in onlineModeCtrl.callHistory" layout="row" layout-align="start center">
+    <md-card ng-repeat="caller in onlineModeCtrl.callHistory | orderBy: '-startDate'" layout="row" layout-align="start center">
         <md-content layout="column" layout-align="center center" layout-margin flex-sm="20" flex-gt-sm="10">
             <user-avatar></user-avatar>
         </md-content>

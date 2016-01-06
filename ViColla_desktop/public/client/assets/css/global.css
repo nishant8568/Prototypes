@@ -53,8 +53,13 @@ div.ng-scope {
 }
 
 .online {
-    border-right: 7px solid green;
+    border-left: 7px solid lime;
 }
+
+.offline {
+    border-left: 7px solid lightgrey;
+}
+
 .expertiseTag {
     font-style: italic;
     color: #0f7595;

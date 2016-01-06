@@ -66,9 +66,9 @@
             <md-divider></md-divider>
         </md-list>
     </md-sidenav>
-    <md-toolbar layout="row" ng-show="!showSearch" ng-class="{'md-warn': appCtrl.user.isExpert}">
+    <md-toolbar layout="row" ng-show="!showSearch" ng-class="{'md-warn md-hue-2': appCtrl.user.isExpert}">
         <div class="md-toolbar-tools">
-            <md-button hide-gt-sm class="md-icon-button" ng-click="toggleSidenavMenu()" aria-label="Settings"
+            <md-button hide-gt-md class="md-icon-button" ng-click="toggleSidenavMenu()" aria-label="Settings"
                        ng-hide="appCtrl.user.firstName == null || appCtrl.user.firstName.length == 0">
                 <md-icon>
                     <i class="material-icons">menu</i>
@@ -79,10 +79,10 @@
             </h2>
             <span flex=""></span>
 
-            <h3 hide-sm>
+            <h3 hide-sm hide-md>
                 <span>{{appCtrl.user.firstName}} {{appCtrl.user.lastName}}</span>
             </h3>
-            <md-menu-bar hide-sm ng-hide="appCtrl.user.firstName == null || appCtrl.user.firstName.length == 0">
+            <md-menu-bar hide-sm hide-md ng-hide="appCtrl.user.firstName == null || appCtrl.user.firstName.length == 0">
                 <md-menu md-position-mode="target-right target">
 
                     <md-button class="md-icon-button" aria-label="Options" ng-click="$mdOpenMenu($event)">
@@ -145,7 +145,7 @@
             </md-menu-bar>
         </div>
         <span flex=""></span>
-        <md-button aria-label="Search" ng-click="showSearch = !showSearch" hide-gt-sm
+        <md-button aria-label="Search" ng-click="showSearch = !showSearch" hide-gt-md
                    ng-hide="appCtrl.user.firstName == null || appCtrl.user.firstName.length == 0 || appCtrl.user.isExpert == true">
             <md-icon>
                 <i class="material-icons">search</i>
