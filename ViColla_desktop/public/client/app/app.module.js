@@ -19,6 +19,7 @@ var incomingCallModule = angular.module('incomingCallModule', []);
 var videochatModule = angular.module('videochatModule', ['socketWrapper']);
 var utilityModule = angular.module('utilityModule', []);
 var socketWrapper = angular.module('socketWrapper', []);
+var collaborationModule = angular.module('collaborationModule', []);
 
 var app = angular.module('AbcApp', [
     'ngMaterial',
@@ -39,7 +40,8 @@ var app = angular.module('AbcApp', [
     'databaseModule',
     'videochatModule',
     'utilityModule',
-    'socketWrapper'
+    'socketWrapper',
+    'collaborationModule'
 ]);
 
 app.directive('fileModel', ['$parse', function ($parse) {

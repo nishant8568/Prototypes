@@ -70,12 +70,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 'selectedTab': 2
             },
             template: '<videochat layout="column" layout-fill="" videouser="videoChat"></videochat>'
-
-            //views: {
-            //    'onlineMode': {
-            //        template: '<videochat layout="column" layout-fill="" videouser="videoChat"></videochat>'
-            //    }
-            //}
         })
         .state('tabs.onlineM.call', {
             url: '/call',
@@ -102,11 +96,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                     $scope.$parent.optionSelected = option.name;
                 };
             },
-            templateUrl: 'app/components/core/online-mode/collaborate/collaborate-online.html'
+            templateUrl: 'app/components/core/video-chat/collaborate/collaborate-online.html'
         })
         .state('tabs.onlineM.annotate', {
             url: '/annotate',
-            templateUrl: 'app/components/core/online-mode/annotate/annotate-online.html',
+            templateUrl: 'app/components/core/video-chat/annotate/annotate-online.html',
             controller: function ($scope, $state){
                 console.log("annotate tab");
                 $scope.options = $scope.$parent.options;
