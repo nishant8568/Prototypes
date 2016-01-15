@@ -1,5 +1,5 @@
 /**
- * Created by nishant on 11/21/2015.
+ * Created by antony on 11/21/2015.
  */
 offlineModeModule.controller('offlineModeController',
     ['$scope', '$window', '$mdUtil', '$mdSidenav', '$log', '$mdDialog', '$compile', 'databaseService', 'utilityService', '$timeout',
@@ -207,6 +207,15 @@ offlineModeModule.controller('offlineModeController',
                 alert("undo");
             };
 
+            var compare = function(a,b) {
+                if (a.playbackTime < b.playbackTime)
+                    return -1;
+                else if (a.playbackTime > b.playbackTime)
+                    return 1;
+                else
+                    return 0;
+            };
+
             /**
              * Play video and draw over canvas
              */
@@ -224,7 +233,9 @@ offlineModeModule.controller('offlineModeController',
                             $scope.nextDuration = $scope.loadedSnapshots[$scope.iterator].duration;
                         }
                     }*/
-                    console.log("snapshots length:::::::: " + $scope.savedSnapshotsData.length);
+
+                    $scope.savedSnapshotsData.sort(compare);
+                    console.log("snapshots length:::::::: " + $scope.savedSnapshotsData);
                     if ($scope.savedSnapshotsData.length > 0 && $scope.iterator < $scope.savedSnapshotsData.length) {
                         $scope.nextSnapshotTime = $scope.savedSnapshotsData[$scope.iterator].playbackTime;
                         $scope.nextImageElem = document.getElementById($scope.savedSnapshotsData[$scope.iterator].imageId);

@@ -1,5 +1,5 @@
 /**
- * Created by nishant on 11/21/2015.
+ * Created by antony on 11/21/2015.
  */
 
 navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authService', '$location', 'databaseService',

@@ -1,5 +1,5 @@
 /**
- * Created by nishant on 11/21/2015.
+ * Created by antony on 11/21/2015.
  */
 headerModule.controller('HeaderController', ['$scope', '$location', 'authService', 'socket', '$mdUtil', '$mdSidenav', '$state',
     function ($scope, $location, authService, socket, $mdUtil, $mdSidenav, $state) {

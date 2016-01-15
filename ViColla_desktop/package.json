@@ -1,7 +1,7 @@
 {
-  "name": "ViColla_desktop",
+  "name": "Abc_desktop",
   "version": "1.0.0",
-  "description": "Desktop Version of ViColla application",
+  "description": "Desktop Version of Abc application",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

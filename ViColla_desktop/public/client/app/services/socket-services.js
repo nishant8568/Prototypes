@@ -1,5 +1,5 @@
 /**
- * Created by nishant on 28.12.2015.
+ * Created by antony on 28.12.2015.
  */
 
 socketWrapper.factory('socket', function ($rootScope) {

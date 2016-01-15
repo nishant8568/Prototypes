@@ -1,5 +1,5 @@
 /**
- * Created by nishant on 11/21/2015.
+ * Created by antony on 11/21/2015.
  */
 homeModule.controller('HomeController', ['$scope', 'authService', '$window', '$location', 'socket', 'utilityService',
     function ($scope, authService, $window, $location, socket, utilityService) {
@@ -10,6 +10,8 @@ homeModule.controller('HomeController', ['$scope', 'authService', '$window', '$l
             username: "",
             password: ""
         };
+
+        $scope.isExpertMode = true;
 
         vm.submitCredentials = function () {
             authService.login(vm.user)
