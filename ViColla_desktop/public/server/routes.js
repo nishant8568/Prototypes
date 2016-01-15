@@ -14,7 +14,8 @@ module.exports = function (app, passport) {
                     res.json({"success": true, "user": buildUserDict(user)});
                 });
             } else {
-                res.json({"success": false});
+				console.log('\n\n\n', uploadErr, '\n\n\n');
+                res.json({"success": false, "error": uploadErr});
             }
         })
     });

@@ -40,6 +40,7 @@ registerModule.controller('RegisterController', ['$scope', 'authService', '$wind
                 $scope.appCtrl.user = response.user;
                 localStorage.setItem('username', $scope.appCtrl.user.username);
                 if (data.logo != null) {
+                    console.log("uploading photo : ", data.logo);
                     uploadLogo({'file': data.logo})
                 } else {
                     $location.path('/');
@@ -52,6 +53,8 @@ registerModule.controller('RegisterController', ['$scope', 'authService', '$wind
 
     var uploadLogo = function (data) {
         authService.uploadLogo(data).success(function (response) {
+			console.log(response);
+			alert(response);
             if (response.success) {
                 $location.path('/');
             } else {
