@@ -1,6 +1,6 @@
 {
-  "name": "Abc_desktop",
-  "description": "Desktop Version of Abc application",
+  "name": "ViColla_desktop",
+  "description": "Desktop Version of ViColla application",
   "main": "index.js",
   "authors": [
     "nishant"

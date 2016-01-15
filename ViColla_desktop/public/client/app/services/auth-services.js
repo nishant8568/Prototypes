@@ -1,5 +1,5 @@
 /**
- * Created by antony on 06.12.2015.
+ * Created by nishant on 06.12.2015.
  */
 
 authModule.service('authService', ['$http', '$q', function ($http, $q) {

@@ -1,5 +1,5 @@
 /**
- * Created by antony on 11/21/2015.
+ * Created by nishant on 11/21/2015.
  */
 offlineModeModule.controller('offlineModeController',
     ['$scope', '$window', '$mdUtil', '$mdSidenav', '$log', '$mdDialog', '$compile', 'databaseService', 'utilityService', '$timeout',

@@ -31,6 +31,9 @@ videochatModule.controller('videoChatController',
         $scope.isCollaborating = false;
 
         var object, backgroundObject, canvasWidth, canvasHeight, canvas, context;
+        var selectedR = 10;
+        var selectedG = 120;
+        var selectedB = 60;
         // Collaboration Canvas related variables
         var initializeCollaborationEnvironment = function () {
             canvasWidth = ($window.innerWidth) * 0.6;
@@ -55,18 +58,21 @@ videochatModule.controller('videoChatController',
             switch (option.name) {
                 case "call":
                     $scope.isCollaborating = false;
+                    $scope.optionSelected = "call";
                     socket.emit('stopCollaborating', JSON.stringify(username));
                     //$state.go("tabs.onlineM.call");
                     break;
                 case "collaborate":
                     $scope.isCollaborating = true;
+                    $scope.optionSelected = "collaborate";
                     socket.emit('collaborating', JSON.stringify(username));
                     initializeCollaborationEnvironment();
                     draw();
                     //$state.go("tabs.onlineM.collaborate");
                     break;
                 case "annotate":
-                    $state.go("tabs.onlineM.annotate");
+                    $scope.optionSelected = "annotate";
+                    //$state.go("tabs.onlineM.annotate");
                     break;
             }
             $scope.$parent.optionSelected = option.name;
@@ -119,52 +125,63 @@ videochatModule.controller('videoChatController',
             //if (canvas.getContext) {
             console.log('drawing .... ');
             //var context = canvas.getContext('2d');
-            context.drawImage(backgroundObject, 0, 0, canvasWidth, canvasHeight);
-            var imgDataBackground = context.getImageData(0, 0, canvasWidth, canvasHeight);
             context.drawImage(object, 0, 0, canvasWidth, canvasHeight);
             var imgDataNormal = context.getImageData(0, 0, canvasWidth, canvasHeight);
+            context.drawImage(backgroundObject, 0, 0, canvasWidth, canvasHeight);
+            //var imgDataBackground = context.getImageData(0, 0, canvasWidth, canvasHeight);
+            var imgDataBackground = "";
+            //var imgData = context.createImageData(canvasWidth, canvasHeight);
 
-            var imgData = context.createImageData(canvasWidth, canvasHeight);
-
+            var imgData = "";
             // Function to manipulate pixels of canvas
-            var outputImgData = manipulateImageData(imgData, imgDataNormal, imgDataBackground);
-            context.putImageData(outputImgData, 0, 0);
+            manipulateImageData(imgData, imgDataNormal, imgDataBackground);
             //}
         };
 
         var manipulateImageData = function (imgData, imgDataNormal, imgDataBackground) {
-            for (var i = 0; i < imgData.width * imgData.height * 4; i += 4) {
-                var r = imgDataNormal.data[i + 0];
-                var g = imgDataNormal.data[i + 1];
-                var b = imgDataNormal.data[i + 2];
-                var a = imgDataNormal.data[i + 3];
-
-                // compare rgb levels for gray and set alphachannel to 0;
-                var selectedR = 10;
-                var selectedG = 120;
-                var selectedB = 60;
+            for (var i = 0; i < imgDataNormal.data.length; i++) {
+                var r = imgDataNormal.data[i * 4 + 0];
+                var g = imgDataNormal.data[i * 4 + 1];
+                var b = imgDataNormal.data[i * 4 + 2];
+                var a = imgDataNormal.data[i * 4 + 3];
                 if (r <= selectedR || g >= selectedG) {
-                    a = 0;
-                }
-                if (a != 0) {
-                    imgData.data[i + 0] = r;
-                    imgData.data[i + 1] = g;
-                    imgData.data[i + 2] = b;
-                    imgData.data[i + 3] = a;
-                }
-
-            }
-
-            for (i = 0; i < imgData.width * imgData.height * 4; i += 4) {
-                var a = imgData.data[i + 3];
-                if (a == 0) {
-                    imgData.data[i + 0] = imgDataBackground.data[i + 0];
-                    imgData.data[i + 1] = imgDataBackground.data[i + 1];
-                    imgData.data[i + 2] = imgDataBackground.data[i + 2];
-                    imgData.data[i + 3] = imgDataBackground.data[i + 3];
+                    imgDataNormal.data[i * 4 + 3] = 0;
                 }
             }
-            return imgData;
+
+            context.putImageData(imgDataNormal, 0, 0);
+
+            /*for (var i = 0; i < imgData.width * imgData.height * 4; i += 4) {
+             var r = imgDataNormal.data[i + 0];
+             var g = imgDataNormal.data[i + 1];
+             var b = imgDataNormal.data[i + 2];
+             var a = imgDataNormal.data[i + 3];
+
+             // compare rgb levels for gray and set alphachannel to 0;
+             var selectedR = 10;
+             var selectedG = 120;
+             var selectedB = 60;
+             if (r <= selectedR || g >= selectedG) {
+             a = 0;
+             }
+             if (a != 0) {
+             imgData.data[i + 0] = r;
+             imgData.data[i + 1] = g;
+             imgData.data[i + 2] = b;
+             imgData.data[i + 3] = a;
+             }
+             }*/
+
+            /*for (i = 0; i < imgData.width * imgData.height * 4; i += 4) {
+             var a = imgData.data[i + 3];
+             if (a == 0) {
+             imgData.data[i + 0] = imgDataBackground.data[i + 0];
+             imgData.data[i + 1] = imgDataBackground.data[i + 1];
+             imgData.data[i + 2] = imgDataBackground.data[i + 2];
+             imgData.data[i + 3] = imgDataBackground.data[i + 3];
+             }
+             }*/
+            //context.putImageData(imgData, 0, 0);
         };
 
         $scope.isoffercall = false;

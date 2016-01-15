@@ -1,5 +1,5 @@
 /**
- * Created by antony on 11/28/2015.
+ * Created by nishant on 11/28/2015.
  */
 snapshotsAttributesModule.controller('snapshotsAttributesController',
     function ($scope, $mdDialog, playbackTime, duration, description) {
