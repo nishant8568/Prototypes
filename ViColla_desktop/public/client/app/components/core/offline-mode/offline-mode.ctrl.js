@@ -118,9 +118,7 @@ offlineModeModule.controller('offlineModeController',
                 console.log("video file changed, call get video file");
                 if (newValue != oldValue) {
                     $scope.getVideoFile();
-                    if (!utilityService.getExpertFlag()) {
-                        $scope.loadImages();
-                    }
+                    $scope.loadImages();
                 }
             });
 
@@ -472,12 +470,12 @@ offlineModeModule.controller('offlineModeController',
                         parent: angular.element(document.body)
                     })
                     .then(function (answer) {
-                        if(answer.indexOf("apply")) {
+                        if (answer.indexOf("apply")) {
                             durationSet = answer[0];
                             playbackTime = answer[1];
                             description = answer[2];
                             $scope.saveImage(playbackTime, durationSet, description);
-                        } else if(answer.indexOf("cancel")) {
+                        } else if (answer.indexOf("cancel")) {
                             // do nothing
                             console.log("dialog closed");
                         }
@@ -527,11 +525,15 @@ offlineModeModule.controller('offlineModeController',
                         $scope.loadedSnapshots = data.images;
                         for (var i = 0; i < data.images.length; i++) {
                             var image = data.images[i];
+                            $scope.loadedSnapshots[i].imageId = "canvasImg_" + data.images[i]._id;
                             appendImageToSnapshots(image._id, image.playbackTime, image.duration, image.description,
                                 image.dataURL);
                         }
+                        $scope.savedSnapshotsData.push.apply($scope.savedSnapshotsData, $scope.loadedSnapshots);
                         $scope.toggleLeft();
-                        $scope.playVideo();
+                        if (!utilityService.getExpertFlag()) {
+                            $scope.playVideo();
+                        }
                     }
                 })
             };
@@ -565,6 +567,7 @@ offlineModeModule.controller('offlineModeController',
                 var snapshotId = angular.element($event.currentTarget).parent().parent()[0].lastChild.id;
                 snapshotId = snapshotId.split("_")[1];
                 var indexInSavedSnapshotsArray = -1;
+                console.log("saved snapshots.........", $scope.savedSnapshotsData);
                 for (var i = 0; i < $scope.savedSnapshotsData.length; i++) {
                     if ($scope.savedSnapshotsData[i].imageId == "canvasImg_" + snapshotId) {
                         console.log($scope.savedSnapshotsData[i].imageId);

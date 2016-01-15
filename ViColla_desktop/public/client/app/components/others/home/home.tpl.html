@@ -21,12 +21,16 @@
                 </md-icon>
                 <input ng-model="homeCtrl.user.password" type="password">
             </md-input-container>
+            <!--<md-content layout-margin="">
+                <md-checkbox md-no-ink class="md-primary" ng-model="isExpertMode"
+                             aria-label="isExpert">
+                    Expert
+                </md-checkbox>
+            </md-content>-->
 
             <div layout="row" layout-margin="">
                 <span flex=""></span>
                 <md-button class="md-raised md-primary" ng-click="homeCtrl.submitCredentials()">Login</md-button>
-                <!--<md-button class="md-raised md-primary" ng-click="homeCtrl.test_session()">test</md-button>-->
-                <!--<md-button class="md-raised md-primary" ng-click="homeCtrl.logout()">logout</md-button>-->
             </div>
         </form>
     </md-whiteframe>
