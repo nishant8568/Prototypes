@@ -1,5 +1,5 @@
 /**
- * Created by Antony on 12/6/2015.
+ * Created by antony on 12/6/2015.
  */
 incomingCallModule.controller('incomingCallDialogController', function ($scope, $mdDialog, message, callerinfo) {
     'use strict';
@@ -9,8 +9,7 @@ incomingCallModule.controller('incomingCallDialogController', function ($scope, 
     $scope.userDetails = message;
     $scope.answer = function(answer) {
         if(answer=='receive') {
-            console.log("userdetails.................");
-            console.log($scope.userDetails);
+            console.log("userdetails.................", $scope.userDetails);
             $mdDialog.hide($scope.userDetails.callername);
         }
         else

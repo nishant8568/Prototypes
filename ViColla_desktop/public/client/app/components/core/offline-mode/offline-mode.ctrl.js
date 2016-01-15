@@ -1,5 +1,5 @@
 /**
- * Created by Antony on 11/21/2015.
+ * Created by antony on 11/21/2015.
  */
 offlineModeModule.controller('offlineModeController',
     ['$scope', '$window', '$mdUtil', '$mdSidenav', '$log', '$mdDialog', '$compile', 'databaseService', 'utilityService', '$timeout',
@@ -106,7 +106,10 @@ offlineModeModule.controller('offlineModeController',
             }
 
             $scope.formatDuration = function (timeString) {
-                return utilityService.formatDuration(timeString);
+                if (isNaN(timeString))
+                    return "00:00:00";
+                else
+                    return utilityService.formatDuration(timeString);
             };
 
             $scope.$watch(function () {
@@ -325,7 +328,8 @@ offlineModeModule.controller('offlineModeController',
                 for (var i = 0; i < $scope.penStrokes.length; i++) {
                     var currentPen = $scope.penStrokes[i];
                     for (var j = 1; j < currentPen.length; j++) {
-                        $scope.drawLine(currentPen[j - 1].posX, currentPen[j - 1].posY, currentPen[j].posX, currentPen[j].posY, currentPen[j].thickness, currentPen[j].color);
+                        $scope.drawLine(currentPen[j - 1].posX, currentPen[j - 1].posY, currentPen[j].posX,
+                            currentPen[j].posY, currentPen[j].thickness, currentPen[j].color);
                     }
                 }
             };
@@ -406,6 +410,7 @@ offlineModeModule.controller('offlineModeController',
                 $scope.drawAllRectangles();
                 $scope.drawAllLines();
                 $scope.drawAllPenStrokes();
+                $scope.drawTextStrokes();
             };
 
             $scope.clearDrawings = function () {
@@ -414,6 +419,9 @@ offlineModeModule.controller('offlineModeController',
                 $scope.drawnLines = [];
                 $scope.drawnRectangles = [];
                 $scope.penClicks = [];
+                $scope.penStrokeTemp = [];
+                $scope.penStrokes = [];
+                $scope.drawnText = [];
                 if (videoEnded) {
                     $scope.drawVideoOnCanvas();
                 }
@@ -464,10 +472,15 @@ offlineModeModule.controller('offlineModeController',
                         parent: angular.element(document.body)
                     })
                     .then(function (answer) {
-                        durationSet = answer[0];
-                        playbackTime = answer[1];
-                        description = answer[2];
-                        $scope.saveImage(playbackTime, durationSet, description);
+                        if(answer.indexOf("apply")) {
+                            durationSet = answer[0];
+                            playbackTime = answer[1];
+                            description = answer[2];
+                            $scope.saveImage(playbackTime, durationSet, description);
+                        } else if(answer.indexOf("cancel")) {
+                            // do nothing
+                            console.log("dialog closed");
+                        }
                     }, function () {
                         console.log('text duration dialog closed');
                     });
@@ -514,7 +527,8 @@ offlineModeModule.controller('offlineModeController',
                         $scope.loadedSnapshots = data.images;
                         for (var i = 0; i < data.images.length; i++) {
                             var image = data.images[i];
-                            appendImageToSnapshots(image._id, image.playbackTime, image.duration, image.description, image.dataURL);
+                            appendImageToSnapshots(image._id, image.playbackTime, image.duration, image.description,
+                                image.dataURL);
                         }
                         $scope.toggleLeft();
                         $scope.playVideo();
@@ -523,7 +537,6 @@ offlineModeModule.controller('offlineModeController',
             };
 
             $scope.deleteSnapshot = function ($event) {
-                angular.element($event.currentTarget).parent().parent().parent().html('');
                 var snapshotId = angular.element($event.currentTarget).parent().parent()[0].lastChild.id;
                 snapshotId = snapshotId.split("_")[1];
                 var indexInSavedSnapshotsArray = -1;
@@ -532,6 +545,7 @@ offlineModeModule.controller('offlineModeController',
                         indexInSavedSnapshotsArray = i;
                     }
                 }
+                angular.element($event.currentTarget).parent().parent().html('');
                 databaseService.removeImage(snapshotId).then(function (data) {
                     if (data.success) {
                         console.log("Number of records deleted : " + data.removedSnapshots);
@@ -546,11 +560,14 @@ offlineModeModule.controller('offlineModeController',
 
             $scope.editSnapshotElement = function ($event) {
                 var snapshotElement = angular.element($event.currentTarget).parent().parent().parent();
+                console.log(angular.element($event.currentTarget).parent().parent()[0]);
+                console.log(angular.element($event.currentTarget).parent().parent()[0].lastChild.id);
                 var snapshotId = angular.element($event.currentTarget).parent().parent()[0].lastChild.id;
                 snapshotId = snapshotId.split("_")[1];
                 var indexInSavedSnapshotsArray = -1;
                 for (var i = 0; i < $scope.savedSnapshotsData.length; i++) {
                     if ($scope.savedSnapshotsData[i].imageId == "canvasImg_" + snapshotId) {
+                        console.log($scope.savedSnapshotsData[i].imageId);
                         indexInSavedSnapshotsArray = i;
                     }
                 }
@@ -571,8 +588,8 @@ offlineModeModule.controller('offlineModeController',
                         var newDurationSet = answer[0];
                         var newPlaybackTime = answer[1];
                         var newDescription = answer[2];
-                        document.getElementById('durationSection').innerHTML = "Duration: " + newDurationSet;
-                        document.getElementById('descriptionSection').innerHTML = "Description: " + newDescription;
+                        document.getElementById('durationSection' + snapshotId).innerHTML = "Duration: " + newDurationSet;
+                        document.getElementById('descriptionSection' + snapshotId).innerHTML = "Description: " + newDescription;
                         $scope.updateImageInfo(newPlaybackTime, newDurationSet, newDescription, snapshotId);
                     }, function () {
                         console.log('text duration dialog closed');
@@ -605,8 +622,8 @@ offlineModeModule.controller('offlineModeController',
                 var snapshotElement =
                     "<md-grid-list layout-padding id=\"snapshotsList_" + playbackTime + "\" md-cols=\"1\" md-row-height=\"" +
                     $scope.ctx.canvas.width + ":" + $scope.ctx.canvas.height + "\" " +
-                    "style=\"border: 1px solid green\">" +
-                    "<md-toolbar layout=\"row\" layout-align='end center'>" +
+                    "style=\"border: 0px solid green\">" +
+                    "<div style='height:30px;' layout=\"row\" layout-align='end center'>" +
                     "<md-button class=\"md-icon-button\" ng-click='editSnapshotElement($event)'>" +
                     "<md-icon>" +
                     "<i class=\"material-icons md-18\">edit</i>" +
@@ -617,14 +634,14 @@ offlineModeModule.controller('offlineModeController',
                     "<i class=\"material-icons md-18\">delete</i>" +
                     "</md-icon>" +
                     "</md-button>" +
-                    "</md-toolbar>" +
+                    "</div>" +
                     "<md-grid-tile id=\"snapshot_" + imageId + "\">" +
                     "<img id=\"canvasImg_" + imageId + "\" " +
                     "style=\"position: relative; width: 100%; height: 100%;\">" +
                     "<md-grid-tile-footer layout=\"row\" layout-align=\"space-between center\">" +
-                    "<h3 id='playbackTimeSection'>Time : " + playbackTime + "</h3>" +
-                    "<h3 id='durationSection'>Duration : " + duration + "</h3>" +
-                    "<h3 id='descriptionSection'>Description : " + description + "</h3>" +
+                    "<h3 id=\"playbackTimeSection" + imageId + "\">Time : " + playbackTime + "</h3>" +
+                    "<h3 id=\"durationSection" + imageId + "\">Duration : " + duration + "</h3>" +
+                    "<h3 id=\"descriptionSection" + imageId + "\">Description : " + description + "</h3>" +
                     "</md-grid-tile-footer>" +
                     "</md-grid-tile>" +
                     "</md-grid-list>";
@@ -650,6 +667,8 @@ offlineModeModule.controller('offlineModeController',
                 var durationSet = 3;
                 $scope.drawnText.push(textToWrite);
                 console.log("duration : " + durationSet);
+                console.log("textToWrite : " + textToWrite.value);
+                $scope.drawTextStrokes();
                 document.getElementById(containerId).style.display = "none";
             };
 

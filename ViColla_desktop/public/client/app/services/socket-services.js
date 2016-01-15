@@ -1,5 +1,5 @@
 /**
- * Created by daniel on 28.12.2015.
+ * Created by antony on 28.12.2015.
  */
 
 socketWrapper.factory('socket', function ($rootScope) {
@@ -21,8 +21,7 @@ socketWrapper.factory('socket', function ($rootScope) {
             });
         },
         emit: function (eventName, data, callback) {
-            console.log("services >> emitting event : " + eventName + " : with data : ");
-            console.log(data);
+            console.log("services >> emitting event : ", eventName , " : with data : ", data);
             socket.emit(eventName, data, function () {
                 var args = arguments;
                 $rootScope.$apply(function () {

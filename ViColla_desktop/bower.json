@@ -1,9 +1,9 @@
 {
-  "name": "ABC_desktop",
-  "description": "Desktop Version of ABC application",
+  "name": "Abc_desktop",
+  "description": "Desktop Version of Abc application",
   "main": "index.js",
   "authors": [
-    "Antony"
+    "nishant"
   ],
   "license": "ISC",
   "dependencies": {

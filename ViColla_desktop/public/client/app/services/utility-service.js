@@ -1,5 +1,5 @@
 /**
- * Created by Antony on 12/21/2015.
+ * Created by antony on 12/21/2015.
  */
 
 utilityModule.service('utilityService', function () {

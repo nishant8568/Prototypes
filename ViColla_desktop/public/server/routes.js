@@ -1,5 +1,5 @@
 /**
- * Created by Antony on 06.12.2015.
+ * Created by antony on 06.12.2015.
  */
 var models = require('./models/user');
 var upload = require('./config/multer');
@@ -146,12 +146,12 @@ module.exports = function (app, passport) {
                     res.json({"success": false, "message": "Error while storing called data."});
                 } else {
                     var callingData = new models.CallHistory();
-                    callingData._caller = req.user._id;
-                    callingData._receiver = req.user._id;
+                    callingData._caller = req.body._caller;
+                    callingData._receiver = req.body._receiver;
                     callingData.callerFirstName = req.body.callerFirstName;
                     callingData.callerLastName = req.body.callerLastName;
-                    callingData.callername = req.body.to;
-                    callingData.receivername = req.body.callendedby;
+                    callingData.callername = req.body.callername;
+                    callingData.receivername = req.body.receivername;
                     callingData.status = req.body.status;
                     callingData.startDate = Moment.utc().format();
                     callingData.duration = req.body.duration;

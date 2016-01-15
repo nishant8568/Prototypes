@@ -7,25 +7,27 @@
 //       });
 // });
 videochatModule.controller('videoChatController',
-    function ($scope, $http, authService, databaseService, $stateParams, $location, $window, $timeout, config, $mdDialog, socket, $state) {
+    function ($scope, $http, authService, databaseService, $stateParams, $location,
+              $window, $timeout, config, $mdDialog, socket, $state) {
         'use strict';
         var vm = this;
         var sendChannel;
         var isChannelReady = $scope.$parent.isChannelReady;
         var isInitiator = $scope.$parent.isInitiator;
         var room = $scope.$parent.room;
-        var callerdetails = $scope.$parent.callerdetails;
         var isStarted;
         var localStream;
         var pc = null;
         var remoteStream;
         var turnReady;
+        var  mediaRecorder;
+
+        var username = localStorage.getItem('username');
+        $scope.isExpert = $scope.$parent.isExpert;
 
         $scope.options = $scope.$parent.options;
 
-
         $scope.optionSelected = "call";
-
 
         $scope.optionClicked = function (option) {
             switch (option.name) {
@@ -40,7 +42,6 @@ videochatModule.controller('videoChatController',
                     break;
             }
             $scope.$parent.optionSelected = option.name;
-
         };
 
         $scope.isoffercall = false;
@@ -67,13 +68,6 @@ videochatModule.controller('videoChatController',
 
         /////////////////////////////////////////////
 
-
-        $scope.nickname = localStorage.getItem('username');
-        var username = localStorage.getItem('username');
-        var userinfo = {
-            room: 'ChatRoom',
-            username: localStorage.getItem('username')
-        };
         $scope.busy = false;
         var answer = false;
         var modalCallShow = false;
@@ -89,25 +83,19 @@ videochatModule.controller('videoChatController',
             socket.emit('message', message);
         }
 
-        console.log("Video is loaded")
-
 
         socket.on('message', function (message) {
-            console.log("message received from io : ");
-            console.log(message);
+            console.log("received message", message);
             if (message === 'got user media') {
-                console.log("i got user media");
                 $timeout(function () {
                     maybeStart();
                 }, 1000);
             } else if (message.type === 'offer') {
-                console.log("message type: ", message.type, "\n");
-                if (callerdetails.receivername == username) {
-                    //answer = window.confirm(message.callername + ' calling...');
+                if ($scope.$parent.callerdetails.receivername == username) {
                     var confirm = $mdDialog.confirm({
                         controller: 'incomingCallDialogController',
                         templateUrl: 'app/components/core/incomingCallDialog/incomingCallDialog.tpl.html',
-                        locals: {message: message, callerinfo: callerdetails.callerinfo},
+                        locals: {message: message, callerinfo: $scope.$parent.callerdetails.callerinfo},
                         parent: angular.element(document.body)
                     });
                     if (!modalCallShow) {
@@ -117,7 +105,7 @@ videochatModule.controller('videoChatController',
                                 if (pc == null) {
                                     maybeStart();
                                 }
-                                if (!isInitiator && !isStarted) {
+                                if (!$scope.$parent.isInitiator && !isStarted) {
                                     console.log("rare offer received");
                                     maybeStart();
                                 }
@@ -131,27 +119,11 @@ videochatModule.controller('videoChatController',
                         });
                     }
                     modalCallShow = true;
-
-                    /*if (answer) {
-                     //databaseService.addItem(3);
-                     if (pc == null) {
-                     maybeStart();
-
-                     }
-                     if (!isInitiator && !isStarted) {
-                     console.log("rare offer received....");
-                     maybeStart();
-                     }
-                     pc.setRemoteDescription(new RTCSessionDescription(message.sessiondescription));
-                     doAnswer();
-                     }*/
                 }
             }
             else if (message.type === 'answer' && isStarted) {
-                console.log(message);
                 console.log(message.answername + " answered the call");
                 $scope.busy = true;
-                //$scope.$apply();
                 pc.setRemoteDescription(new RTCSessionDescription(message.sessiondescription));
             } else if (message.type === 'candidate' && isStarted) {
                 console.log("received candidate from remote and added");
@@ -163,17 +135,8 @@ videochatModule.controller('videoChatController',
             }
         });
 
-        //socket.on('called', function (caller) {
-        //    callerdetails = JSON.parse(caller);
-        //    if (callerdetails.callername == username) {
-        //        console.log("caller:", caller);
-        //        isInitiator = true;
-        //        maybeStart();
-        //    }
-        //});
-
         $scope.$on('$destroy', function (event) {
-            stop();
+            //stop();
         });
         ////////////////////////////////////////////////////
 
@@ -185,8 +148,10 @@ videochatModule.controller('videoChatController',
             console.log(JSON.stringify(stream));
             localStream = stream;
             attachMediaStream(localVideo, stream);
-            console.log('Adding local stream.');
-            sendMessage('got user media');
+            console.log('Adding local stream >> send message "got user media" ');
+            if(!isStarted){
+                sendMessage('got user media');
+            }
         }
 
         socket.on('callended', function (callend) {
@@ -194,88 +159,37 @@ videochatModule.controller('videoChatController',
             console.log(callenddetails.to);
             if (callenddetails.to == username) {
                 $scope.busy = false;
-                //$scope.$apply();
-                stop();
+                hangup();
             }
+            hangup();
         });
 
         $scope.endCall = function (callStatus) {
             var callEndDateTime = Date.now();
-            var callend = {
-                callendedby: username,
-                roomname: room
-            };
-            if (callend.callendedby == callerdetails.receivername) {
-                callend.to = callerdetails.callername;
-                callend.callerFirstName = callerdetails.callerinfo.firstName;
-                callend.callerLastName = callerdetails.callerinfo.lastName;
-                //callend.status = 'call_received';
-                callend.status = callStatus;
-                callend.startDate = callerdetails.startDateTime;
-                callend.duration = callEndDateTime - callerdetails.startDateTime;
-                callend.callerDesignation = callerdetails.callerinfo.designation;
-                alert("callend.. Sending POST request to save to call history.. : " + JSON.stringify(callend));
-                console.log(callerdetails);
-                $http.post('/api/callHistory', callend).success(function (calldetails) {
-                    alert(JSON.stringify(calldetails));
-                });
-            }
-            else {
-                callend.to = callerdetails.receivername;
-            }
-            console.log("callend:", callend);
-            socket.emit('callending', JSON.stringify(callend));
-            stop();
+            var callerdetails = $scope.$parent.callerdetails;
+            var callingData = {};
+            callingData._caller = callerdetails.callerinfo.id;
+            callingData._receiver = callerdetails.receiverinfo.id;
+            callingData.callerFirstName = callerdetails.callerinfo.firstName;
+            callingData.callerLastName = callerdetails.callerinfo.lastName;
+            callingData.callername = callerdetails.callerinfo.username;
+            callingData.receivername = callerdetails.receiverinfo.username;
+            callingData.status = callStatus;
+            callingData.startDate = callerdetails.startDateTime;
+            callingData.duration = callEndDateTime - callerdetails.startDateTime;
+            callingData.callerDesignation =  callerdetails.callerinfo.designation;
+
+
+            alert("callend.. Sending POST request to save to call history.. : " + JSON.stringify(callingData));
+            console.log(callerdetails);
+            $http.post('/api/callHistory', callingData).success(function (calldetails) {
+                alert(JSON.stringify(calldetails));
+            });
+
+            console.log("callend:", callingData);
+            socket.emit('callending', JSON.stringify(callingData));
+            hangup();
         };
-        $scope.calluser = function (receivername) {
-            var caller = {
-                callername: username,
-                receivername: receivername,
-                roomname: room
-            };
-            socket.emit('calling', JSON.stringify(caller));
-        };
-
-
-        $scope.logout = function () {
-            var userinfo = {
-                username: username,
-                roomname: room
-            };
-            console.log("user logout" + JSON.stringify(userinfo));
-            socket.emit('userlogout', JSON.stringify(userinfo));
-            $location.path("/");
-        };
-
-        $scope.removelogoutuser = function (user) {
-            console.log("remove user functionality begins");
-            var userdetails = JSON.parse(user);
-            var position = $scope.userlist.indexOf(userdetails.username);
-            if (position != -1) {
-                console.log("username remove from list");
-                $scope.userlist.splice(position, 1);
-
-            }
-            if (userdetails.username == username) {
-                console.log(userdetails);
-                console.log("go to login");
-                if ($scope.userlist.length > 1) {
-                    stop();
-                }
-                socket.emit("logoutme", JSON.stringify(userdetails));
-                localStream.stop();
-                $timeout(function () {
-                    socket.disconnect();
-                    $location.path('/login');
-                }, 2000);
-            }
-            //$scope.$apply();
-        };
-        socket.on('userout', function (user) {
-            console.log("user out details" + user);
-            $scope.removelogoutuser(user);
-        });
-
 
         function handleUserMediaError(error) {
             console.log('getUserMedia error: ', error);
@@ -290,12 +204,12 @@ videochatModule.controller('videoChatController',
 
         function maybeStart() {
             console.log("maybeStart.....");
-            console.log("localstream : " + localStream + " , isChannelReady : " + isChannelReady);
-            if (localStream && isChannelReady) {
+            console.log("localstream : " + localStream + " , $scope.$parent.isChannelReady : " + $scope.$parent.isChannelReady);
+            if (localStream && $scope.$parent.isChannelReady) {
                 createPeerConnection();
                 pc.addStream(localStream);
                 isStarted = true;
-                if (isInitiator) {
+                if ($scope.$parent.isInitiator) {
                     console.log("I am the initiator. Initiating call....");
                     doCall();
                 }
@@ -307,7 +221,6 @@ videochatModule.controller('videoChatController',
                 $scope.logout();
             }
             $scope.userlist = [];
-            //$scope.$apply();
         };
 
 
@@ -326,7 +239,7 @@ videochatModule.controller('videoChatController',
             pc.onaddstream = handleRemoteStreamAdded;
             pc.onremovestream = handleRemoteStreamRemoved;
 
-            if (isInitiator) {
+            if ($scope.$parent.isInitiator) {
                 try {
                     // Reliable Data Channels not yet supported in Chrome
                     sendChannel = pc.createDataChannel("sendDataChannel",
@@ -461,8 +374,23 @@ videochatModule.controller('videoChatController',
 
         function handleRemoteStreamAdded(event) {
             console.log('Remote stream added.');
-            console.log(event.stream);
+            //mediaRecorder = new MediaStreamRecorder(event.stream);
+            //mediaRecorder.mimeType = 'video/webm';
+            //
+            //mediaRecorder.width = 640;
+            //mediaRecorder.height = 480;
+            //
+            //mediaRecorder.ondataavailable = function (blob) {
+            //    // POST/PUT "Blob" using FormData/XHR2
+            //    var blobURL = URL.createObjectURL(blob);
+            //    //document.write('<a href="' + blobURL + '">' + blobURL + '</a>');
+            //    console.log("got blobURL")
+            //};
+            //mediaRecorder.start(3000);
+
+
             attachMediaStream(remoteVideo, event.stream);
+            console.log("adding remote stream", event.stream);
             remoteStream = event.stream;
         }
 
@@ -479,12 +407,11 @@ videochatModule.controller('videoChatController',
         function handleRemoteHangup() {
             console.log('Session terminated.');
             stop();
-            //  isInitiator = false;
         }
 
         function stop() {
             console.log("values reset");
-            isInitiator = false;
+            $scope.$parent.isInitiator = false;
             isStarted = false;
             $scope.busy = false;
             if (pc) {

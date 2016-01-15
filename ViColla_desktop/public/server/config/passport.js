@@ -1,5 +1,5 @@
 /**
- * Created by Antony on 06.12.2015.
+ * Created by antony on 06.12.2015.
  */
 // config/passport.js
 

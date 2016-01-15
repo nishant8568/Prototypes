@@ -1,5 +1,5 @@
 /**
- * Created by Antony on 11/29/2015.
+ * Created by antony on 11/29/2015.
  */
 contactsModule.directive('contacts', function () {
     return {

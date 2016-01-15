@@ -1,5 +1,5 @@
 /**
- * Created by Antony on 11/29/2015.
+ * Created by antony on 11/29/2015.
  */
 var express = require('express');
 var app = express();
@@ -118,6 +118,15 @@ server.listen(port, function () {
             io.sockets.emit('all users', Object.keys(users));
 
         });
+
+        socket.on("callDetails", function(callDetails){
+            io.sockets.in(room).emit("callDetails", callDetails);
+        });
+
+        socket.on("toState", function(stateChangeDetails){
+            io.sockets.in(room).emit("toState", stateChangeDetails);
+        });
+
 
         socket.on('userLogin', function (username) {
             if (!(username in users)) {

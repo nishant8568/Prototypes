@@ -1,5 +1,5 @@
 /**
- * Created by daniel on 10.12.2015.
+ * Created by antony on 10.12.2015.
  */
 
 app.controller('AbcAppLandingController', ['$scope', '$location', 'authService', 'socket', 'utilityService', 'databaseService',

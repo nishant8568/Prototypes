@@ -1,5 +1,5 @@
 /**
- * Created by Antony on 11/21/2015.
+ * Created by antony on 11/21/2015.
  */
 'use strict';
 
@@ -94,6 +94,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                             break;
                     }
                     $scope.$parent.optionSelected = option.name;
+                    $scope.isExpert = $scope.$parent.isExpert;
                 };
             },
             templateUrl: 'app/components/core/video-chat/collaborate/collaborate-online.html'
@@ -118,6 +119,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                             break;
                     }
                     $scope.$parent.optionSelected = option.name;
+                    $scope.isExpert = $scope.$parent.isExpert;
                 };
             }
         })

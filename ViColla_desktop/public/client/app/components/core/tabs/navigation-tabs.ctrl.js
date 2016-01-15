@@ -1,5 +1,5 @@
 /**
- * Created by Antony on 11/21/2015.
+ * Created by antony on 11/21/2015.
  */
 
 navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authService', '$location', 'databaseService',
@@ -10,12 +10,13 @@ navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authServ
         var vm = this;
         vm.optionSelected = "qwertyuiop";
 
-        $scope.currentTab = $state.current.data.selectedTab;
+        $scope.currentTab = ($state.current.data) ? $state.current.data.selectedTab : 99999;
 
         $scope.room = "ChatRoom";
         $scope.isInitiator = false;
         $scope.isChannelReady = false;
         $scope.callerdetails = {};
+        $scope.isExpert = ($scope.appCtrl.user) ? $scope.appCtrl.user.isExpert : null;
 
 
         $scope.options = [
@@ -40,11 +41,15 @@ navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authServ
             if (toState.data) {
                 $scope.currentTab = toState.data.selectedTab;
             }
+            if (toState.name == "tabs.onlineM.collaborate" || toState.name == "tabs.onlineM.call" || toState.name == "tabs.onlineM.annotate" ){
+                socket.emit("toState", {stateName: toState.name, callerUsername: $scope.callerdetails.callername });
+            }
         });
 
-        $scope.$on('eventFired', function (event, data) {
-            $scope.max = 3;
-            $scope.selectedIndex = 3;
+        socket.on("toState", function(stateChangeDetails){
+            if($scope.appCtrl.user.username == stateChangeDetails.callerUsername){
+                $state.go(stateChangeDetails.stateName);
+            }
         });
 
         $scope.videoChatData = function () {
@@ -110,17 +115,31 @@ navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authServ
         });
 
         socket.on('called', function (caller) {
-            console.log("socket.on('called') >> caller : ");
-            console.log(caller);
+            console.log("socket.on('called') >> caller : ", caller);
             $scope.callerdetails = JSON.parse(caller);
-            console.log("from navigation tabs ctrl", $state.current);
             if ($scope.callerdetails.callername == $scope.appCtrl.user.username) {
                 $scope.isInitiator = true;
+                if ($state.current.name != "tabs.onlineM.onlineMode") {
+                    $state.go('tabs.onlineM.onlineMode');
+                } else {
+                    $state.reload('tabs.onlineM.onlineMode');
+                }
             }
-            if ($state.current.name != "tabs.onlineM.onlineMode") {
-                $state.go('tabs.onlineM.onlineMode');
-            } else {
-                $state.reload('tabs.onlineM.onlineMode');
+            if($scope.callerdetails.receivername == $scope.appCtrl.user.username){
+                $scope.callerdetails.receiverinfo = $scope.appCtrl.user;
+                socket.emit("callDetails", $scope.callerdetails);
+                if ($state.current.name != "tabs.onlineM.onlineMode"){
+                    $state.go('tabs.onlineM.onlineMode');
+                } else {
+                    $state.reload('tabs.onlineM.onlineMode');
+                }
             }
         });
+
+        socket.on('callDetails', function(callDetails){
+            if($scope.appCtrl.user.username == callDetails.receivername || $scope.appCtrl.user.username == callDetails.callername){
+                $scope.callerdetails = callDetails;
+            }
+        });
+
     }]);
