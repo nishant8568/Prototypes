@@ -20,7 +20,7 @@ videochatModule.controller('videoChatController',
         var pc = null;
         var remoteStream;
         var turnReady;
-        var  mediaRecorder;
+        var mediaRecorder;
 
         var username = localStorage.getItem('username');
         $scope.isExpert = $scope.$parent.isExpert;
@@ -28,20 +28,143 @@ videochatModule.controller('videoChatController',
         $scope.options = $scope.$parent.options;
 
         $scope.optionSelected = "call";
+        $scope.isCollaborating = false;
+
+        var object, backgroundObject, canvasWidth, canvasHeight, canvas, context;
+        // Collaboration Canvas related variables
+        var initializeCollaborationEnvironment = function () {
+            canvasWidth = ($window.innerWidth) * 0.6;
+            canvasHeight = ($window.innerHeight) * 0.6;
+            if ($scope.isExpert) {
+                object = document.getElementById("localVideo");
+                backgroundObject = document.getElementById("remoteVideo");
+            } else {
+                object = document.getElementById("remoteVideo");
+                backgroundObject = document.getElementById("localVideo");
+            }
+            canvas = document.getElementById("helpCanvas");
+            canvas.setAttribute('width', canvasWidth);
+            canvas.setAttribute('height', canvasHeight);
+
+            if (canvas.getContext) {
+                context = canvas.getContext('2d');
+            }
+        };
 
         $scope.optionClicked = function (option) {
             switch (option.name) {
                 case "call":
-                    $state.go("tabs.onlineM.call");
+                    $scope.isCollaborating = false;
+                    socket.emit('stopCollaborating', JSON.stringify(username));
+                    //$state.go("tabs.onlineM.call");
                     break;
                 case "collaborate":
-                    $state.go("tabs.onlineM.collaborate");
+                    $scope.isCollaborating = true;
+                    socket.emit('collaborating', JSON.stringify(username));
+                    initializeCollaborationEnvironment();
+                    draw();
+                    //$state.go("tabs.onlineM.collaborate");
                     break;
                 case "annotate":
                     $state.go("tabs.onlineM.annotate");
                     break;
             }
             $scope.$parent.optionSelected = option.name;
+        };
+
+        socket.on('collaborate', function (caller) {
+            var callerDetails = JSON.parse(caller);
+            console.log("collaborating request from..... : " + callerDetails);
+            console.log("username...... : " + username);
+            if (callerDetails != username) {
+                console.log("collaborating request from : " + callerDetails);
+                $scope.isCollaborating = true;
+                initializeCollaborationEnvironment();
+                draw();
+
+            }
+        });
+
+        socket.on('stopCollaboration', function (caller) {
+            var callerDetails = JSON.parse(caller);
+            console.log("End-collaboration request from..... : " + callerDetails);
+            console.log("username...... : " + username);
+            if (callerDetails != username) {
+                console.log("end-collaboration request from : " + callerDetails);
+                $scope.isCollaborating = false;
+            }
+        });
+
+        var draw = function () {
+            if ($scope.isCollaborating) {
+                if (window.requestAnimationFrame) window.requestAnimationFrame(draw);
+                // IE implementation
+                else if (window.msRequestAnimationFrame) window.msRequestAnimationFrame(draw);
+                // Firefox implementation
+                else if (window.mozRequestAnimationFrame) window.mozRequestAnimationFrame(draw);
+                // Chrome implementation
+                else if (window.webkitRequestAnimationFrame) window.webkitRequestAnimationFrame(draw);
+                // Other browsers that do not yet support feature
+                else $timeout(draw, 16.7);
+                drawVideosOnCanvas();
+            } else {
+                console.log("Drawing on canvas stopped. Collaboration stopped...");
+            }
+        };
+
+        var drawVideosOnCanvas = function () {
+            //var width = ($window.innerWidth) * 0.6;
+            //var height = ($window.innerHeight) * 0.6;
+
+            //if (canvas.getContext) {
+            console.log('drawing .... ');
+            //var context = canvas.getContext('2d');
+            context.drawImage(backgroundObject, 0, 0, canvasWidth, canvasHeight);
+            var imgDataBackground = context.getImageData(0, 0, canvasWidth, canvasHeight);
+            context.drawImage(object, 0, 0, canvasWidth, canvasHeight);
+            var imgDataNormal = context.getImageData(0, 0, canvasWidth, canvasHeight);
+
+            var imgData = context.createImageData(canvasWidth, canvasHeight);
+
+            // Function to manipulate pixels of canvas
+            var outputImgData = manipulateImageData(imgData, imgDataNormal, imgDataBackground);
+            context.putImageData(outputImgData, 0, 0);
+            //}
+        };
+
+        var manipulateImageData = function (imgData, imgDataNormal, imgDataBackground) {
+            for (var i = 0; i < imgData.width * imgData.height * 4; i += 4) {
+                var r = imgDataNormal.data[i + 0];
+                var g = imgDataNormal.data[i + 1];
+                var b = imgDataNormal.data[i + 2];
+                var a = imgDataNormal.data[i + 3];
+
+                // compare rgb levels for gray and set alphachannel to 0;
+                var selectedR = 10;
+                var selectedG = 120;
+                var selectedB = 60;
+                if (r <= selectedR || g >= selectedG) {
+                    a = 0;
+                }
+                if (a != 0) {
+                    imgData.data[i + 0] = r;
+                    imgData.data[i + 1] = g;
+                    imgData.data[i + 2] = b;
+                    imgData.data[i + 3] = a;
+                }
+
+            }
+
+            for (i = 0; i < imgData.width * imgData.height * 4; i += 4) {
+                var a = imgData.data[i + 3];
+                if (a == 0) {
+                    imgData.data[i + 0] = imgDataBackground.data[i + 0];
+                    imgData.data[i + 1] = imgDataBackground.data[i + 1];
+                    imgData.data[i + 2] = imgDataBackground.data[i + 2];
+                    imgData.data[i + 3] = imgDataBackground.data[i + 3];
+                }
+            }
+            return imgData;
         };
 
         $scope.isoffercall = false;
@@ -149,7 +272,7 @@ videochatModule.controller('videoChatController',
             localStream = stream;
             attachMediaStream(localVideo, stream);
             console.log('Adding local stream >> send message "got user media" ');
-            if(!isStarted){
+            if (!isStarted) {
                 sendMessage('got user media');
             }
         }
@@ -177,7 +300,7 @@ videochatModule.controller('videoChatController',
             callingData.status = callStatus;
             callingData.startDate = callerdetails.startDateTime;
             callingData.duration = callEndDateTime - callerdetails.startDateTime;
-            callingData.callerDesignation =  callerdetails.callerinfo.designation;
+            callingData.callerDesignation = callerdetails.callerinfo.designation;
 
 
             alert("callend.. Sending POST request to save to call history.. : " + JSON.stringify(callingData));
@@ -374,21 +497,6 @@ videochatModule.controller('videoChatController',
 
         function handleRemoteStreamAdded(event) {
             console.log('Remote stream added.');
-            //mediaRecorder = new MediaStreamRecorder(event.stream);
-            //mediaRecorder.mimeType = 'video/webm';
-            //
-            //mediaRecorder.width = 640;
-            //mediaRecorder.height = 480;
-            //
-            //mediaRecorder.ondataavailable = function (blob) {
-            //    // POST/PUT "Blob" using FormData/XHR2
-            //    var blobURL = URL.createObjectURL(blob);
-            //    //document.write('<a href="' + blobURL + '">' + blobURL + '</a>');
-            //    console.log("got blobURL")
-            //};
-            //mediaRecorder.start(3000);
-
-
             attachMediaStream(remoteVideo, event.stream);
             console.log("adding remote stream", event.stream);
             remoteStream = event.stream;

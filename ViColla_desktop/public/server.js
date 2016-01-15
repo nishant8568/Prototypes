@@ -119,6 +119,18 @@ server.listen(port, function () {
 
         });
 
+        socket.on('collaborating', function (caller) {
+            var calldetails = JSON.parse(caller);
+            console.log("user initiating collaboration : ", calldetails);
+            io.sockets.in(calldetails.roomname).emit('collaborate', caller);
+        });
+
+        socket.on('stopCollaborating', function (caller) {
+            var calldetails = JSON.parse(caller);
+            console.log("user stopping collaboration : ", calldetails);
+            io.sockets.in(calldetails.roomname).emit('stopCollaboration', caller);
+        });
+
         socket.on("callDetails", function(callDetails){
             io.sockets.in(room).emit("callDetails", callDetails);
         });
