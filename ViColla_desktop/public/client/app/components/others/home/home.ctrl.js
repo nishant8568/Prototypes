@@ -21,11 +21,12 @@ homeModule.controller('HomeController', ['$scope', 'authService', '$window', '$l
                         $scope.appCtrl.loadContacts();
                         utilityService.setExpertFlag($scope.appCtrl.user.isExpert);
                         socket.emit('userLogin', $scope.appCtrl.user.username);
-                        if (utilityService.getExpertFlag()) {
+                        //if (utilityService.getExpertFlag()) {
                             $location.path('/callHistory');
-                        } else {
+                        //}
+                        /*else {
                             $location.path('/experts');
-                        }
+                        }*/
                     } else {
                         $window.alert(data["message"]);
                     }

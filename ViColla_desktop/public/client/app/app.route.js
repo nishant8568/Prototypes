@@ -31,21 +31,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             views: {
                 'callHistory': {
                     template: '<online-mode></online-mode>'
-                },
+                }/*,
                 'contacts': {
                     template: '<contacts layout="column"></contacts>'
-                }
-            }
-        })
-        .state('tabs.experts', {
-            url: 'experts',
-            data: {
-                'selectedTab': 0
-            },
-            views: {
-                'contacts': {
-                    template: '<contacts layout="column"></contacts>'
-                }
+                }*/
             }
         })
         .state('tabs.offlineMode', {
@@ -62,7 +51,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         .state('tabs.onlineM', {
             abstract: true,
             url: 'onlineMode',
-            template: '<div id="asdfgh" ui-view></div>'
+            template: '<div ui-view></div>'
         })
         .state('tabs.onlineM.onlineMode', {
             url: '',
@@ -121,6 +110,17 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                     $scope.$parent.optionSelected = option.name;
                     $scope.isExpert = $scope.$parent.isExpert;
                 };
+            }
+        })
+        .state('tabs.experts', {
+            url: 'experts',
+            data: {
+                'selectedTab': 3
+            },
+            views: {
+                'contacts': {
+                    template: '<contacts layout="column"></contacts>'
+                }
             }
         })
 });

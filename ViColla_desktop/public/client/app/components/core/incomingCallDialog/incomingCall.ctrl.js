@@ -9,7 +9,7 @@ incomingCallModule.controller('incomingCallDialogController', function ($scope, 
     $scope.userDetails = message;
     $scope.answer = function(answer) {
         if(answer=='receive') {
-            console.log("userdetails.................", $scope.userDetails);
+            console.log("userDetails.................", $scope.userDetails);
             $mdDialog.hide($scope.userDetails.callername);
         }
         else

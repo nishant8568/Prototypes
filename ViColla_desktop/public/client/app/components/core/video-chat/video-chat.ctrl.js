@@ -241,7 +241,6 @@ videochatModule.controller('videoChatController',
                     if (!modalCallShow) {
                         $mdDialog.show(confirm).then(function (answer) {
                             if (typeof answer != 'undefined') {
-                                //databaseService.addItem(3);
                                 if (pc == null) {
                                     maybeStart();
                                 }
