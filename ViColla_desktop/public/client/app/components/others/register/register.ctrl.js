@@ -53,9 +53,8 @@ registerModule.controller('RegisterController', ['$scope', 'authService', '$wind
 
     var uploadLogo = function (data) {
         authService.uploadLogo(data).success(function (response) {
-			console.log(response);
-			alert(response);
             if (response.success) {
+                $scope.appCtrl.user = response.user;
                 $location.path('/');
             } else {
                 $location.path('/');

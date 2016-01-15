@@ -55,7 +55,7 @@ toolsModule.controller('toolsController', function ($scope, $q, $timeout) {
         }
     ];
 
-    $scope.disableTools = true;
+    $scope.disableTools = false;
 
     $scope.$on('toggleDisable', function(e) {
         $scope.disableTools = !$scope.disableTools;

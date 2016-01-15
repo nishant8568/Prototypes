@@ -141,7 +141,7 @@ offlineModeModule.controller('offlineModeController',
                     console.log(videoNode.src);
                     isVideoReady = true;
                     // trigger enable/disable tools in toolsController
-                    $scope.$broadcast('toggleDisable');
+                    //$scope.$broadcast('toggleDisable');
                     $scope.clearDrawings();
                     videoEnded = false;
                 } else {
@@ -215,11 +215,22 @@ offlineModeModule.controller('offlineModeController',
                     var videoObject = document.getElementById("videoBackgrounddata");
                     console.log("paused : " + videoObject.paused);
                     console.log("ended : " + videoObject.ended);
-                    if (!utilityService.getExpertFlag() && $scope.iterator < $scope.loadedSnapshots.length) {
-                        $scope.nextSnapshotTime = $scope.loadedSnapshots[$scope.iterator].playbackTime;
-                        $scope.nextImageElem = document.getElementById("canvasImg_" + $scope.loadedSnapshots[$scope.iterator]._id);
-                        $scope.nextDuration = $scope.loadedSnapshots[$scope.iterator].duration;
+
+                    //if (!utilityService.getExpertFlag() && $scope.iterator < $scope.loadedSnapshots.length) {
+                    /*if ($scope.loadedSnapshots != null) {
+                        if ($scope.loadedSnapshots.length > 0 && $scope.iterator < $scope.loadedSnapshots.length) {
+                            $scope.nextSnapshotTime = $scope.loadedSnapshots[$scope.iterator].playbackTime;
+                            $scope.nextImageElem = document.getElementById("canvasImg_" + $scope.loadedSnapshots[$scope.iterator]._id);
+                            $scope.nextDuration = $scope.loadedSnapshots[$scope.iterator].duration;
+                        }
+                    }*/
+                    console.log("snapshots length:::::::: " + $scope.savedSnapshotsData.length);
+                    if ($scope.savedSnapshotsData.length > 0 && $scope.iterator < $scope.savedSnapshotsData.length) {
+                        $scope.nextSnapshotTime = $scope.savedSnapshotsData[$scope.iterator].playbackTime;
+                        $scope.nextImageElem = document.getElementById($scope.savedSnapshotsData[$scope.iterator].imageId);
+                        $scope.nextDuration = $scope.savedSnapshotsData[$scope.iterator].duration;
                     }
+                    //}
                     if (videoObject.ended) {
                         //videoEnded = false;
                         videoObject.currentTime = '0';
@@ -229,14 +240,14 @@ offlineModeModule.controller('offlineModeController',
                         videoObject.play();
                         $scope.playPlauseButton = "pause_arrow";
                         // trigger enable/disable tools in toolsController
-                        $scope.$broadcast('toggleDisable');
+                        //$scope.$broadcast('toggleDisable');
                         updateVideoCache();
                         $scope.drawCanvas();
                     } else {
                         videoObject.pause();
                         $scope.playPlauseButton = "play_arrow";
                         // trigger enable/disable tools in toolsController
-                        $scope.$broadcast('toggleDisable');
+                        //$scope.$broadcast('toggleDisable');
                         console.log("Video Paused. Stopping the video draw on canvas");
                     }
                     $scope.clearDrawings();
@@ -262,6 +273,7 @@ offlineModeModule.controller('offlineModeController',
                         console.log("Video Ended. Stopping the video draw on canvas");
                         $scope.playPlauseButton = "play_arrow";
                         backgroundObject.currentTime = '0';
+                        //$scope.$broadcast('toggleDisable');
                         if ($scope.iterator != 9999) {
                             $scope.iterator = 0;
                         }
@@ -273,16 +285,16 @@ offlineModeModule.controller('offlineModeController',
                 var backgroundObject = document.getElementById("videoBackgrounddata");
                 var width = ($scope.canvasElement.width);
                 var height = ($scope.canvasElement.height);
-                if (!utilityService.getExpertFlag() && $scope.loadedSnapshots != null) {
+                if ($scope.loadedSnapshots != null || $scope.savedSnapshotsData.length > 0) {
                     if (Math.abs(backgroundObject.currentTime - $scope.nextSnapshotTime) < 0.15
-                        && $scope.iterator < $scope.loadedSnapshots.length) {
-                        console.log("snapshot coming for image : " + "canvasImg_" + $scope.loadedSnapshots[$scope.iterator]._id +
+                        && $scope.iterator < $scope.savedSnapshotsData.length) {
+                        console.log("snapshot coming for image : " + $scope.savedSnapshotsData[$scope.iterator].imageId +
                             " : at playback time... " + $scope.nextSnapshotTime);
                         backgroundObject.pause();
                         $scope.stopDrawing = true;
                         console.log("Drawing snapshot now....... ");
                         $scope.ctx.drawImage($scope.nextImageElem, 0, 0, width, height);
-                        if ($scope.iterator < $scope.loadedSnapshots.length - 1) {
+                        if ($scope.iterator < $scope.savedSnapshotsData.length - 1) {
                             $scope.iterator++;
                         }
                         $timeout(function () {
@@ -305,7 +317,7 @@ offlineModeModule.controller('offlineModeController',
                 //$scope.nextImageElem = document.getElementById("canvasImg_" + $scope.loadedSnapshots[$scope.iterator]._id);
                 //$scope.nextDuration = $scope.loadedSnapshots[$scope.iterator].duration;
                 $scope.stopDrawing = false;
-                backgroundObject.currentTime = backgroundObject.currentTime + 0.5;
+                backgroundObject.currentTime = backgroundObject.currentTime + 0.3;
                 $scope.playVideo();
             };
 
@@ -531,9 +543,9 @@ offlineModeModule.controller('offlineModeController',
                         }
                         $scope.savedSnapshotsData.push.apply($scope.savedSnapshotsData, $scope.loadedSnapshots);
                         $scope.toggleLeft();
-                        if (!utilityService.getExpertFlag()) {
-                            $scope.playVideo();
-                        }
+                        /*if (!utilityService.getExpertFlag()) {
+                         $scope.playVideo();
+                         }*/
                     }
                 })
             };
@@ -610,7 +622,7 @@ offlineModeModule.controller('offlineModeController',
                     if (data.success) {
                         console.log("Updated records : " + data.updatedInfo);
                         for (var i = 0; i < $scope.savedSnapshotsData.length; i++) {
-                            if ($scope.savedSnapshotsData[i].imageId == snapshotId) {
+                            if ($scope.savedSnapshotsData[i].imageId == "canvasImg_" + snapshotId) {
                                 $scope.savedSnapshotsData[i].duration = newDurationSet;
                                 $scope.savedSnapshotsData[i].description = newDescription;
                             }

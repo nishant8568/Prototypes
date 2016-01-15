@@ -92,18 +92,18 @@
                     </md-icon>
                     <input ng-model="registerCtrl.user.designation">
                 </md-input-container>
-                <md-content layout-margin="">
+                <!--<md-content layout-margin="">
                     <md-checkbox md-no-ink class="md-primary" ng-model="registerCtrl.user.isExpert"
                                  aria-label="isExpert">
                         Expert
                     </md-checkbox>
-                </md-content>
+                </md-content>-->
             </div>
 
             <div layout="row" layout-margin="">
                 <md-chips aria-label="expertiseTags" readonly=false
                           ng-model="registerCtrl.user.tags"
-                          ng-show="registerCtrl.user.isExpert" placeholder="Enter a tag"
+                          placeholder="Enter a tag"
                           secondary-placeholder="+Expertise Tag">
                     <md-chip-template>
                         <strong>{{$chip}}</strong>

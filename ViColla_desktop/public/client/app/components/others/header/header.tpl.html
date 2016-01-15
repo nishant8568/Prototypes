@@ -3,10 +3,10 @@
                 ng-hide="appCtrl.user.firstName == null || appCtrl.user.firstName.length == 0">
         <md-toolbar class="md-tall md-hue-2">
             <div layout="column" class="md-toolbar-tools-bottom inset" layout-align="start center">
-                <user-avatar flex=""></user-avatar>
-                <span></span>
-                <div>{{appCtrl.user.firstName}} {{appCtrl.user.lastName}}</div>
-                <div>{{appCtrl.user.email}}</div>
+                <user-avatar ng-if="appCtrl.user.logoFilename == null" flex=""></user-avatar>
+                <img ng-if="appCtrl.user.logoFilename" ng-src="{{appCtrl.user.logoFilename}}" width="70">
+                <div style="font-size: small">{{appCtrl.user.firstName}} {{appCtrl.user.lastName}}</div>
+                <div style="font-size: small">{{appCtrl.user.email}}</div>
             </div>
         </md-toolbar>
         <md-list>
