@@ -313,10 +313,13 @@ videochatModule.controller('videoChatController',
             callingData.callerLastName = callerdetails.callerinfo.lastName;
             callingData.callername = callerdetails.callerinfo.username;
             callingData.receivername = callerdetails.receiverinfo.username;
+            callingData.receiverFirstName = callerdetails.receiverinfo.firstName;
+            callingData.receiverLastName = callerdetails.receiverinfo.lastName;
             callingData.status = callStatus;
             callingData.startDate = callerdetails.startDateTime;
             callingData.duration = callEndDateTime - callerdetails.startDateTime;
             callingData.callerDesignation = callerdetails.callerinfo.designation;
+            callingData.receiverDesignation = callerdetails.receiverinfo.designation;
 
 
             alert("callend.. Sending POST request to save to call history.. : " + JSON.stringify(callingData));

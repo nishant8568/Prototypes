@@ -153,10 +153,13 @@ module.exports = function (app, passport) {
                     callingData.callerLastName = req.body.callerLastName;
                     callingData.callername = req.body.callername;
                     callingData.receivername = req.body.receivername;
+                    callingData.receiverFirstName = req.body.receiverFirstName;
+                    callingData.receiverLastName = req.body.receiverLastName;
                     callingData.status = req.body.status;
                     callingData.startDate = Moment.utc().format();
                     callingData.duration = req.body.duration;
                     callingData.callerDesignation = req.body.callerDesignation;
+                    callingData.receiverDesignation = req.body.receiverDesignation;
                     callingData.save(function (err, getCallersInfo) {
                         if(err) {
                             res.json({success: false, message: "Unable to save call details to call logs"});

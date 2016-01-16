@@ -9,11 +9,15 @@
                 <strong id="expertName">{{caller.callerFirstName}} {{caller.callerLastName}}</strong>
             </div>
             <div ng-show="appCtrl.user.username==caller.callername" class="md-list-item-text" layout="column">
-                <strong id="receiverName">{{caller.receivername}} {{caller.receivername}}</strong>
+                <strong id="receiverName">{{caller.receiverFirstName}} {{caller.receiverLastName}}</strong>
             </div>
-            <div>
+            <div ng-show="appCtrl.user.username==caller.receivername">
                 <span style="font-size: small; color: green">{{caller.callerDesignation}}</span>
                 <small>{{caller.designation}}</small>
+            </div>
+            <div ng-show="appCtrl.user.username==caller.callername">
+                <span style="font-size: small; color: green">{{caller.receiverDesignation}}</span>
+                <small>{{receiver.designation}}</small>
             </div>
             <span flex=""></span>
             <div ng-show="appCtrl.user.username==caller.receivername">

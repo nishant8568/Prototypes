@@ -45,6 +45,9 @@ var callHistorySchema = Schema({
     callerDesignation: String,
     callername: String,
     receivername: String,
+    receiverFirstName: String,
+    receiverLastName: String,
+    receiverDesignation: String,
     status: String,
     startDate: Date,
     duration: Number
