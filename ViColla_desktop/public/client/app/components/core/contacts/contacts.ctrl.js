@@ -12,6 +12,7 @@ contactsModule.controller('contactsController', ['databaseService', '$scope', '$
 
         $scope.max = 3;
         $scope.selectedIndex = 1;
+        $scope.findExpert = "";
 
 
         /*vm.loadContacts = function () {
@@ -52,7 +53,6 @@ contactsModule.controller('contactsController', ['databaseService', '$scope', '$
             };
             socket.emit('calling', JSON.stringify(caller));
             //$state.go('tabs.onlineMode');
-            //databaseService.addItem(3);
         };
 
     }]);

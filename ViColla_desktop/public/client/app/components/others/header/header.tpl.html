@@ -92,7 +92,7 @@
 
                     <md-menu-content width="4">
                         <div layout="column" layout-align="center center">
-                            <i ng-if="appCtrl.user.logoFilename == null" class="material-icons md-144 md-dark">face</i>
+                            <user-avatar ng-if="appCtrl.user.logoFilename == null" flex=""></user-avatar>
                             <img ng-if="appCtrl.user.logoFilename" ng-src="{{appCtrl.user.logoFilename}}" width="100">
                             <b>{{appCtrl.user.firstName}} {{appCtrl.user.lastName}}</b>
                             <p style="font-size: x-small; color: gray;">{{appCtrl.user.email}}</p>

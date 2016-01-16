@@ -4,7 +4,7 @@
 .attended {
     background-color: green;
 }
-#expertName {
+#receiverName, #expertName {
     color: blue;
 }
 #onlineUser {

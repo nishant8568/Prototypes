@@ -1,5 +1,12 @@
 <md-content layout-padding flex>
-    <md-card ng-repeat="contact in appCtrl.contacts | filter: appCtrl.searchContact | orderBy:['-status', 'firstName']"
+    <md-input-container hide-sm hide-md class="md-icon-float md-block">
+        <label>Search</label>
+        <md-icon>
+            <i class="material-icons md-24">search</i>
+        </md-icon>
+        <input ng-model="findExpert" type="text">
+    </md-input-container>
+    <md-card ng-repeat="contact in appCtrl.contacts | filter: findExpert | filter: appCtrl.searchContact | orderBy:['-status', 'firstName']"
              layout="row" layout-align="start center" ng-class="{online: contact.status, offline: !contact.status}">
         <md-content layout="column" layout-align="center center" layout-margin flex-sm="20" flex-gt-sm="10">
             <user-avatar></user-avatar>
