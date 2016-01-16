@@ -49,7 +49,9 @@ var callHistorySchema = Schema({
     receiverDesignation: String,
     status: String,
     startDate: Date,
-    duration: Number
+    duration: Number,
+    receiverLogoFilename: String,
+    callerLogoFilename: String
 });
 
 var CallHistory = mongoose.model('CallHistory', callHistorySchema);

@@ -34,8 +34,14 @@
         </div>
         <span flex=""></span>
         <div layout-margin layout="column" layout-align="center end">
-            <strong>
+            <strong hide-sm hide-md>
                 {{utilityService.getFormattedDate(caller.startDate)}} |
+                {{utilityService.getFormattedTime(caller.startDate)}}
+            </strong>
+            <strong hide-gt-md>
+                {{utilityService.getFormattedDate(caller.startDate)}}
+            </strong>
+            <strong hide-gt-md>
                 {{utilityService.getFormattedTime(caller.startDate)}}
             </strong>
             <h6>{{utilityService.formatDuration(caller.duration)}}</h6>

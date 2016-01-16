@@ -320,6 +320,8 @@ videochatModule.controller('videoChatController',
             callingData.duration = callEndDateTime - callerdetails.startDateTime;
             callingData.callerDesignation = callerdetails.callerinfo.designation;
             callingData.receiverDesignation = callerdetails.receiverinfo.designation;
+            callingData.receiverLogoFilename = callerdetails.receiverinfo.logoFilename;
+            callingData.callerLogoFilename = callerdetails.callerinfo.logoFilename;
 
 
             alert("callend.. Sending POST request to save to call history.. : " + JSON.stringify(callingData));
