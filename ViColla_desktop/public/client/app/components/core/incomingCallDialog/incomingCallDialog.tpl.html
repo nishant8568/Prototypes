@@ -9,14 +9,14 @@
             <form>
                 <section layout="row" layout-margin>
                     <div layout="column" class="md-toolbar-tools-bottom inset" layout-align="start center">
-                        <user-avatar flex=""></user-avatar>
+                        <user-avatar ng-if="user.logoFilename == null" flex=""></user-avatar>
+                        <img ng-if="user.logoFilename" ng-src="{{user.logoFilename}}" width="100">
                     </div>
                     <div layout="column" layout-margin layout-align="space-around start">
                         <div layout="column" layout-padding>
                             <b style="font-size: x-large">{{user.firstName}} {{user.lastName}}</b>
                             <b style="font-size: small">{{user.designation}}</b>
                             <b style="font-size: small">{{user.place}}</b>
-                            <b style="font-size: small">{{userDetails.callername}}</b>
                         </div>
                     </div>
                 </section>

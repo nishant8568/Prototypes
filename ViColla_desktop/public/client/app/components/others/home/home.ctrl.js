@@ -9,7 +9,7 @@ homeModule.controller('HomeController', ['$scope', 'authService', '$window', '$l
         vm.user = {
             username: "",
             password: "",
-            loginAsExpert: true
+            loginAsExpert: false
         };
 
         vm.submitCredentials = function () {
