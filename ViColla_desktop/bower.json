@@ -1,9 +1,9 @@
 {
-  "name": "Abc_desktop",
-  "description": "Desktop Version of Abc application",
+  "name": "ABC_desktop",
+  "description": "Desktop Version of ABC application",
   "main": "index.js",
   "authors": [
-    "nishant"
+    "Antony"
   ],
   "license": "ISC",
   "dependencies": {
@@ -14,8 +14,5 @@
     "lodash": "*",
     "bootstrap": "~3.3.5",
     "moment": "^2.9.0"
-  },
-  "devDependencies": {
-    "mdi": "~1.4.57"
   }
 }

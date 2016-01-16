@@ -14,7 +14,6 @@ module.exports = function (app, passport) {
                     res.json({"success": true, "user": buildUserDict(user)});
                 });
             } else {
-				console.log('\n\n\n', uploadErr, '\n\n\n');
                 res.json({"success": false, "error": uploadErr});
             }
         })
@@ -59,12 +58,11 @@ module.exports = function (app, passport) {
         console.log(req);
         console.log("routes.js >> signupSuccess >> response");
         console.log(res);
-        res.json({"success": true, "user": buildUserDict(req.user)});
+        res.json({"success": true});
     });
 
     app.get('/check/session', function (req, res, next) {
         if (isLoggedIn(req, res)) {
-            console.log(req.user);
             res.json({"success": true, "user": buildUserDict(req.user)})
         } else {
             res.json({"success": false})
@@ -89,7 +87,7 @@ module.exports = function (app, passport) {
 
     app.get('/contacts', function (req, res, next) {
         if (isLoggedIn(req, res)) {
-            models.User.find({isExpert: true})
+            models.User.find({})
                 .where("_id")
                 .ne(req.user._id)
                 .sort('-firstName')
@@ -260,7 +258,7 @@ function buildUserDict(sessionUser) {
         email: sessionUser.email,
         username: sessionUser.username,
         designation: sessionUser.designation,
-        isExpert: sessionUser.isExpert,
+        isExpert: sessionUser.loginAsExpert,
         tags: sessionUser.tags,
         logoFilename: sessionUser.logoFilename,
         status: sessionUser.status

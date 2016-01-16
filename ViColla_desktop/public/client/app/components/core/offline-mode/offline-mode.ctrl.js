@@ -215,7 +215,7 @@ offlineModeModule.controller('offlineModeController',
                 else
                     return 0;
             };
-
+            
             /**
              * Play video and draw over canvas
              */
@@ -235,7 +235,7 @@ offlineModeModule.controller('offlineModeController',
                     }*/
 
                     $scope.savedSnapshotsData.sort(compare);
-                    console.log("snapshots length:::::::: " + $scope.savedSnapshotsData);
+                    console.log("snapshots length:::::::: " + $scope.savedSnapshotsData.length);
                     if ($scope.savedSnapshotsData.length > 0 && $scope.iterator < $scope.savedSnapshotsData.length) {
                         $scope.nextSnapshotTime = $scope.savedSnapshotsData[$scope.iterator].playbackTime;
                         $scope.nextImageElem = document.getElementById($scope.savedSnapshotsData[$scope.iterator].imageId);

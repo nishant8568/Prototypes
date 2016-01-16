@@ -8,10 +8,9 @@ homeModule.controller('HomeController', ['$scope', 'authService', '$window', '$l
         var vm = this;
         vm.user = {
             username: "",
-            password: ""
+            password: "",
+            loginAsExpert: true
         };
-
-        $scope.isExpertMode = true;
 
         vm.submitCredentials = function () {
             authService.login(vm.user)

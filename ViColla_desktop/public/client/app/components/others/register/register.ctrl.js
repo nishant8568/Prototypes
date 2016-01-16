@@ -18,7 +18,6 @@ registerModule.controller('RegisterController', ['$scope', 'authService', '$wind
         logo: null,
         photo: null,
         designation: "",
-        isExpert: false,
         tags: [],
         status: true
     };
@@ -37,13 +36,16 @@ registerModule.controller('RegisterController', ['$scope', 'authService', '$wind
         authService.register(data).then(function (response) {
             if (response.success) {
                 console.log(JSON.stringify(response));
-                $scope.appCtrl.user = response.user;
-                localStorage.setItem('username', $scope.appCtrl.user.username);
+                $scope.appCtrl.user = undefined;
                 if (data.logo != null) {
                     console.log("uploading photo : ", data.logo);
                     uploadLogo({'file': data.logo})
                 } else {
-                    $location.path('/');
+                    $window.alert("Account created");
+                    authService.logout()
+                        .then(function (data) {
+                            $location.path('/login')
+                        })
                 }
             } else {
                 $window.alert(response.message);
@@ -53,12 +55,11 @@ registerModule.controller('RegisterController', ['$scope', 'authService', '$wind
 
     var uploadLogo = function (data) {
         authService.uploadLogo(data).success(function (response) {
-            if (response.success) {
-                $scope.appCtrl.user = response.user;
-                $location.path('/');
-            } else {
-                $location.path('/');
-            }
+            $window.alert("Account created");
+            authService.logout()
+                .then(function (data) {
+                    $location.path('/login')
+                })
         });
     };
 

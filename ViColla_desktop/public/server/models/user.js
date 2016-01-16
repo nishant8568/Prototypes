@@ -16,7 +16,6 @@ var userSchema = Schema({
     lastName: String,
     birthDate: Date,
     designation: String,
-    isExpert: Boolean,
     tags: [String],
     logoFilename: String,
     status: Boolean

@@ -22,14 +22,16 @@ module.exports = function (passport) {
      * used to serialize the user for the session
      */
     passport.serializeUser(function (user, done) {
-        done(null, user.id);
+        var sessionObject = {userId: user.id, loginAsExpert: user.loginAsExpert};
+        done(null, sessionObject);
     });
 
     /**
      * used to deserialize the user
      */
-    passport.deserializeUser(function (id, done) {
-        models.User.findById(id, function (err, user) {
+    passport.deserializeUser(function (sessionObject, done) {
+        models.User.findById(sessionObject.userId, function (err, user) {
+            user.loginAsExpert = sessionObject.loginAsExpert;
             done(err, user);
         });
     });
@@ -55,6 +57,7 @@ module.exports = function (passport) {
                 if (!user.validPassword(password)) {
                     return done(null, false, req.flash('message', 'Invalid Password'));
                 }
+                user.loginAsExpert = req.body.loginAsExpert;
                 return done(null, user);
             }
         );
@@ -94,7 +97,6 @@ module.exports = function (passport) {
                         newUser.firstName = req.body.firstName;
                         newUser.lastName = req.body.lastName;
                         newUser.designation = req.body.designation;
-                        newUser.isExpert = req.body.isExpert;
                         newUser.tags = req.body.tags;
                         newUser.status=req.body.status;
                         if (req.body.birthDate != 'null') {
