@@ -571,7 +571,11 @@ offlineModeModule.controller('offlineModeController',
                         indexInSavedSnapshotsArray = i;
                     }
                 }
-                angular.element($event.currentTarget).parent().parent().html('');
+                //angular.element($event.currentTarget).parent().parent().html('');
+                var playbackT = $scope.savedSnapshotsData[indexInSavedSnapshotsArray].playbackTime;
+                var parent = document.getElementById("snapshots");
+                var child = document.getElementById("snapshotsList_" + playbackT);
+                parent.removeChild(child);
                 databaseService.removeImage(snapshotId).then(function (data) {
                     if (data.success) {
                         console.log("Number of records deleted : " + data.removedSnapshots);
