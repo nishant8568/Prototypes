@@ -29,12 +29,12 @@ navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authServ
                 name: "collaborate",
                 icon: "thumbs_up_down",
                 tooltip: "Collaborate"
-            },
+            }/*,
             {
                 name: "annotate",
                 icon: "color_lens",
                 tooltip: "Annotate"
-            }
+            }*/
         ];
 
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {

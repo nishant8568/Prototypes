@@ -57,7 +57,7 @@
                 <p>Sorry your browser does not support HTML5</p>
             </canvas>
         </div>
-        <div id="playerControlsContainer" layout="row" layout-align="start center" class="coverage_black_canvas">
+        <div id="playerControlsContainer" layout="row" layout-align="space-around center" class="coverage_black_canvas">
             <md-button class="md-icon-button md-36" aria-label="Play" ng-click="playVideo()">
                 <i class="material-icons md-36">{{playPlauseButton}}</i>
             </md-button>
@@ -70,11 +70,11 @@
             <span layout-margin>
                 <h5>{{formatDuration((videoObject.currentTime)*1000)}}</h5>
             </span>
-            <md-slider flex min="0" max="{{videoObject.duration}}" ng-model="videoObject.currentTime" aria-label="blue"
+            <md-slider hide-sm hide-md flex min="0" max="{{videoObject.duration}}" ng-model="videoObject.currentTime" aria-label="blue"
                        class="md-primary"
                        layout-margin>
             </md-slider>
-            <span layout-margin>
+            <span hide-sm hide-md layout-margin>
                 <h5>{{formatDuration((videoObject.duration)*1000)}}</h5>
             </span>
             <md-button class="md-icon-button md-36" aria-label="Volume" ng-click="toggleVolumeStatus()" layout-margin>
@@ -85,6 +85,6 @@
     </div>
     <tools tool="drawingStyle" ng-show="getExpertFlag()" stroke-color="strokeColor"
            undo="undo()" save="saveSnapshot()" flex="5"></tools>
-    <span hide-gt-md flex="10"></span>
+    <span flex="15" ng-hide="getExpertFlag()"></span>
     <snapshots layout-margin flex="15" ng-show="getExpertFlag()"></snapshots>
 </md-content>

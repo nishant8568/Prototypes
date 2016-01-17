@@ -207,7 +207,7 @@ offlineModeModule.controller('offlineModeController',
                 alert("undo");
             };
 
-            var compare = function(a,b) {
+            var compare = function (a, b) {
                 if (a.playbackTime < b.playbackTime)
                     return -1;
                 else if (a.playbackTime > b.playbackTime)
@@ -215,7 +215,7 @@ offlineModeModule.controller('offlineModeController',
                 else
                     return 0;
             };
-            
+
             /**
              * Play video and draw over canvas
              */
@@ -227,12 +227,12 @@ offlineModeModule.controller('offlineModeController',
 
                     //if (!utilityService.getExpertFlag() && $scope.iterator < $scope.loadedSnapshots.length) {
                     /*if ($scope.loadedSnapshots != null) {
-                        if ($scope.loadedSnapshots.length > 0 && $scope.iterator < $scope.loadedSnapshots.length) {
-                            $scope.nextSnapshotTime = $scope.loadedSnapshots[$scope.iterator].playbackTime;
-                            $scope.nextImageElem = document.getElementById("canvasImg_" + $scope.loadedSnapshots[$scope.iterator]._id);
-                            $scope.nextDuration = $scope.loadedSnapshots[$scope.iterator].duration;
-                        }
-                    }*/
+                     if ($scope.loadedSnapshots.length > 0 && $scope.iterator < $scope.loadedSnapshots.length) {
+                     $scope.nextSnapshotTime = $scope.loadedSnapshots[$scope.iterator].playbackTime;
+                     $scope.nextImageElem = document.getElementById("canvasImg_" + $scope.loadedSnapshots[$scope.iterator]._id);
+                     $scope.nextDuration = $scope.loadedSnapshots[$scope.iterator].duration;
+                     }
+                     }*/
 
                     $scope.savedSnapshotsData.sort(compare);
                     console.log("snapshots length:::::::: " + $scope.savedSnapshotsData.length);
@@ -493,12 +493,13 @@ offlineModeModule.controller('offlineModeController',
                         parent: angular.element(document.body)
                     })
                     .then(function (answer) {
-                        if (answer.indexOf("apply")) {
+                        //alert(answer[3]);
+                        if (answer[3].indexOf("apply") > -1) {
                             durationSet = answer[0];
                             playbackTime = answer[1];
                             description = answer[2];
                             $scope.saveImage(playbackTime, durationSet, description);
-                        } else if (answer.indexOf("cancel")) {
+                        } else if (answer[3].indexOf("cancel")) {
                             // do nothing
                             console.log("dialog closed");
                         }
@@ -654,11 +655,13 @@ offlineModeModule.controller('offlineModeController',
                     "<md-icon>" +
                     "<i class=\"material-icons md-18\">edit</i>" +
                     "</md-icon>" +
+                    "<md-tooltip>Edit</md-tooltip>" +
                     "</md-button>" +
                     "<md-button class='md-icon-button' ng-click='deleteSnapshot($event)'>" +
                     "<md-icon>" +
                     "<i class=\"material-icons md-18\">delete</i>" +
                     "</md-icon>" +
+                    "<md-tooltip>Delete</md-tooltip>" +
                     "</md-button>" +
                     "</div>" +
                     "<md-grid-tile id=\"snapshot_" + imageId + "\">" +

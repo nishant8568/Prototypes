@@ -18,6 +18,6 @@ snapshotsAttributesModule.controller('snapshotsAttributesController',
         };
 
         $scope.answer = function (answer) {
-            $mdDialog.hide([$scope.durationSet, $scope.videoplayTime, $scope.description]);
+            $mdDialog.hide([$scope.durationSet, $scope.videoplayTime, $scope.description, answer]);
         };
     });
