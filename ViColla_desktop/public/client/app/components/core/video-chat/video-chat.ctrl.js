@@ -6,7 +6,8 @@
 //         controller: 'videoChatController'
 //       });
 // });
-videochatModule.controller('videoChatController',
+videochatModule.controller('videoChatController', ['$scope', '$http', 'authService', 'databaseService', '$stateParams',
+    '$location', '$window', '$timeout', 'config', '$mdDialog', 'socket', '$state',
     function ($scope, $http, authService, databaseService, $stateParams, $location,
               $window, $timeout, config, $mdDialog, socket, $state) {
         'use strict';
@@ -625,4 +626,4 @@ videochatModule.controller('videoChatController',
             sdpLines[mLineIndex] = mLineElements.join(' ');
             return sdpLines;
         }
-    });
+    }]);

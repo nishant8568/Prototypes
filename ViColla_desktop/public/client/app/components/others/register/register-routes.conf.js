@@ -1,7 +1,7 @@
 /**
  * Created by nishant on 11/29/2015.
  */
-registerModule.config(function ($stateProvider) {
+registerModule.config(['$stateProvider', function ($stateProvider) {
     $stateProvider
         .state('register', {
             url: '/register',
@@ -9,4 +9,4 @@ registerModule.config(function ($stateProvider) {
             controller: 'RegisterController',
             controllerAs: 'registerCtrl'
         });
-});
+}]);

@@ -1,8 +1,8 @@
 /**
  * Created by nishant on 11/28/2015.
  */
-snapshotsAttributesModule.controller('snapshotsAttributesController',
-    function ($scope, $mdDialog, playbackTime, duration, description) {
+snapshotsAttributesModule.controller('snapshotsAttributesController', ['$scope', '$mdDialog', 'playbackTime', 'duration',
+    'description', function ($scope, $mdDialog, playbackTime, duration, description) {
         $scope.attributesDialogIcons = [
             {name: 'Close', icon: 'close'}
         ];
@@ -20,4 +20,4 @@ snapshotsAttributesModule.controller('snapshotsAttributesController',
         $scope.answer = function (answer) {
             $mdDialog.hide([$scope.durationSet, $scope.videoplayTime, $scope.description, answer]);
         };
-    });
+    }]);

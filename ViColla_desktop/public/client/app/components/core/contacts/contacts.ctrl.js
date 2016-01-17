@@ -2,9 +2,8 @@
  * Created by nishant on 11/29/2015.
  */
 contactsModule.controller('contactsController', ['databaseService', '$scope', '$rootScope', '$http', 'authService',
-    '$location', '$window', '$timeout', 'config', 'socket', '$state', function (databaseService, $scope, $rootScope,
-                                                                                $http, authService, $location, $window,
-                                                                                $timeout, config, socket, $state) {
+    '$location', '$window', '$timeout', 'config', 'socket', '$state',
+    function (databaseService, $scope, $rootScope, $http, authService, $location, $window, $timeout, config, socket, $state) {
         'use strict';
 
         var vm = this;

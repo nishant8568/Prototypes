@@ -1,7 +1,7 @@
 /**
  * Created by nishant on 11/27/2015.
  */
-toolsModule.controller('toolsController', function ($scope, $q, $timeout) {
+toolsModule.controller('toolsController', ['$scope', '$q', '$timeout', function ($scope, $q, $timeout) {
 
     'use strict';
 
@@ -76,4 +76,4 @@ toolsModule.controller('toolsController', function ($scope, $q, $timeout) {
             $scope.save();
         }
     };
-});
+}]);

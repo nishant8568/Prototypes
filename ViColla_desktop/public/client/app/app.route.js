@@ -3,7 +3,7 @@
  */
 'use strict';
 
-app.config(function ($stateProvider, $urlRouterProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider
         .when('/', '/callHistory')
         .otherwise('/callHistory');
@@ -12,8 +12,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         .state('tabs', {
             abstract: true,
             url: '/',
-            onEnter: function(){
-              console.log("enter abstract state tabs")
+            onEnter: function () {
+                console.log("enter abstract state tabs")
             },
             template: '<navigation-tabs layout="column" flex></navigation-tabs>'
         })
@@ -32,9 +32,9 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 'callHistory': {
                     template: '<online-mode></online-mode>'
                 }/*,
-                'contacts': {
-                    template: '<contacts layout="column"></contacts>'
-                }*/
+                 'contacts': {
+                 template: '<contacts layout="column"></contacts>'
+                 }*/
             }
         })
         .state('tabs.offlineMode', {
@@ -66,7 +66,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('tabs.onlineM.collaborate', {
             url: '/collaborate',
-            controller: function ($scope, $state){
+            controller: function ($scope, $state) {
                 console.log("collaborate tab");
                 $scope.options = $scope.$parent.options;
 
@@ -91,7 +91,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         .state('tabs.onlineM.annotate', {
             url: '/annotate',
             templateUrl: 'app/components/core/video-chat/annotate/annotate-online.html',
-            controller: function ($scope, $state){
+            controller: function ($scope, $state) {
                 console.log("annotate tab");
                 $scope.options = $scope.$parent.options;
 
@@ -123,4 +123,4 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-});
+}]);

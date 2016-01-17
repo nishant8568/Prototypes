@@ -2,7 +2,7 @@
  * Created by nishant on 28.12.2015.
  */
 
-socketWrapper.factory('socket', function ($rootScope) {
+socketWrapper.factory('socket', ['$rootScope', function ($rootScope) {
     var socket;
 
     socket = io.connect();
@@ -36,4 +36,4 @@ socketWrapper.factory('socket', function ($rootScope) {
             console.log("removeAllListeners");
         }
     };
-});
+}]);

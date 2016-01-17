@@ -23,7 +23,7 @@ gulp.task('build', function(callback) {
     runSequence(
         'clean',
         ['build-scripts', 'build-scripts-bower', 'build-styles', 'build-styles-bower'],
-        ['copy-assets', 'copy-client'],
+        ['copy-assets', 'copy-client', 'copy-server', 'copy-server-file'],
         'build-html',
         callback);
 });
@@ -36,52 +36,65 @@ gulp.task('clean', function() {
 
 // concatenate, annotate (for angular JS) and minify the js scripts into one single app.js file, then copy it to dist folder
 gulp.task('build-scripts', function() {
-    return gulp.src(['./public/client/**/*.js'])
+    return gulp.src(['./public/client/app/**/*.js'])
         .pipe(concat('app.js')) // concatenate all js files
         .pipe(ngAnnotate()) // annotate to ensure proper dependency injection in AngularJS
         .pipe(uglify()) // minify js
         .pipe(rev()) // add a unique id at the end of app.js (ex: app-f4446a9c.js) to prevent browser caching when updating the website
-        .pipe(gulp.dest('./dist/app')); // copy app-**.js to the appropriate folder
+        .pipe(gulp.dest('./dist/client/app')); // copy app-**.js to the appropriate folder
 });
 
 // same as above, with the bower files (no need to ngannotate)
 gulp.task('build-scripts-bower', function() {
-    return gulp.src(bowerFiles({paths: {bowerDirectory: './public/bower_components'}}))
+    return gulp.src(bowerFiles({paths: {bowerDirectory: './public/client/bower_components'}}))
         .pipe(gulpFilter(['*.js', '!bootstrap-sass-official', '!bootstrap.js', '!json3', '!es5-shim']))
         .pipe(concat('vendor.js'))
         .pipe(uglify())
         .pipe(rev())
-        .pipe(gulp.dest('./dist/app'));
+        .pipe(gulp.dest('./dist/client/app'));
 });
 
 // yet another concat/minify task, here for the CSS
 gulp.task('build-styles',function() {
-    return gulp.src(['./public/assets/css/**/*.css', './public/app/components/**/*.css', './public/app/shared/**/*.css'])
+    return gulp.src(['./public/client/assets/css/**/*.css', './public/client/app/components/**/*.css'])
+        .pipe(concat('app.css'))
         .pipe(minifyCSS())
         .pipe(rev())
-        .pipe(gulp.dest('./dist/app'));
+        .pipe(gulp.dest('./dist/client/app'));
 });
 
 // and for vendor CSS
 gulp.task('build-styles-bower', function() {
-    return gulp.src(bowerFiles({paths: {bowerDirectory: './public/bower_components'}}))
+    return gulp.src(bowerFiles({paths: {bowerDirectory: './public/client/bower_components'}}))
         .pipe(gulpFilter(['*.css', '!bootstrap-sass-official', '!json3',  '!es5-shim']))
         .pipe(concat('vendor.css'))
         .pipe(minifyCSS())
         .pipe(rev())
-        .pipe(gulp.dest('./dist/app'));
+        .pipe(gulp.dest('./dist/client/app'));
 });
 
 // copying the assets (images, fonts, ...)
 gulp.task('copy-assets', function() {
-    return gulp.src('./public/assets/**/*.*')
-        .pipe(gulp.dest('./dist/assets'));
+    return gulp.src('./public/client/assets/**/*.*')
+        .pipe(gulp.dest('./dist/client/assets'));
 });
 
 // copying the html files
 gulp.task('copy-client', function(){
-    return gulp.src('./public/**/**/*.+(html|txt|ico)')
-        .pipe(gulp.dest('./dist/'));
+    return gulp.src('./public/client/**/**/*.+(html|txt|ico)')
+        .pipe(gulp.dest('./dist/client/'));
+});
+
+// simple task to copy the server folder to dist/server
+gulp.task('copy-server', function(){
+    return gulp.src('./public/server/**/*.*')
+        .pipe(gulp.dest('./dist/server'));
+});
+
+// copy the server file to dist
+gulp.task('copy-server-file', function(){
+    return gulp.src('./public/server.js')
+        .pipe(gulp.dest('./dist'));
 });
 
 // queues app.js and vendor.js
@@ -102,10 +115,10 @@ function buildcss() {
 
 // injection of both js files and css files in index.html
 gulp.task('build-html', function() {
-    return gulp.src('./dist/index.html')
+    return gulp.src('./dist/client/index.html')
         .pipe(inject(buildjs(), {relative:true}))
         .pipe(inject(buildcss(), {relative:true}))
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest('./dist/client'));
 });
 
 gulp.task('watch', function() {

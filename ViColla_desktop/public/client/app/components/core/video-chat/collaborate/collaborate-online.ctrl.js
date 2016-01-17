@@ -1,7 +1,7 @@
 /**
  * Created by nishant on 1/7/2016.
  */
-collaborationModule.controller('collaborationController', function($scope) {
+collaborationModule.controller('collaborationController', ['$scope', function($scope) {
     function draw() {
         if (window.requestAnimationFrame) window.requestAnimationFrame(draw);
         // IE implementation
@@ -88,4 +88,4 @@ collaborationModule.controller('collaborationController', function($scope) {
             return imgData;
         }
     }
-});
+}]);
