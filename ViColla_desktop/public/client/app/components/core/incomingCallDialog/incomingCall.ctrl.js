@@ -1,5 +1,5 @@
 /**
- * Created by antony on 12/6/2015.
+ * Created by nishant on 12/6/2015.
  */
 incomingCallModule.controller('incomingCallDialogController', function ($scope, $mdDialog, message, callerinfo) {
     'use strict';

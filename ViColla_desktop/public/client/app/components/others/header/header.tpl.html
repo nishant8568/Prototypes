@@ -1,7 +1,7 @@
 <div layout="row" flex="">
     <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="leftMenu"
                 ng-hide="appCtrl.user.firstName == null || appCtrl.user.firstName.length == 0">
-        <md-toolbar class="md-tall md-hue-2">
+        <md-toolbar class="md-medium md-hue-2">
             <div layout="column" class="md-toolbar-tools-bottom inset" layout-align="start center">
                 <user-avatar ng-if="appCtrl.user.logoFilename == null" flex=""></user-avatar>
                 <img ng-if="appCtrl.user.logoFilename" ng-src="{{appCtrl.user.logoFilename}}" width="70">
@@ -66,7 +66,7 @@
             <md-divider></md-divider>
         </md-list>
     </md-sidenav>
-    <md-toolbar layout="row" ng-show="!showSearch" ng-class="{'md-warn md-hue-2': appCtrl.user.isExpert}">
+    <md-toolbar class="md-medium" layout="row" ng-show="!showSearch" ng-class="{'md-warn md-hue-2': appCtrl.user.isExpert}">
         <div class="md-toolbar-tools">
             <md-button hide-gt-md class="md-icon-button" ng-click="toggleSidenavMenu()" aria-label="Settings"
                        ng-hide="appCtrl.user.firstName == null || appCtrl.user.firstName.length == 0">
@@ -75,7 +75,7 @@
                 </md-icon>
             </md-button>
             <h2 class="md-title">
-                Abc Assistant
+                ViColla Assistant
             </h2>
             <span flex=""></span>
 
@@ -154,7 +154,7 @@
         </md-button>
     </md-toolbar>
 
-    <md-toolbar class="md-hue-1" ng-show="showSearch">
+    <md-toolbar class="md-medium" class="md-hue-1" ng-show="showSearch">
         <div class="md-toolbar-tools">
             <md-button ng-click="showSearch = !showSearch" aria-label="Back">
                 <md-icon>

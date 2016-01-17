@@ -1,5 +1,5 @@
 /**
- * Created by antony on 11/29/2015.
+ * Created by nishant on 11/29/2015.
  */
 registerModule.controller('RegisterController', ['$scope', 'authService', '$window', '$location', function ($scope, authService, $window, $location) {
     'use strict';

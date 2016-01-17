@@ -1,12 +1,12 @@
 {
   "name": "ABC_desktop",
   "version": "1.0.0",
-  "description": "Desktop Version of ABC application",
+  "description": "ViColla application",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Antony",
+  "author": "nishant",
   "license": "ISC",
   "devDependencies": {
     "express" : "^4.13.3",

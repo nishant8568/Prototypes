@@ -1,7 +1,7 @@
-<md-content layout="column" layout-align="center center" flex>
-    <md-whiteframe class="md-whiteframe-24dp" layout="row" layout-align="center center">
+<md-content layout="column" layout-align="start center" flex>
+    <md-whiteframe class="md-whiteframe-24dp" layout="column" layout-align="center center">
         <form name="userForm" layout="column" layout-margin="">
-            <div layout="row" layout-margin="">
+            <div layout-gt-sm="row" layout-margin="">
                 <md-input-container class="md-icon-float md-block" layout-margin="">
                     <label>First name</label>
                     <md-icon class="name">
@@ -19,9 +19,9 @@
                 <md-datepicker ng-model="registerCtrl.user.birthDate" md-placeholder="Date of Birth"></md-datepicker>
             </div>
 
-            <div layout="row" layout-margin="">
+            <div layout-gt-sm="row" layout-margin="">
                 <div layout="column">
-                    <div layout="row" layout-margin="">
+                    <div layout-gt-sm="row" layout-margin="">
                         <md-input-container class="md-icon-float md-block" layout-margin="">
                             <label>Username</label>
                             <md-icon class="name">
@@ -38,7 +38,7 @@
                         </md-input-container>
                     </div>
 
-                    <div layout="row" layout-margin="">
+                    <div layout-gt-sm="row" layout-margin="">
                         <md-input-container layout-margin="" class="md-icon-float md-block" layout-margin="">
                             <label>Phone Number</label>
                             <md-icon class="name">
@@ -84,8 +84,8 @@
                 <input type="file" aria-label="" class="form-control" id="logo" file-model="registerCtrl.user.logo">
             </md-input-container>-->
 
-            <div layout="row" layout-margin="">
-                <md-input-container class="md-icon-float md-block" layout-margin="" flex="50">
+            <div layout-gt-sm="row" layout-margin="">
+                <md-input-container class="md-icon-float md-block" layout-margin="" flex-gt-sm="50">
                     <label>Designation</label>
                     <md-icon class="name">
                         <i class="material-icons blue">domain</i>
@@ -100,7 +100,7 @@
                 </md-content>-->
             </div>
 
-            <div layout="row" layout-margin="">
+            <div layout-gt-sm="row" layout-margin="">
                 <md-chips aria-label="expertiseTags" readonly=false
                           ng-model="registerCtrl.user.tags"
                           placeholder="Enter a tag"
@@ -110,11 +110,12 @@
                     </md-chip-template>
                 </md-chips>
                 <span flex=""></span>
+                <br show-sm>
                 <md-button class="md-raised md-primary" ng-click="registerCtrl.signUp()">Register</md-button>
             </div>
         </form>
     </md-whiteframe>
     <div>
-        <h6 style="color: blue;"><a href="#/home">Already Registered? Login here</a></h6>
+        <h6 style="color: blue;"><a href="#/login">Already Registered? Login here</a></h6>
     </div>
 </md-content>
