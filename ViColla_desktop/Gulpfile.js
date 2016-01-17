@@ -1,5 +1,5 @@
 /**
- * Created by nishant on 11/14/2015.
+ * Created by antony on 11/14/2015.
  */
 'use strict';
 
@@ -39,7 +39,7 @@ gulp.task('build-scripts', function() {
     return gulp.src(['./public/client/app/**/*.js'])
         .pipe(concat('app.js')) // concatenate all js files
         .pipe(ngAnnotate()) // annotate to ensure proper dependency injection in AngularJS
-        .pipe(uglify()) // minify js
+        //.pipe(uglify()) // minify js
         .pipe(rev()) // add a unique id at the end of app.js (ex: app-f4446a9c.js) to prevent browser caching when updating the website
         .pipe(gulp.dest('./dist/client/app')); // copy app-**.js to the appropriate folder
 });
@@ -49,7 +49,7 @@ gulp.task('build-scripts-bower', function() {
     return gulp.src(bowerFiles({paths: {bowerDirectory: './public/client/bower_components'}}))
         .pipe(gulpFilter(['*.js', '!bootstrap-sass-official', '!bootstrap.js', '!json3', '!es5-shim']))
         .pipe(concat('vendor.js'))
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(rev())
         .pipe(gulp.dest('./dist/client/app'));
 });
@@ -100,16 +100,16 @@ gulp.task('copy-server-file', function(){
 // queues app.js and vendor.js
 function buildjs() {
     return streamqueue({ objectMode: true },
-        gulp.src('app/vendor*.js', {read:false, 'cwd': __dirname + '/dist/'}),
-        gulp.src('app/app*.js', {read:false, 'cwd': __dirname + '/dist/'})
+        gulp.src('app/vendor*.js', {read:false, 'cwd': __dirname + '/dist/client/'}),
+        gulp.src('app/app*.js', {read:false, 'cwd': __dirname + '/dist/client/'})
     );
 }
 
 // queues app.css and vendor.css
 function buildcss() {
     return streamqueue({ objectMode: true },
-        gulp.src('app/vendor*.css', {read:false, 'cwd': __dirname + '/dist/'}),
-        gulp.src('app/app*.css', {read:false, 'cwd': __dirname + '/dist/'})
+        gulp.src('app/vendor*.css', {read:false, 'cwd': __dirname + '/dist/client/'}),
+        gulp.src('app/app*.css', {read:false, 'cwd': __dirname + '/dist/client/'})
     );
 }
 
