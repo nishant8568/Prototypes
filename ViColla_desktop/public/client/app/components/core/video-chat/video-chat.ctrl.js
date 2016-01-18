@@ -57,11 +57,6 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
             }
         };
 
-        var vid = document.getElementById("remoteVideo");
-        vid.onloadedmetadata = function () {
-            console.log("Meta data for video loaded : " + vid.videoHeight + " : " + vid.videoWidth);
-        };
-
         $scope.optionClicked = function (option) {
             switch (option.name) {
                 case "call":
@@ -272,8 +267,7 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         var remoteVideo = document.querySelector('#remoteVideo');
 
         function handleUserMedia(stream) {
-            console.log("handleUserMedia >> stream.... ");
-            console.log(JSON.stringify(stream));
+            console.log("handleUserMedia >> stream.... ", stream);
             localStream = stream;
             attachMediaStream(localVideo, stream);
             console.log('Adding local stream >> send message "got user media" ');
@@ -442,6 +436,7 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         }
 
         function doAnswer() {
+            console.log("going to create answer.............");
             pc.createAnswer(setLocalAndSendAnswer, null, sdpConstraints);
             $scope.busy = true;
             //$scope.$apply();

@@ -3,7 +3,7 @@
   "description": "ViColla application",
   "main": "index.js",
   "authors": [
-    "antony"
+    "nishant"
   ],
   "license": "ISC",
   "dependencies": {

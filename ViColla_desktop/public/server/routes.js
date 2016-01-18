@@ -10,9 +10,10 @@ module.exports = function (app, passport) {
     app.post('/upload', function (req, res) {
         upload.single('file')(req, res, function (uploadErr) {
             if (!uploadErr) {
-                models.User.findByIdAndUpdate(req.user._id, {$set: {logoFilename: '/img/' + req.body.filename}}, function (err, user) {
-                    res.json({"success": true, "user": buildUserDict(user)});
-                });
+                models.User.findByIdAndUpdate(req.user._id, {$set: {logoFilename: '/img/' + req.body.filename}},
+                    function (err, user) {
+                        res.json({"success": true, "user": buildUserDict(user)});
+                    });
             } else {
                 res.json({"success": false, "error": uploadErr});
             }
@@ -161,7 +162,7 @@ module.exports = function (app, passport) {
                     callingData.receiverLogoFilename = req.body.receiverLogoFilename;
                     callingData.callerLogoFilename = req.body.callerLogoFilename;
                     callingData.save(function (err, getCallersInfo) {
-                        if(err) {
+                        if (err) {
                             res.json({success: false, message: "Unable to save call details to call logs"});
                         }
                         res.json({"success": true, "callHistory": getCallersInfo});
@@ -195,10 +196,12 @@ module.exports = function (app, passport) {
             console.log(req.body.imageInfo.imageId);
             console.log(req.body.imageInfo.duration);
             console.log(req.body.imageInfo.description);
-            models.ImageSnapshot.update({_id: req.body.imageInfo.imageId}, {$set:{
-                duration: req.body.imageInfo.duration,
-                description : req.body.imageInfo.description
-            }}, function(err, updatedInfo) {
+            models.ImageSnapshot.update({_id: req.body.imageInfo.imageId}, {
+                $set: {
+                    duration: req.body.imageInfo.duration,
+                    description: req.body.imageInfo.description
+                }
+            }, function (err, updatedInfo) {
                 if (err) {
                     res.json({
                         "success": false,
@@ -215,23 +218,23 @@ module.exports = function (app, passport) {
         }
     });
 
-    app.post('/remove/image', function(req, res, next) {
-       if(isLoggedIn(req, res)) {
-           models.ImageSnapshot.find({_id: req.body.imageId}).remove(function(err,removed) {
-               if (err) {
-                   res.json({
-                       "success": false,
-                       "message": "Error while removing snapshot."
-                   });
-               }
-               else {
-                   res.json({
-                       "success": true,
-                       "removedSnapshots": removed
-                   });
-               }
-           });
-       }
+    app.post('/remove/image', function (req, res, next) {
+        if (isLoggedIn(req, res)) {
+            models.ImageSnapshot.find({_id: req.body.imageId}).remove(function (err, removed) {
+                if (err) {
+                    res.json({
+                        "success": false,
+                        "message": "Error while removing snapshot."
+                    });
+                }
+                else {
+                    res.json({
+                        "success": true,
+                        "removedSnapshots": removed
+                    });
+                }
+            });
+        }
     });
 
     app.get('/images', function (req, res, next) {

@@ -1,5 +1,5 @@
 /**
- * Created by antony on 11/29/2015.
+ * Created by nishant on 11/29/2015.
  */
 var express = require('express');
 var app = express();
@@ -45,7 +45,8 @@ require('./server/routes')(apiRouter, passport); // load our routes and pass in 
 app.use('/api', apiRouter);
 
 //start server
-server.listen(port, function () {
+server.listen(port, '0.0.0.0', function () {
+    console.log(server.address());
     var io = require('socket.io').listen(server);
     var users = {};
     var room;
@@ -162,6 +163,5 @@ server.listen(port, function () {
         //});
     });
 });
-
 
 console.log('Server running on port ' + port);

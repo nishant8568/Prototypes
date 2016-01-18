@@ -1,5 +1,5 @@
 /**
- * Created by antony on 11/14/2015.
+ * Created by nishant on 11/14/2015.
  */
 'use strict';
 
@@ -14,14 +14,18 @@ var gulp = require('gulp'),
     minifyCSS = require('gulp-minify-css'),
     runSequence = require('run-sequence'),
     streamqueue = require('streamqueue'),
-    inject = require('gulp-inject');
+    inject = require('gulp-inject'),
+    replace = require('gulp-replace');
 
 // build task
 gulp.task('build', function (callback) {
     // runSequence is a cool way of choosing what must run sequentially, and what in parallel
     // here, the task clean will run first alone, then all the builds in parallel, then the copies in parallel, then the injection in html
     runSequence(
-        'clean', ['build-scripts-bower', 'build-scripts', 'build-styles', 'build-styles-bower'], ['copy-assets', 'copy-client', 'copy-server', 'copy-server-file'],
+        'clean',
+        ['build-scripts-bower', 'build-scripts', 'build-styles', 'build-styles-bower'],
+        ['copy-assets', 'copy-client', 'copy-server', 'copy-server-file', 'copy-icons', 'copy-responsive-design'],
+        'replace-photo-path',
         'build-html',
         callback);
 });
@@ -86,7 +90,7 @@ gulp.task('build-scripts', function () {
             './public/client/app/components/core/tabs/navigation-tabs.services.js'])
         .pipe(concat('app.js')) // concatenate all js files
         .pipe(ngAnnotate()) // annotate to ensure proper dependency injection in AngularJS
-        //.pipe(uglify()) // minify js
+        .pipe(uglify()) // minify js
         .pipe(rev()) // add a unique id at the end of app.js (ex: app-f4446a9c.js) to prevent browser caching when updating the website
         .pipe(gulp.dest('./dist/client/app')); // copy app-**.js to the appropriate folder
 });
@@ -104,16 +108,16 @@ gulp.task('build-scripts', function () {
 /* Devsage */
 gulp.task('build-scripts-bower', function () {
     return gulp.src(['./public/client/bower_components/angular/angular.js',
+            './public/client/bower_components/jquery/dist/jquery.js',
+            './public/client/bower_components/bootstrap/dist/js/bootstrap.js',
             './public/client/bower_components/angular-ui-router/release/angular-ui-router.js',
             './public/client/bower_components/angular-aria/angular-aria.js',
             './public/client/bower_components/angular-animate/angular-animate.js',
             './public/client/bower_components/angular-material/angular-material.js',
             './public/client/bower_components/lodash/lodash.js',
-            './public/client/bower_components/moment/moment.js',
-            './public/client/bower_components/jquery/dist/jquery.js>',
-            './public/client/bower_components/bootstrap/dist/js/bootstrap.js'])
+            './public/client/bower_components/moment/moment.js'])
         .pipe(concat('vendor.js'))
-        //.pipe(uglify())
+        .pipe(uglify())
         .pipe(rev())
         .pipe(gulp.dest('./dist/client/app'));
 });
@@ -147,6 +151,16 @@ gulp.task('copy-assets', function () {
         .pipe(gulp.dest('./dist/client/assets'));
 });
 
+gulp.task('copy-icons', function () {
+    return gulp.src('./public/client/bower_components/material-design-icons/iconfont/*.*')
+        .pipe(gulp.dest('./dist/client/bower_components/material-design-icons/iconfont/'));
+});
+
+gulp.task('copy-responsive-design', function () {
+    return gulp.src('./public/client/bower_components/bootstrap/dist/**/*.*')
+        .pipe(gulp.dest('./dist/client/bower_components/bootstrap/dist/'));
+});
+
 // copying the html files
 gulp.task('copy-client', function () {
     return gulp.src('./public/client/**/**/*.+(html|txt|ico)')
@@ -155,7 +169,7 @@ gulp.task('copy-client', function () {
 
 // simple task to copy the server folder to dist/server
 gulp.task('copy-server', function () {
-    return gulp.src('./public/server/**/*.*')
+    return gulp.src(['./public/server/**/*.*', '!./public/server/config/multer.js'])
         .pipe(gulp.dest('./dist/server'));
 });
 
@@ -163,6 +177,12 @@ gulp.task('copy-server', function () {
 gulp.task('copy-server-file', function () {
     return gulp.src('./public/server.js')
         .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('replace-photo-path', function(){
+    gulp.src('./public/server/config/multer.js')
+        .pipe(replace('./public/client/img/', './dist/client/img/'))
+        .pipe(gulp.dest('dist/server/config'));
 });
 
 // queues app.js and vendor.js
