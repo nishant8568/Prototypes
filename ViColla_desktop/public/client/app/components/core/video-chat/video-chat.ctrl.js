@@ -325,9 +325,9 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         var constraints = {video: true, audio: true};
 
         getUserMedia(constraints, handleUserMedia, handleUserMediaError);
-        if (location.hostname != "localhost") {
+        /*if (location.hostname != "localhost") {
             requestTurn('https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913');
-        }
+        }*/
 
         function maybeStart() {
             console.log("maybeStart.....");
@@ -421,18 +421,13 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         }
 
         function doCall() {
-            var constraints = {'optional': [], 'mandatory': {'MozDontOfferDataChannel': true}};
-            // temporary measure to remove Moz* constraints in Chrome
-            if (webrtcDetectedBrowser === 'chrome') {
-                for (var prop in constraints.mandatory) {
-                    if (prop.indexOf('Moz') !== -1) {
-                        delete constraints.mandatory[prop];
-                    }
-                }
-            }
-            console.log("doCall >> initiating call.....");
-            constraints = mergeConstraints(constraints, sdpConstraints);
-            pc.createOffer(setLocalAndSendOffer, null, constraints);
+            console.log('Creating Offer...');
+            pc.createOffer(setLocalAndSendOffer, onSignalingError, sdpConstraints);
+        }
+
+        // Signaling error handler
+        function onSignalingError(error) {
+            console.log('Failed to create signaling message : ' + error.name);
         }
 
         function doAnswer() {
@@ -452,6 +447,7 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         }
 
         function setLocalAndSendOffer(sessionDescription) {
+            console.log("setLocalAndSendOffer : session description : ..... ", sessionDescription);
             // Set Opus as the preferred codec in SDP if Opus is present.
             sessionDescription.sdp = preferOpus(sessionDescription.sdp);
             pc.setLocalDescription(sessionDescription);
@@ -463,6 +459,7 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         }
 
         function setLocalAndSendAnswer(sessionDescription) {
+            console.log("setLocalAndSendAnswer : session description : ..... ", sessionDescription);
             // Set Opus as the preferred codec in SDP if Opus is present.
             sessionDescription.sdp = preferOpus(sessionDescription.sdp);
             pc.setLocalDescription(sessionDescription);

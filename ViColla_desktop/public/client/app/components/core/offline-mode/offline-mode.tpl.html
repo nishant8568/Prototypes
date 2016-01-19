@@ -8,7 +8,7 @@
             <md-content layout="column" flex>
                 <div layout="row" layout-align="start center">
                     <input type="file" aria-label="" class="form-control" id="openVideo"
-                           file-model="videoFile" ng-show=false accept=".mp4">
+                           file-model="videoFile" ng-show=false>
                     <md-button id="addVideoButton" class="md-raised md-primary" aria-label="Open"
                                ng-click="openFileDialog()" flex="20">
                         Browse
@@ -81,7 +81,8 @@
                 <i class="material-icons md-36">{{volumeStatus}}</i>
             </md-button>
         </div>
-        <video controls muted id="videoBackgrounddata"></video>
+        <video controls muted id="videoBackgrounddata">
+        </video>
     </div>
     <tools tool="drawingStyle" ng-show="getExpertFlag()" stroke-color="strokeColor"
            undo="undo()" save="saveSnapshot()" flex="5"></tools>

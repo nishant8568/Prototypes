@@ -134,8 +134,21 @@ offlineModeModule.controller('offlineModeController',
                 var vFile = $scope.videoFile;
                 $scope.videoName = $scope.openVideoButton.value;
                 if ($scope.videoName != null) {
-                    var nameSplit = $scope.videoName.split("\\");
-                    $scope.videoName = nameSplit[nameSplit.length - 1];
+                    var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+                    var is_android = navigator.userAgent.toLowerCase().indexOf("android") > -1;
+                    if (is_firefox && is_android) {
+                        var indexOfMinus = $scope.videoName.indexOf('-');
+                        var leftGarbageRemoved = $scope.videoName.substr(indexOfMinus+1);
+                        var extension = leftGarbageRemoved.split('.')[1];
+                        var rightGarbageRemoved = leftGarbageRemoved.split('.')[0];
+                        var firstDigit = rightGarbageRemoved.match(/\d/);
+                        var indexed = rightGarbageRemoved.indexOf(firstDigit);
+                        $scope.videoName = rightGarbageRemoved.substr(0, indexed) + '.' + extension;
+                        //console.log("hehehehehe.... : ", rightGarbageRemoved.substr(0, indexed));
+                    } else {
+                        var nameSplit = $scope.videoName.split("\\");
+                        $scope.videoName = nameSplit[nameSplit.length - 1];
+                    }
                     var videoNode = document.querySelector('video');
                     videoNode.src = window.URL.createObjectURL(vFile);
                     console.log(videoNode.src);
@@ -222,8 +235,8 @@ offlineModeModule.controller('offlineModeController',
             $scope.playVideo = function () {
                 if (isVideoReady) {
                     var videoObject = document.getElementById("videoBackgrounddata");
-                    console.log("paused : " + videoObject.paused);
-                    console.log("ended : " + videoObject.ended);
+                    //console.log("paused : " + videoObject.paused);
+                    //console.log("ended : " + videoObject.ended);
 
                     //if (!utilityService.getExpertFlag() && $scope.iterator < $scope.loadedSnapshots.length) {
                     /*if ($scope.loadedSnapshots != null) {
@@ -248,12 +261,13 @@ offlineModeModule.controller('offlineModeController',
                         videoObject.play();
                     }
                     if (videoObject.paused && !videoObject.ended) {
+                        console.log("going to play video.....");
                         videoObject.play();
                         $scope.playPlauseButton = "pause_arrow";
                         // trigger enable/disable tools in toolsController
                         //$scope.$broadcast('toggleDisable');
-                        updateVideoCache();
-                        $scope.drawCanvas();
+                        //updateVideoCache();
+                        drawCanvas();
                     } else {
                         videoObject.pause();
                         $scope.playPlauseButton = "play_arrow";
@@ -264,19 +278,20 @@ offlineModeModule.controller('offlineModeController',
                     $scope.clearDrawings();
                 }
             };
-            $scope.drawCanvas = function () {
+            var drawCanvas = function () {
+                console.log("drawCanvas method...");
                 if (!$scope.stopDrawing) {
                     var backgroundObject = document.getElementById("videoBackgrounddata");
                     if (!backgroundObject.ended && !backgroundObject.paused) {
-                        if (window.requestAnimationFrame) window.requestAnimationFrame($scope.drawCanvas);
+                        if (window.requestAnimationFrame) window.requestAnimationFrame(drawCanvas);
                         // IE implementation
-                        else if (window.msRequestAnimationFrame) window.msRequestAnimationFrame($scope.drawCanvas);
+                        else if (window.msRequestAnimationFrame) window.msRequestAnimationFrame(drawCanvas);
                         // Firefox implementation
-                        else if (window.mozRequestAnimationFrame) window.mozRequestAnimationFrame($scope.drawCanvas);
+                        else if (window.mozRequestAnimationFrame) window.mozRequestAnimationFrame(drawCanvas);
                         // Chrome implementation
-                        else if (window.webkitRequestAnimationFrame) window.webkitRequestAnimationFrame($scope.drawCanvas);
+                        else if (window.webkitRequestAnimationFrame) window.webkitRequestAnimationFrame(drawCanvas);
                         // Other browsers that do not yet support feature
-                        else setTimeout($scope.drawCanvas, 16.7);
+                        else setTimeout(drawCanvas, 16.7);
                         $scope.drawVideoOnCanvas();
                     }
                     else if (backgroundObject.ended) {
@@ -539,14 +554,19 @@ offlineModeModule.controller('offlineModeController',
             };
 
             $scope.loadImages = function () {
-                console.log("loading snapshots.....");
+                console.log("loading snapshots for video : ", $scope.videoName);
+                console.log(navigator.userAgent);
+                console.log(navigator.platform);
+                console.log(Date.now());
                 databaseService.loadImages($scope.videoName).then(function (data) {
+                //databaseService.loadImages('hand.ogg').then(function (data) {
                     if (data.success) {
                         var snapshotsNode = document.getElementById("snapshots");
                         while (snapshotsNode.firstChild) {
                             snapshotsNode.removeChild(snapshotsNode.firstChild);
                         }
                         $scope.loadedSnapshots = data.images;
+                        console.log("snapshots loaded .. : ", $scope.loadedSnapshots);
                         for (var i = 0; i < data.images.length; i++) {
                             var image = data.images[i];
                             $scope.loadedSnapshots[i].imageId = "canvasImg_" + data.images[i]._id;
