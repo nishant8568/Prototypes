@@ -168,12 +168,47 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
             context.putImageData(imgData, 0, 0);
         };
 
+        $scope.endCall = function (callStatus) {
+            var callEndDateTime = Date.now();
+            var callerdetails = $scope.$parent.callerdetails;
+            var callingData = {};
+            callingData._caller = callerdetails.callerinfo.id;
+            callingData._receiver = callerdetails.receiverinfo.id;
+            callingData.callerFirstName = callerdetails.callerinfo.firstName;
+            callingData.callerLastName = callerdetails.callerinfo.lastName;
+            callingData.callername = callerdetails.callerinfo.username;
+            callingData.receivername = callerdetails.receiverinfo.username;
+            callingData.receiverFirstName = callerdetails.receiverinfo.firstName;
+            callingData.receiverLastName = callerdetails.receiverinfo.lastName;
+            callingData.status = callStatus;
+            callingData.startDate = callerdetails.startDateTime;
+            callingData.duration = callEndDateTime - callerdetails.startDateTime;
+            callingData.callerDesignation = callerdetails.callerinfo.designation;
+            callingData.receiverDesignation = callerdetails.receiverinfo.designation;
+            callingData.receiverLogoFilename = callerdetails.receiverinfo.logoFilename;
+            callingData.callerLogoFilename = callerdetails.callerinfo.logoFilename;
+
+
+            alert("callend.. Sending POST request to save to call history.. : " + JSON.stringify(callingData));
+            console.log(callerdetails);
+            $http.post('/api/callHistory', callingData).success(function (calldetails) {
+                alert(JSON.stringify(calldetails));
+            });
+
+            console.log("callend:", callingData);
+            socket.emit('callending', JSON.stringify(callingData));
+            hangup();
+        };
+
         $scope.isoffercall = false;
         $scope.userlist = [];
 
-        var pc_config = webrtcDetectedBrowser === 'firefox' ?
+        console.log("Setting ICE Server URL in pc_config : ", config.stunurl);
+        var pc_config = {'iceServers': [{'urls': config.stunurl}]};
+
+        /*var pc_config = webrtcDetectedBrowser === 'firefox' ?
         {'iceServers': [{'url': config.stunip}]} : // number IP
-        {'iceServers': [{'url': config.stunurl}]};
+        {'iceServers': [{'url': config.stunurl}]};*/
 
         var pc_constraints = {
             'optional': [
@@ -183,12 +218,22 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         };
 
         // Set up audio and video regardless of what devices are present.
-        var sdpConstraints = {
-            'mandatory': {
-                'OfferToReceiveAudio': true,
-                'OfferToReceiveVideo': true
-            }
-        };
+        var sdpConstraints;
+        if (navigator.mozGetUserMedia) {
+            console.log("Setting sdpConstraints for firefox.....");
+            sdpConstraints = {
+                OfferToReceiveAudio:true,
+                OfferToReceiveVideo:true
+            };
+        } else if(navigator.webkitGetUserMedia) {
+            console.log("Setting sdpConstraints for chrome.....");
+            sdpConstraints = {
+                'mandatory': {
+                    'OfferToReceiveAudio': true,
+                    'OfferToReceiveVideo': true
+                }
+            };
+        }
 
         /////////////////////////////////////////////
 
@@ -286,38 +331,6 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
             hangup();
         });
 
-        $scope.endCall = function (callStatus) {
-            var callEndDateTime = Date.now();
-            var callerdetails = $scope.$parent.callerdetails;
-            var callingData = {};
-            callingData._caller = callerdetails.callerinfo.id;
-            callingData._receiver = callerdetails.receiverinfo.id;
-            callingData.callerFirstName = callerdetails.callerinfo.firstName;
-            callingData.callerLastName = callerdetails.callerinfo.lastName;
-            callingData.callername = callerdetails.callerinfo.username;
-            callingData.receivername = callerdetails.receiverinfo.username;
-            callingData.receiverFirstName = callerdetails.receiverinfo.firstName;
-            callingData.receiverLastName = callerdetails.receiverinfo.lastName;
-            callingData.status = callStatus;
-            callingData.startDate = callerdetails.startDateTime;
-            callingData.duration = callEndDateTime - callerdetails.startDateTime;
-            callingData.callerDesignation = callerdetails.callerinfo.designation;
-            callingData.receiverDesignation = callerdetails.receiverinfo.designation;
-            callingData.receiverLogoFilename = callerdetails.receiverinfo.logoFilename;
-            callingData.callerLogoFilename = callerdetails.callerinfo.logoFilename;
-
-
-            alert("callend.. Sending POST request to save to call history.. : " + JSON.stringify(callingData));
-            console.log(callerdetails);
-            $http.post('/api/callHistory', callingData).success(function (calldetails) {
-                alert(JSON.stringify(calldetails));
-            });
-
-            console.log("callend:", callingData);
-            socket.emit('callending', JSON.stringify(callingData));
-            hangup();
-        };
-
         function handleUserMediaError(error) {
             console.log('getUserMedia error: ', error);
         }
@@ -325,9 +338,10 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         var constraints = {video: true, audio: true};
 
         getUserMedia(constraints, handleUserMedia, handleUserMediaError);
+
         /*if (location.hostname != "localhost") {
-            requestTurn('https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913');
-        }*/
+         requestTurn('https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913');
+         }*/
 
         function maybeStart() {
             console.log("maybeStart.....");
@@ -355,9 +369,10 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
 
         function createPeerConnection() {
             try {
+                console.log("creating RTC Peer Connection.....");
                 pc = new RTCPeerConnection(pc_config, pc_constraints);
                 pc.onicecandidate = handleIceCandidate;
-                console.log("connection state : " + pc.iceConnectionState);
+                console.log("connection state : ", pc.iceConnectionState);
             } catch (e) {
                 console.log('Failed to create PeerConnection, exception: ' + e.message);
                 alert('Cannot create RTCPeerConnection object.');
@@ -421,20 +436,33 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         }
 
         function doCall() {
-            console.log('Creating Offer...');
-            pc.createOffer(setLocalAndSendOffer, onSignalingError, sdpConstraints);
+            var constraints = {'optional': [], 'mandatory': {'MozDontOfferDataChannel': true}};
+            // temporary measure to remove Moz* constraints in Chrome
+            if (webrtcDetectedBrowser === 'chrome') {
+                for (var prop in constraints.mandatory) {
+                    if (prop.indexOf('Moz') !== -1) {
+                        delete constraints.mandatory[prop];
+                    }
+                }
+            }
+            console.log("doCall >> initiating call.....");
+            constraints = mergeConstraints(constraints, sdpConstraints);
+            pc.createOffer(setLocalAndSendOffer, handleCreateOfferError, constraints);
         }
 
-        // Signaling error handler
-        function onSignalingError(error) {
-            console.log('Failed to create signaling message : ' + error.name);
+        function handleCreateOfferError(error) {
+            console.log('createOffer() error: ', e);
         }
 
         function doAnswer() {
             console.log("going to create answer.............");
-            pc.createAnswer(setLocalAndSendAnswer, null, sdpConstraints);
+            pc.createAnswer(setLocalAndSendAnswer, handleCreateAnswerError, sdpConstraints);
             $scope.busy = true;
             //$scope.$apply();
+        }
+
+        function handleCreateAnswerError(error) {
+            console.log('createAnswer() error: ', e);
         }
 
         function mergeConstraints(cons1, cons2) {
@@ -479,6 +507,8 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
                     break;
                 }
             }
+            console.log("turn ..... " + turnExists);
+            console.log("turn ..... " + turn_url);
             if (!turnExists) {
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function () {
@@ -493,6 +523,8 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
                     }
                 };
                 xhr.open('GET', turn_url, true);
+                xhr.setRequestHeader('Content-Type', 'application/xml');
+                xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
                 xhr.send();
             }
         }

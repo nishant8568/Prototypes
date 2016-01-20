@@ -69,7 +69,7 @@ if (navigator.mozGetUserMedia) {
     attachMediaStream = function (element, stream) {
         console.log("Attaching media stream");
         element.mozSrcObject = stream;
-        //element.src = stream;
+        element.src = stream;
         element.play();
     };
 
@@ -87,7 +87,8 @@ if (navigator.mozGetUserMedia) {
     MediaStream.prototype.getAudioTracks = function () {
         return [];
     };
-} else if (navigator.webkitGetUserMedia) {
+}
+else if (navigator.webkitGetUserMedia) {
     console.log("This appears to be Chrome");
 
     webrtcDetectedBrowser = "chrome";

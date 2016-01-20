@@ -115,7 +115,7 @@ offlineModeModule.controller('offlineModeController',
             $scope.$watch(function () {
                 return $scope.videoFile
             }, function handleFooChange(newValue, oldValue) {
-                console.log("video file changed, call get video file");
+                console.log("video file changed, call get video file : ", newValue);
                 if (newValue != oldValue) {
                     $scope.getVideoFile();
                     $scope.loadImages();
