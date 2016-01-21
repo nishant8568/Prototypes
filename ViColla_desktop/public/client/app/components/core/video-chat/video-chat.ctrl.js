@@ -278,6 +278,7 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
                                     console.log("rare offer received");
                                     maybeStart();
                                 }
+                                console.log("Setting remote description.....");
                                 pc.setRemoteDescription(new RTCSessionDescription(message.sessiondescription));
                                 doAnswer();
                             } else {
@@ -478,7 +479,7 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         function setLocalAndSendOffer(sessionDescription) {
             console.log("setLocalAndSendOffer : session description : ..... ", sessionDescription);
             // Set Opus as the preferred codec in SDP if Opus is present.
-            sessionDescription.sdp = preferOpus(sessionDescription.sdp);
+            //sessionDescription.sdp = preferOpus(sessionDescription.sdp);
             pc.setLocalDescription(sessionDescription);
             sendMessage({
                 sessiondescription: sessionDescription,
@@ -490,7 +491,7 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         function setLocalAndSendAnswer(sessionDescription) {
             console.log("setLocalAndSendAnswer : session description : ..... ", sessionDescription);
             // Set Opus as the preferred codec in SDP if Opus is present.
-            sessionDescription.sdp = preferOpus(sessionDescription.sdp);
+            //sessionDescription.sdp = preferOpus(sessionDescription.sdp);
             pc.setLocalDescription(sessionDescription);
             sendMessage({
                 sessiondescription: sessionDescription,

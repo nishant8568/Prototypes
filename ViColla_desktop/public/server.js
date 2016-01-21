@@ -61,8 +61,10 @@ server.listen(port, '0.0.0.0', function () {
         }
 
         socket.on('message', function (message) {
-            log('Got message: ', message + " : from : " + socket.username);
-            console.log('Got message: ', message + " : from : " + socket.username);
+            log('Got message: ', message);
+            log('from : ', socket.username);
+            console.log('Got message: ', message);
+            console.log("from : " + socket.username);
             socket.broadcast.emit('message', message); // should be room only
         });
 

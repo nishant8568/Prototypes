@@ -70,6 +70,8 @@ if (navigator.mozGetUserMedia) {
         console.log("Attaching media stream");
         element.mozSrcObject = stream;
         element.src = stream;
+        console.log("Media stream attached.. Going to play now in the element...");
+        console.log(element);
         element.play();
     };
 
