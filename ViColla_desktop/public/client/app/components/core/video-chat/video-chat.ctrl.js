@@ -207,8 +207,8 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         var pc_config = {'iceServers': [{'urls': config.stunurl}]};
 
         /*var pc_config = webrtcDetectedBrowser === 'firefox' ?
-        {'iceServers': [{'url': config.stunip}]} : // number IP
-        {'iceServers': [{'url': config.stunurl}]};*/
+         {'iceServers': [{'url': config.stunip}]} : // number IP
+         {'iceServers': [{'url': config.stunurl}]};*/
 
         var pc_constraints = {
             'optional': [
@@ -222,10 +222,11 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         if (navigator.mozGetUserMedia) {
             console.log("Setting sdpConstraints for firefox.....");
             sdpConstraints = {
-                OfferToReceiveAudio:true,
-                OfferToReceiveVideo:true
+                OfferToReceiveAudio: true,
+                OfferToReceiveVideo: true,
+                mozDontOfferDataChannel: true
             };
-        } else if(navigator.webkitGetUserMedia) {
+        } else if (navigator.webkitGetUserMedia) {
             console.log("Setting sdpConstraints for chrome.....");
             sdpConstraints = {
                 'mandatory': {
@@ -436,7 +437,7 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         }
 
         function doCall() {
-            var constraints = {'optional': [], 'mandatory': {'MozDontOfferDataChannel': true}};
+            //var constraints = {"mozDontOfferDataChannel": true};
             // temporary measure to remove Moz* constraints in Chrome
             if (webrtcDetectedBrowser === 'chrome') {
                 for (var prop in constraints.mandatory) {
@@ -446,8 +447,8 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
                 }
             }
             console.log("doCall >> initiating call.....");
-            constraints = mergeConstraints(constraints, sdpConstraints);
-            pc.createOffer(setLocalAndSendOffer, handleCreateOfferError, constraints);
+            //constraints = mergeConstraints(constraints, sdpConstraints);
+            pc.createOffer(setLocalAndSendOffer, handleCreateOfferError, sdpConstraints);
         }
 
         function handleCreateOfferError(error) {

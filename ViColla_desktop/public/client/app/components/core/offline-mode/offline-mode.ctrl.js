@@ -72,6 +72,13 @@ offlineModeModule.controller('offlineModeController',
 
             $scope.videoCache = [];
 
+            $scope.fileNameChanged = function(element) {
+                console.log("select file..........");
+                console.log('files:::::: ', element.files);
+                var src = window.URL.createObjectURL(element.files[0]);
+                console.log('src:::::: ', src);
+            };
+
             $scope.getExpertFlag = function () {
                 return utilityService.getExpertFlag();
             };
@@ -117,7 +124,9 @@ offlineModeModule.controller('offlineModeController',
             }, function handleFooChange(newValue, oldValue) {
                 console.log("video file changed, call get video file : ", newValue);
                 if (newValue != oldValue) {
+                    console.log("video file loaded.... : ", $scope.videoName);
                     $scope.getVideoFile();
+                    console.log("video file name parsed to.... : ", $scope.videoName);
                     $scope.loadImages();
                 }
             });
@@ -137,14 +146,20 @@ offlineModeModule.controller('offlineModeController',
                     var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
                     var is_android = navigator.userAgent.toLowerCase().indexOf("android") > -1;
                     if (is_firefox && is_android) {
-                        var indexOfMinus = $scope.videoName.indexOf('-');
-                        var leftGarbageRemoved = $scope.videoName.substr(indexOfMinus+1);
-                        var extension = leftGarbageRemoved.split('.')[1];
-                        var rightGarbageRemoved = leftGarbageRemoved.split('.')[0];
-                        var firstDigit = rightGarbageRemoved.match(/\d/);
-                        var indexed = rightGarbageRemoved.indexOf(firstDigit);
-                        $scope.videoName = rightGarbageRemoved.substr(0, indexed) + '.' + extension;
-                        //console.log("hehehehehe.... : ", rightGarbageRemoved.substr(0, indexed));
+                        var indexOfFirstMinus = $scope.videoName.indexOf('-');
+                        var indexOfLastMinus = $scope.videoName.lastIndexOf('-');
+                        var indexOfLastDot = $scope.videoName.lastIndexOf('.');
+                        var extension = $scope.videoName.substr(indexOfLastDot);
+                        var finalFileName;
+                        if(indexOfFirstMinus != indexOfLastMinus) {
+                            finalFileName = $scope.videoName.substring(indexOfFirstMinus + 1, indexOfLastMinus);
+                        } else {
+                            var leftGarbageRemoved = $scope.videoName.substr(indexOfFirstMinus + 1);
+                            var firstDigit = leftGarbageRemoved.match(/\d/);
+                            var indexOfFirstDigit = leftGarbageRemoved.indexOf(firstDigit);
+                            finalFileName = leftGarbageRemoved.substr(0, indexOfFirstDigit);
+                        }
+                        finalFileName = finalFileName + extension;
                     } else {
                         var nameSplit = $scope.videoName.split("\\");
                         $scope.videoName = nameSplit[nameSplit.length - 1];
@@ -559,7 +574,7 @@ offlineModeModule.controller('offlineModeController',
                 console.log(navigator.platform);
                 console.log(Date.now());
                 databaseService.loadImages($scope.videoName).then(function (data) {
-                //databaseService.loadImages('hand.ogg').then(function (data) {
+                    //databaseService.loadImages('hand.ogg').then(function (data) {
                     if (data.success) {
                         var snapshotsNode = document.getElementById("snapshots");
                         while (snapshotsNode.firstChild) {
@@ -671,7 +686,8 @@ offlineModeModule.controller('offlineModeController',
 
             var appendImageToSnapshots = function (imageId, playbackTime, duration, description, dataURL) {
                 var snapshotElement =
-                    "<md-grid-list layout-padding id=\"snapshotsList_" + playbackTime + "\" md-cols=\"1\" md-row-height=\"" +
+                    "<md-grid-list layout-margin layout-fill layout-padding class='coverage_blue'" +
+                    "id=\"snapshotsList_" + playbackTime + "\" md-cols=\"1\" md-row-height=\"" +
                     $scope.ctx.canvas.width + ":" + $scope.ctx.canvas.height + "\" " +
                     "style=\"border: 0px solid green\">" +
                     "<div style='height:30px;' layout=\"row\" layout-align='end center'>" +

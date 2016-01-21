@@ -8,7 +8,7 @@
             <md-content layout="column" flex>
                 <div layout="row" layout-align="start center">
                     <input type="file" aria-label="" class="form-control" id="openVideo"
-                           file-model="videoFile" ng-show=false>
+                           file-model="videoFile" ng-show=false onchange="angular.element(this).scope().fileNameChanged(this)">
                     <md-button id="addVideoButton" class="md-raised md-primary" aria-label="Open"
                                ng-click="openFileDialog()" flex="20">
                         Browse
@@ -70,9 +70,8 @@
             <span layout-margin>
                 <h5>{{formatDuration((videoObject.currentTime)*1000)}}</h5>
             </span>
-            <md-slider hide-sm hide-md flex min="0" max="{{videoObject.duration}}" ng-model="videoObject.currentTime" aria-label="blue"
-                       class="md-primary"
-                       layout-margin>
+            <md-slider hide-sm hide-md flex min="0" max="{{videoObject.duration}}" ng-model="videoObject.currentTime"
+                       aria-label="blue" class="md-primary" layout-margin>
             </md-slider>
             <span hide-sm hide-md layout-margin>
                 <h5>{{formatDuration((videoObject.duration)*1000)}}</h5>
