@@ -74,9 +74,10 @@ offlineModeModule.controller('offlineModeController',
 
             $scope.fileNameChanged = function(element) {
                 console.log("select file..........");
-                console.log('files:::::: ', element.files);
-                var src = window.URL.createObjectURL(element.files[0]);
-                console.log('src:::::: ', src);
+                console.log(element.files[0]);
+                console.log(element.files[0].name);
+                console.log(element.files[0].size);
+                alert(element.files[0].size);
             };
 
             $scope.getExpertFlag = function () {

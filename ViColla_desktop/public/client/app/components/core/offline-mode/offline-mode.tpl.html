@@ -10,7 +10,7 @@
                     <input type="file" aria-label="" class="form-control" id="openVideo"
                            file-model="videoFile" ng-show=false onchange="angular.element(this).scope().fileNameChanged(this)">
                     <md-button id="addVideoButton" class="md-raised md-primary" aria-label="Open"
-                               ng-click="openFileDialog()" flex="20">
+                               ng-click="openFileDialog()" flex="20" onchange="fileNameChanged(this)">
                         Browse
                         <md-tooltip>Open</md-tooltip>
                     </md-button>
