@@ -180,6 +180,7 @@ module.exports = function (app, passport) {
             image.playbackTime = req.body.imageInfo.playbackTime;
             image.description = req.body.imageInfo.description;
             image.videoName = req.body.imageInfo.videoName;
+            image.videoIdentifier = req.body.imageInfo.videoIdentifier;
             image.dataURL = req.body.imageInfo.dataURL;
 
             image.save(function (err) {
@@ -239,7 +240,8 @@ module.exports = function (app, passport) {
 
     app.get('/images', function (req, res, next) {
         if (isLoggedIn(req, res)) {
-            models.ImageSnapshot.find({videoName: req.query.videoName}, function (err, images) {
+            console.log(req.query.videoIdentifier);
+            models.ImageSnapshot.find({videoIdentifier: req.query.videoIdentifier}, function (err, images) {
                 if (err) {
                     res.json({success: false, message: "Unable to get other users images for this video"});
                 } else {

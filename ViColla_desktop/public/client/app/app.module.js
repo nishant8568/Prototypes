@@ -48,20 +48,12 @@ app.directive('fileModel', ['$parse', function ($parse) {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
-            console.log("attrs...... : ", attrs);
-            console.log("fileModel...... : ", attrs.fileModel);
             var model = $parse(attrs.fileModel);
-            console.log("model.......... : ", model);
             var modelSetter = model.assign;
-            console.log("modelSetter.......... : ", modelSetter);
 
             element.bind('change', function () {
                 scope.$apply(function () {
                     var file = element[0].files[0];
-                    var filePath = element[0].value;
-                    console.log("element...........", element);
-                    console.log("file.......... : ", file);
-                    console.log("filepath...........", filePath);
                     modelSetter(scope, file);
                 })
             })

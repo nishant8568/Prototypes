@@ -16,7 +16,6 @@ app.controller('AbcAppLandingController', ['$scope', '$location', 'authService',
                     $scope.appCtrl.contacts = data['contacts'];
                     updateOnlineStatus();
                     console.log("navigation-tabs.ctrl.js >> loadContacts >> contacts");
-                    console.log($scope.appCtrl.contacts);
                 } else {
                     alert(data.message);
                 }

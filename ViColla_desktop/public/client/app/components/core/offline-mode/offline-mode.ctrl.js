@@ -142,31 +142,20 @@ offlineModeModule.controller('offlineModeController',
              */
             $scope.getVideoFile = function () {
                 var vFile = $scope.videoFile;
+                var alert_txt = "";
+
+                for (var key in vFile){
+                    alert_txt += key + ": " + vFile[key] + "\n";
+                }
+               alert(alert_txt);
+
                 $scope.videoName = $scope.openVideoButton.value;
                 if ($scope.videoName != null) {
-                    var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-                    var is_android = navigator.userAgent.toLowerCase().indexOf("android") > -1;
-                    if (is_firefox && is_android) {
-                        var indexOfFirstMinus = $scope.videoName.indexOf('-');
-                        var indexOfLastMinus = $scope.videoName.lastIndexOf('-');
-                        var indexOfLastDot = $scope.videoName.lastIndexOf('.');
-                        var extension = $scope.videoName.substr(indexOfLastDot);
-                        var finalFileName;
-                        if(indexOfFirstMinus != indexOfLastMinus) {
-                            finalFileName = $scope.videoName.substring(indexOfFirstMinus + 1, indexOfLastMinus);
-                        } else {
-                            var leftGarbageRemoved = $scope.videoName.substr(indexOfFirstMinus + 1);
-                            var firstDigit = leftGarbageRemoved.match(/\d/);
-                            var indexOfFirstDigit = leftGarbageRemoved.indexOf(firstDigit);
-                            finalFileName = leftGarbageRemoved.substr(0, indexOfFirstDigit);
-                        }
-                        finalFileName = finalFileName + extension;
-                    } else {
-                        var nameSplit = $scope.videoName.split("\\");
-                        $scope.videoName = nameSplit[nameSplit.length - 1];
-                    }
+                    var nameSplit = $scope.videoName.split("\\");
+                    $scope.videoName = nameSplit[nameSplit.length - 1];
                     var videoNode = document.querySelector('video');
                     videoNode.src = window.URL.createObjectURL(vFile);
+                    $scope.videoIdentifier = vFile.size;
                     console.log(videoNode.src);
                     isVideoReady = true;
                     // trigger enable/disable tools in toolsController
@@ -550,7 +539,8 @@ offlineModeModule.controller('offlineModeController',
                     duration: duration,
                     playbackTime: playbackTime,
                     dataURL: dataURL,
-                    videoName: $scope.videoName
+                    videoName: $scope.videoName,
+                    videoIdentifier: $scope.videoIdentifier
                 };
                 databaseService.saveImage(newImage).then(function (data) {
                     if (data.success) {
@@ -570,12 +560,8 @@ offlineModeModule.controller('offlineModeController',
             };
 
             $scope.loadImages = function () {
-                console.log("loading snapshots for video : ", $scope.videoName);
-                console.log(navigator.userAgent);
-                console.log(navigator.platform);
-                console.log(Date.now());
-                databaseService.loadImages($scope.videoName).then(function (data) {
-                    //databaseService.loadImages('hand.ogg').then(function (data) {
+                console.log("loading snapshots.....");
+                databaseService.loadImages($scope.videoIdentifier).then(function (data) {
                     if (data.success) {
                         var snapshotsNode = document.getElementById("snapshots");
                         while (snapshotsNode.firstChild) {

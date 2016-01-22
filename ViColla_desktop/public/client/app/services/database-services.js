@@ -21,12 +21,12 @@ databaseModule.service('databaseService', ['$rootScope', '$http', '$q', function
         //});
     }
 
-    function loadImages(videoName) {
+    function loadImages(videoIdentifier) {
         var request = $http({
             method: 'get',
             url: 'api/images',
             params: {
-                videoName: videoName
+                videoIdentifier: videoIdentifier
             }
         });
         return (request.then(handleSuccess, handleError))
