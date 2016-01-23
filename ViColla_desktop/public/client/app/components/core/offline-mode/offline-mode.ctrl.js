@@ -72,7 +72,7 @@ offlineModeModule.controller('offlineModeController',
 
             $scope.videoCache = [];
 
-            $scope.fileNameChanged = function(element) {
+            $scope.fileNameChanged = function (element) {
                 console.log("select file..........");
                 console.log(element.files[0]);
                 console.log(element.files[0].name);
@@ -132,11 +132,6 @@ offlineModeModule.controller('offlineModeController',
                 }
             });
 
-            var playAnnotatedVideo = function () {
-                var annotatedVideoObject = document.getElementById("videoBackgrounddata");
-                annotatedVideoObject.play();
-            };
-
             /**
              * Get the video file to be played
              */
@@ -144,10 +139,10 @@ offlineModeModule.controller('offlineModeController',
                 var vFile = $scope.videoFile;
                 var alert_txt = "";
 
-                for (var key in vFile){
+                for (var key in vFile) {
                     alert_txt += key + ": " + vFile[key] + "\n";
                 }
-               alert(alert_txt);
+                alert(alert_txt);
 
                 $scope.videoName = $scope.openVideoButton.value;
                 if ($scope.videoName != null) {
@@ -188,13 +183,12 @@ offlineModeModule.controller('offlineModeController',
              * Mute/Unmute video
              */
             $scope.toggleVolumeStatus = function () {
-                var videoObject = document.getElementById("videoBackgrounddata");
                 if ($scope.volumeStatus == "volume_up") {
-                    videoObject.muted = true;
+                    $scope.videoObject.muted = true;
                     $scope.volumeStatus = "volume_mute";
                 }
                 else {
-                    videoObject.muted = false;
+                    $scope.videoObject.muted = false;
                     $scope.volumeStatus = "volume_up";
                 }
             };
@@ -239,9 +233,6 @@ offlineModeModule.controller('offlineModeController',
              */
             $scope.playVideo = function () {
                 if (isVideoReady) {
-                    var videoObject = document.getElementById("videoBackgrounddata");
-                    //console.log("paused : " + videoObject.paused);
-                    //console.log("ended : " + videoObject.ended);
 
                     //if (!utilityService.getExpertFlag() && $scope.iterator < $scope.loadedSnapshots.length) {
                     /*if ($scope.loadedSnapshots != null) {
@@ -260,21 +251,21 @@ offlineModeModule.controller('offlineModeController',
                         $scope.nextDuration = $scope.savedSnapshotsData[$scope.iterator].duration;
                     }
                     //}
-                    if (videoObject.ended) {
+                    if ($scope.videoObject.ended) {
                         //videoEnded = false;
-                        videoObject.currentTime = '0';
-                        videoObject.play();
+                        $scope.videoObject.currentTime = '0';
+                        $scope.videoObject.play();
                     }
-                    if (videoObject.paused && !videoObject.ended) {
+                    if ($scope.videoObject.paused && !$scope.videoObject.ended) {
                         console.log("going to play video.....");
-                        videoObject.play();
+                        $scope.videoObject.play();
                         $scope.playPlauseButton = "pause_arrow";
                         // trigger enable/disable tools in toolsController
                         //$scope.$broadcast('toggleDisable');
                         //updateVideoCache();
                         drawCanvas();
                     } else {
-                        videoObject.pause();
+                        $scope.videoObject.pause();
                         $scope.playPlauseButton = "play_arrow";
                         // trigger enable/disable tools in toolsController
                         //$scope.$broadcast('toggleDisable');
@@ -286,8 +277,7 @@ offlineModeModule.controller('offlineModeController',
             var drawCanvas = function () {
                 console.log("drawCanvas method...");
                 if (!$scope.stopDrawing) {
-                    var backgroundObject = document.getElementById("videoBackgrounddata");
-                    if (!backgroundObject.ended && !backgroundObject.paused) {
+                    if (!$scope.videoObject.ended && !$scope.videoObject.paused) {
                         if (window.requestAnimationFrame) window.requestAnimationFrame(drawCanvas);
                         // IE implementation
                         else if (window.msRequestAnimationFrame) window.msRequestAnimationFrame(drawCanvas);
@@ -299,11 +289,11 @@ offlineModeModule.controller('offlineModeController',
                         else setTimeout(drawCanvas, 16.7);
                         $scope.drawVideoOnCanvas();
                     }
-                    else if (backgroundObject.ended) {
+                    else if ($scope.videoObject.ended) {
                         //$scope.videoEnded = true;
                         console.log("Video Ended. Stopping the video draw on canvas");
                         $scope.playPlauseButton = "play_arrow";
-                        backgroundObject.currentTime = '0';
+                        $scope.videoObject.currentTime = '0';
                         //$scope.$broadcast('toggleDisable');
                         if ($scope.iterator != 9999) {
                             $scope.iterator = 0;
@@ -312,16 +302,15 @@ offlineModeModule.controller('offlineModeController',
                 }
             };
             $scope.drawVideoOnCanvas = function () {
-                console.log("drawVideoOnCanvas method...");
-                var backgroundObject = document.getElementById("videoBackgrounddata");
+                console.log("drawVideoOnCanvas method at time... : " + $scope.videoObject.currentTime);
                 var width = ($scope.canvasElement.width);
                 var height = ($scope.canvasElement.height);
                 if ($scope.loadedSnapshots != null || $scope.savedSnapshotsData.length > 0) {
-                    if (Math.abs(backgroundObject.currentTime - $scope.nextSnapshotTime) < 0.15
+                    if (Math.abs($scope.videoObject.currentTime - $scope.nextSnapshotTime) < 0.15
                         && $scope.iterator < $scope.savedSnapshotsData.length) {
                         console.log("snapshot coming for image : " + $scope.savedSnapshotsData[$scope.iterator].imageId +
                             " : at playback time... " + $scope.nextSnapshotTime);
-                        backgroundObject.pause();
+                        $scope.videoObject.pause();
                         $scope.stopDrawing = true;
                         console.log("Drawing snapshot now....... ");
                         $scope.ctx.drawImage($scope.nextImageElem, 0, 0, width, height);
@@ -329,26 +318,26 @@ offlineModeModule.controller('offlineModeController',
                             $scope.iterator++;
                         }
                         $timeout(function () {
-                            $scope.updateSnapshotDetails(backgroundObject);
+                            $scope.updateSnapshotDetails($scope.nextSnapshotTime);
                         }, $scope.nextDuration * 1000);
                     } else {
                         if ($scope.ctx) {
-                            $scope.ctx.drawImage(backgroundObject, 0, 0, width, height);
+                            $scope.ctx.drawImage($scope.videoObject, 0, 0, width, height);
                         }
                     }
                 } else {
                     if ($scope.ctx) {
-                        $scope.ctx.drawImage(backgroundObject, 0, 0, width, height);
+                        $scope.ctx.drawImage($scope.videoObject, 0, 0, width, height);
                     }
                 }
             };
 
-            $scope.updateSnapshotDetails = function (backgroundObject) {
+            $scope.updateSnapshotDetails = function (updatedTime) {
                 //$scope.nextSnapshotTime = $scope.loadedSnapshots[$scope.iterator].playbackTime;
                 //$scope.nextImageElem = document.getElementById("canvasImg_" + $scope.loadedSnapshots[$scope.iterator]._id);
                 //$scope.nextDuration = $scope.loadedSnapshots[$scope.iterator].duration;
                 $scope.stopDrawing = false;
-                backgroundObject.currentTime = backgroundObject.currentTime + 0.3;
+                $scope.videoObject.currentTime = updatedTime + 0.2;
                 $scope.playVideo();
             };
 
@@ -498,10 +487,9 @@ offlineModeModule.controller('offlineModeController',
              * Show snapshot attributes dialog and save snapshot
              */
             $scope.saveSnapshot = function () {
-                var videoObject = document.getElementById("videoBackgrounddata");
                 var durationSet = 3;
                 var description = "";
-                var playbackTime = videoObject.currentTime;
+                var playbackTime = $scope.videoObject.currentTime;
                 $mdDialog.show({
                         controller: 'snapshotsAttributesController',
                         templateUrl: 'app/components/core/snapshotsAttributesDialog/snapshotsAttributesDialog.tpl.html',
@@ -735,9 +723,8 @@ offlineModeModule.controller('offlineModeController',
             $scope.mouseDownHandler = function ($event) {
                 console.log("mouse down with tool : " + $scope.drawingStyle);
                 console.log("mouse down with color : " + $scope.strokeColor);
-                var backgroundObject = document.getElementById("videoBackgrounddata");
-                $scope.isVideoPaused = backgroundObject.paused;
-                if (backgroundObject.paused) {
+                $scope.isVideoPaused = $scope.videoObject.paused;
+                if ($scope.videoObject.paused) {
                     if ($event.offsetX !== undefined) {
                         $scope.lastX = ($scope.canvasElement.width / $event.currentTarget.offsetWidth) * $event.offsetX;
                         $scope.lastY = ($scope.canvasElement.height / $event.currentTarget.offsetHeight) * $event.offsetY;
@@ -758,9 +745,8 @@ offlineModeModule.controller('offlineModeController',
                         };
                         $scope.penStrokeTemp.push(penClick);
                     } else if ($scope.drawingStyle.toLowerCase() == "text") {
-                        var videoObject = document.getElementById("videoBackgrounddata");
-                        videoObject.pause();
-                        $scope.createInputsForText(color, videoObject);
+                        $scope.videoObject.pause();
+                        $scope.createInputsForText(color, $scope.videoObject);
                     }
                     // begins new line
                     $scope.ctx.beginPath();

@@ -70,8 +70,8 @@
             <span layout-margin>
                 <h5>{{formatDuration((videoObject.currentTime)*1000)}}</h5>
             </span>
-            <md-slider hide-sm hide-md flex min="0" max="{{videoObject.duration}}" ng-model="videoObject.currentTime"
-                       aria-label="blue" class="md-primary" layout-margin>
+            <md-slider hide-sm hide-md flex min="0" step="0.1" max="{{videoObject.duration}}"
+                       ng-model="videoObject.currentTime" aria-label="blue" class="md-primary" layout-margin>
             </md-slider>
             <span hide-sm hide-md layout-margin>
                 <h5>{{formatDuration((videoObject.duration)*1000)}}</h5>
