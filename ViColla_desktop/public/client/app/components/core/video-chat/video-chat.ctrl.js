@@ -189,10 +189,10 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
             callingData.callerLogoFilename = callerdetails.callerinfo.logoFilename;
 
 
-            alert("callend.. Sending POST request to save to call history.. : " + JSON.stringify(callingData));
+            console.log("callend.. Sending POST request to save to call history.. : " + JSON.stringify(callingData));
             console.log(callerdetails);
             $http.post('/api/callHistory', callingData).success(function (calldetails) {
-                alert(JSON.stringify(calldetails));
+                console.log(JSON.stringify(calldetails));
             });
 
             console.log("callend:", callingData);
@@ -278,7 +278,8 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
                                     console.log("rare offer received");
                                     maybeStart();
                                 }
-                                console.log("Setting remote description.....");
+                                console.log("offer received >> Setting remote description.....");
+                                console.log(message.sessiondescription);
                                 pc.setRemoteDescription(new RTCSessionDescription(message.sessiondescription));
                                 doAnswer();
                             } else {
@@ -294,6 +295,8 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
             else if (message.type === 'answer' && isStarted) {
                 console.log(message.answername + " answered the call");
                 $scope.busy = true;
+                console.log("answer received >> setting remote description....");
+                console.log(message.sessiondescription);
                 pc.setRemoteDescription(new RTCSessionDescription(message.sessiondescription));
             } else if (message.type === 'candidate' && isStarted) {
                 console.log("received candidate from remote and added");
