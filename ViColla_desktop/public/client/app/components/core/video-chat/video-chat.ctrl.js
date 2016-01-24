@@ -1,11 +1,3 @@
-// videochatModule.config(function ($stateProvider) {
-//     $stateProvider
-//       .state('videoChatuser', {
-//         url: '/videoChatuser',
-//         templateUrl: 'app/components/core/video-chat/video-chat.tpl.html',
-//         controller: 'videoChatController'
-//       });
-// });
 videochatModule.controller('videoChatController', ['$scope', '$http', 'authService', 'databaseService', '$stateParams',
     '$location', '$window', '$timeout', 'config', '$mdDialog', 'socket', '$state',
     function ($scope, $http, authService, databaseService, $stateParams, $location,
@@ -21,7 +13,6 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         var pc = null;
         var remoteStream;
         var turnReady;
-        var mediaRecorder;
 
         var username = localStorage.getItem('username');
         $scope.isExpert = $scope.$parent.isExpert;
@@ -548,6 +539,7 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         function hangup() {
             console.log('Hanging up.');
             stop();
+            $state.go('tabs.callHistory');
             sendMessage('bye');
         }
 

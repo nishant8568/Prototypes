@@ -20,8 +20,15 @@ offlineModeModule.controller('offlineModeController',
             //$scope.ctx.canvas.width = parseInt(640);
             //$scope.ctx.canvas.height = parseInt(480);
 
-            $scope.canvasElement.width = ($window.innerWidth) * 0.6;
-            $scope.canvasElement.height = ($window.innerHeight) * 0.6;
+            if(utilityService.getExpertFlag()) {
+                //alert("expert");
+                $scope.canvasElement.width = ($window.innerWidth) * 0.6;
+                $scope.canvasElement.height = ($window.innerHeight) * 0.6;
+            } else {
+                //alert("user");
+                $scope.canvasElement.width = ($window.innerWidth) * 0.8;
+                $scope.canvasElement.height = ($window.innerHeight) * 0.5;
+            }
             var playerControlsContainer = document.getElementById('playerControlsContainer');
             playerControlsContainer.style.maxWidth = $scope.canvasElement.width + 'px';
             playerControlsContainer.style.minWidth = $scope.canvasElement.width + 'px';
@@ -37,7 +44,7 @@ offlineModeModule.controller('offlineModeController',
             // Drawing properties
             $scope.drawingStyle = "";
             $scope.strokeColor = "red";
-            $scope.brushThickness = 1;
+            $scope.brushThickness = 4;
 
             // Drawing styles data structures
             $scope.penStrokes = [];
@@ -77,7 +84,7 @@ offlineModeModule.controller('offlineModeController',
                 console.log(element.files[0]);
                 console.log(element.files[0].name);
                 console.log(element.files[0].size);
-                alert(element.files[0].size);
+                //alert(element.files[0].size);
             };
 
             $scope.getExpertFlag = function () {
@@ -142,7 +149,7 @@ offlineModeModule.controller('offlineModeController',
                 for (var key in vFile) {
                     alert_txt += key + ": " + vFile[key] + "\n";
                 }
-                alert(alert_txt);
+                //alert(alert_txt);
 
                 $scope.videoName = $scope.openVideoButton.value;
                 if ($scope.videoName != null) {
@@ -327,6 +334,12 @@ offlineModeModule.controller('offlineModeController',
                     }
                 } else {
                     if ($scope.ctx) {
+                        /*$scope.ctx.save();
+                            // Multiply the y value by -1 to flip vertically
+                        $scope.ctx.scale(1, -1);
+                            // Start at (0, -height), which is now the bottom-left corner
+                        $scope.ctx.drawImage($scope.videoObject, 0, height);
+                        $scope.ctx.restore();*/
                         $scope.ctx.drawImage($scope.videoObject, 0, 0, width, height);
                     }
                 }
@@ -347,7 +360,7 @@ offlineModeModule.controller('offlineModeController',
             $scope.drawTextStrokes = function () {
                 for (var i = 0; i < $scope.drawnText.length; i++) {
                     $scope.ctx.beginPath();
-                    $scope.ctx.font = "10pt Arial";
+                    $scope.ctx.font = "bold 20px Arial";
                     $scope.ctx.fillStyle = $scope.drawnText[i].color;
                     $scope.ctx.fillText($scope.drawnText[i].value, $scope.drawnText[i].left, $scope.drawnText[i].top);
                 }
