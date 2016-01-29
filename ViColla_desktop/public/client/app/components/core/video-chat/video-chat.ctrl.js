@@ -28,14 +28,16 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         var selectedB = 60;
         // Collaboration Canvas related variables
         var initializeCollaborationEnvironment = function () {
-            canvasWidth = ($window.innerWidth) * 0.5;
-            canvasHeight = ($window.innerHeight) * 0.6;
             //canvasWidth = (document.getElementById("helperCanvas").offsetWidth) * 0.9;
             //canvasHeight = (document.getElementById("helperCanvas").offsetHeight) * 0.9;
             if ($scope.isExpert) {
+                canvasWidth = ($window.innerWidth) * 0.5;
+                canvasHeight = ($window.innerHeight) * 0.6;
                 object = document.getElementById("localVideo");
                 backgroundObject = document.getElementById("remoteVideo");
             } else {
+                canvasWidth = ($window.innerWidth) * 0.9;
+                canvasHeight = ($window.innerHeight) * 0.5;
                 object = document.getElementById("remoteVideo");
                 backgroundObject = document.getElementById("localVideo");
             }
@@ -319,6 +321,7 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
 
         socket.on('callended', function (callend) {
             var callenddetails = JSON.parse(callend);
+            $scope.$parent.appCtrl.disableOnlineMode = true;
             console.log(callenddetails.to);
             if (callenddetails.to == username) {
                 $scope.busy = false;

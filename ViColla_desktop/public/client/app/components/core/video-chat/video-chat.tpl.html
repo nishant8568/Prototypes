@@ -1,5 +1,5 @@
 <div layout="row" flex>
-    <div layout="column" flex="15" layout-margin="">
+    <div ng-hide="isCollaborating && !isExpert" layout="column" flex="15" layout-margin="">
         <div layout="column" ng-if="isExpert" layout-align="start end" ng-repeat="option in options" flex="25">
             <md-button class="md-icon-button md-48" ng-click="optionClicked(option)"
                        ng-class="{elementSelected:optionSelected == options[$index].name}">

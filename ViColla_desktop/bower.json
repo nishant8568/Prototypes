@@ -14,5 +14,8 @@
     "lodash": "*",
     "moment": "^2.9.0",
     "bootstrap": "~3.3.6"
+  },
+  "devDependencies": {
+    "SparkMD5": "~2.0.0"
   }
 }

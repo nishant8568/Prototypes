@@ -1,6 +1,6 @@
 <md-content layout="row" layout-padding flex layout-fill>
-    <div flex="10" layout="row">
-        <md-button flex="" ng-click="toggleLeft()" class="md-icon-button">
+    <div flex-gt-sm="10" layout="row">
+        <md-button hide-sm flex="" ng-click="toggleLeft()" class="md-icon-button">
             <i class="material-icons md-36">menu</i>
         </md-button>
         <md-sidenav class="md-sidenav-left md-whiteframe-z5" md-component-id="left"
@@ -48,7 +48,7 @@
         </md-sidenav>
     </div>
     <span hide-sm hide-md flex></span>
-    <div flex layout="column">
+    <div layout="column">
         <div id="canvasContainer" layout="row">
             <canvas id="outputCanvas"
                     ng-mousedown="mouseDownHandler($event)"
@@ -78,6 +78,9 @@
             </span>
             <md-button class="md-icon-button md-36" aria-label="Volume" ng-click="toggleVolumeStatus()" layout-margin>
                 <i class="material-icons md-36">{{volumeStatus}}</i>
+            </md-button>
+            <md-button hide-gt-sm ng-click="toggleLeft()" class="md-icon-button md-36" layout-margin>
+                <i class="material-icons md-36">menu</i>
             </md-button>
         </div>
         <video controls muted id="videoBackgrounddata">

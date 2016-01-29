@@ -62,7 +62,7 @@ var imagesSnapshotSchema = Schema({
     playbackTime: Number,
     description: String,
     videoName: String,
-    videoIdentifier: Number,
+    videoIdentifier: String,
     dataURL: String
 });
 

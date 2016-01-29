@@ -5,6 +5,7 @@
 app.controller('AbcAppLandingController', ['$scope', '$location', 'authService', 'socket', 'utilityService', 'databaseService',
     function ($scope, $location, authService, socket, utilityService, databaseService) {
         var vm = this;
+        vm.disableOnlineMode = true;
         vm.usersList = [];
         $scope.appCtrl.contacts = [];
         $scope.loadContacts = vm.loadContacts;

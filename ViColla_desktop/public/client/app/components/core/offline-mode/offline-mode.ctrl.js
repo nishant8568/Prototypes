@@ -26,7 +26,7 @@ offlineModeModule.controller('offlineModeController',
                 $scope.canvasElement.height = ($window.innerHeight) * 0.6;
             } else {
                 //alert("user");
-                $scope.canvasElement.width = ($window.innerWidth) * 0.8;
+                $scope.canvasElement.width = ($window.innerWidth) * 0.95;
                 $scope.canvasElement.height = ($window.innerHeight) * 0.5;
             }
             var playerControlsContainer = document.getElementById('playerControlsContainer');
@@ -135,7 +135,7 @@ offlineModeModule.controller('offlineModeController',
                     console.log("video file loaded.... : ", $scope.videoName);
                     $scope.getVideoFile();
                     console.log("video file name parsed to.... : ", $scope.videoName);
-                    $scope.loadImages();
+                    //$scope.loadImages();
                 }
             });
 
@@ -143,30 +143,69 @@ offlineModeModule.controller('offlineModeController',
              * Get the video file to be played
              */
             $scope.getVideoFile = function () {
-                var vFile = $scope.videoFile;
-                var alert_txt = "";
 
-                for (var key in vFile) {
-                    alert_txt += key + ": " + vFile[key] + "\n";
-                }
-                //alert(alert_txt);
+                ///////////////////////////////////
+                var blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice,
+                    file = $scope.videoFile,
+                    chunkSize = 2097152,                             // Read in chunks of 2MB
+                    chunks = Math.ceil(file.size / chunkSize),
+                    currentChunk = 0,
+                    spark = new SparkMD5.ArrayBuffer(),
+                    fileReader = new FileReader();
 
-                $scope.videoName = $scope.openVideoButton.value;
-                if ($scope.videoName != null) {
-                    var nameSplit = $scope.videoName.split("\\");
-                    $scope.videoName = nameSplit[nameSplit.length - 1];
-                    var videoNode = document.querySelector('video');
-                    videoNode.src = window.URL.createObjectURL(vFile);
-                    $scope.videoIdentifier = vFile.size;
-                    console.log(videoNode.src);
-                    isVideoReady = true;
-                    // trigger enable/disable tools in toolsController
-                    //$scope.$broadcast('toggleDisable');
-                    $scope.clearDrawings();
-                    videoEnded = false;
-                } else {
-                    console.log("Invalid Video Selection");
+                fileReader.onload = function (e) {
+                    console.log('read chunk nr', currentChunk + 1, 'of', chunks);
+                    spark.append(e.target.result);                   // Append array buffer
+                    currentChunk++;
+
+                    if (currentChunk < chunks) {
+                        loadNext();
+                    } else {
+                        var vFile = $scope.videoFile;
+                        console.log('finished loading');
+                        $scope.videoIdentifier = spark.end();
+                        alert($scope.videoIdentifier);
+                        console.log('computed hash', $scope.videoIdentifier);  // Compute hash
+                        $scope.videoName = $scope.openVideoButton.value;
+
+                        var nameSplit = $scope.videoName.split("\\");
+                        $scope.videoName = nameSplit[nameSplit.length - 1];
+                        var videoNode = document.querySelector('video');
+                        videoNode.src = window.URL.createObjectURL(vFile);
+                        //$scope.videoIdentifier = vFile.size;
+                        //$scope.videoIdentifier = computedHash;
+                        console.log(videoNode.src);
+                        isVideoReady = true;
+                        // trigger enable/disable tools in toolsController
+                        //$scope.$broadcast('toggleDisable');
+                        $scope.clearDrawings();
+                        videoEnded = false;
+
+                        $scope.loadImages();
+                    }
+                };
+
+                fileReader.onerror = function () {
+                    console.warn('oops, something went wrong.');
+                };
+
+                function loadNext() {
+                    console.log("loading next......");
+                    var start = currentChunk * chunkSize,
+                        end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize;
+
+                    fileReader.readAsArrayBuffer(blobSlice.call(file, start, end));
                 }
+
+                loadNext();
+                ///////////////////////////////////
+
+                /*var vFile = $scope.videoFile;
+                 var alert_txt = "";
+
+                 for (var key in vFile) {
+                 alert_txt += key + ": " + vFile[key] + "\n";
+                 }*/
             };
 
             /**
@@ -674,11 +713,11 @@ offlineModeModule.controller('offlineModeController',
 
             var appendImageToSnapshots = function (imageId, playbackTime, duration, description, dataURL) {
                 var snapshotElement =
-                    "<md-grid-list layout-margin layout-fill layout-padding class='coverage_blue'" +
+                    "<md-grid-list layout-margin " +
                     "id=\"snapshotsList_" + playbackTime + "\" md-cols=\"1\" md-row-height=\"" +
                     $scope.ctx.canvas.width + ":" + $scope.ctx.canvas.height + "\" " +
                     "style=\"border: 0px solid green\">" +
-                    "<div style='height:30px;' layout=\"row\" layout-align='end center'>" +
+                    "<div layout=\"row\" layout-align='end center'>" +
                     "<md-button class=\"md-icon-button\" ng-click='editSnapshotElement($event)'>" +
                     "<md-icon>" +
                     "<i class=\"material-icons md-18\">edit</i>" +
