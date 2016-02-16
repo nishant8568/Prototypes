@@ -1,6 +1,6 @@
 <md-content layout="column" flex>
     <md-tabs flex layout="column" md-selected="currentTab" md-border-bottom md-dynamic-height="false">
-        <md-tab id="onlineModeTab" ui-sref="tabs.callHistory" flex layout="column" layout-fill>
+        <md-tab id="onlineModeTab" ng-disabled="!appCtrl.disableOnlineMode" ui-sref="tabs.callHistory" flex layout="column" layout-fill>
             <md-tab-label>
                 <i class="material-icons md-dark">history</i>
             </md-tab-label>
@@ -8,7 +8,7 @@
                 <div ui-view="callHistory"></div>
             </md-tab-body>
         </md-tab>
-        <md-tab id="offlineModeTab" ui-sref="tabs.offlineMode">
+        <md-tab id="offlineModeTab" ng-disabled="!appCtrl.disableOnlineMode" ui-sref="tabs.offlineMode">
             <md-tab-label>
                 <i class="material-icons md-dark">assignment</i>
             </md-tab-label>
@@ -16,7 +16,7 @@
                 <div ui-view="offlineMode"></div>
             </md-tab-body>
         </md-tab>
-        <md-tab id="videochatTab" ui-sref="tabs.onlineM.onlineMode" flex>
+        <md-tab id="videochatTab" ng-disabled="appCtrl.disableOnlineMode" ui-sref="tabs.onlineM.onlineMode" flex>
             <md-tab-label>
                 <i class="material-icons md-dark">picture_in_picture</i>
             </md-tab-label>
@@ -24,7 +24,7 @@
                 <div ui-view=""></div>
             </md-tab-body>
         </md-tab>
-        <md-tab id="contactsTab" ui-sref="tabs.experts" data-ng-if="!appCtrl.user.isExpert" flex>
+        <md-tab id="contactsTab" ng-disabled="!appCtrl.disableOnlineMode" ui-sref="tabs.experts" data-ng-if="!appCtrl.user.isExpert" flex>
             <md-tab-label>
                 <i class="material-icons md-dark">contacts</i>
             </md-tab-label>

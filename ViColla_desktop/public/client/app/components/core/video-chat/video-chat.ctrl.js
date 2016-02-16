@@ -1,11 +1,3 @@
-// videochatModule.config(function ($stateProvider) {
-//     $stateProvider
-//       .state('videoChatuser', {
-//         url: '/videoChatuser',
-//         templateUrl: 'app/components/core/video-chat/video-chat.tpl.html',
-//         controller: 'videoChatController'
-//       });
-// });
 videochatModule.controller('videoChatController', ['$scope', '$http', 'authService', 'databaseService', '$stateParams',
     '$location', '$window', '$timeout', 'config', '$mdDialog', 'socket', '$state',
     function ($scope, $http, authService, databaseService, $stateParams, $location,
@@ -21,7 +13,6 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         var pc = null;
         var remoteStream;
         var turnReady;
-        var mediaRecorder;
 
         var username = localStorage.getItem('username');
         $scope.isExpert = $scope.$parent.isExpert;
@@ -37,14 +28,16 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         var selectedB = 60;
         // Collaboration Canvas related variables
         var initializeCollaborationEnvironment = function () {
-            canvasWidth = ($window.innerWidth) * 0.5;
-            canvasHeight = ($window.innerHeight) * 0.6;
             //canvasWidth = (document.getElementById("helperCanvas").offsetWidth) * 0.9;
             //canvasHeight = (document.getElementById("helperCanvas").offsetHeight) * 0.9;
             if ($scope.isExpert) {
+                canvasWidth = ($window.innerWidth) * 0.5;
+                canvasHeight = ($window.innerHeight) * 0.6;
                 object = document.getElementById("localVideo");
                 backgroundObject = document.getElementById("remoteVideo");
             } else {
+                canvasWidth = ($window.innerWidth) * 0.9;
+                canvasHeight = ($window.innerHeight) * 0.5;
                 object = document.getElementById("remoteVideo");
                 backgroundObject = document.getElementById("localVideo");
             }
@@ -328,6 +321,7 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
 
         socket.on('callended', function (callend) {
             var callenddetails = JSON.parse(callend);
+            $scope.$parent.appCtrl.disableOnlineMode = true;
             console.log(callenddetails.to);
             if (callenddetails.to == username) {
                 $scope.busy = false;
@@ -548,6 +542,7 @@ videochatModule.controller('videoChatController', ['$scope', '$http', 'authServi
         function hangup() {
             console.log('Hanging up.');
             stop();
+            $state.go('tabs.callHistory');
             sendMessage('bye');
         }
 

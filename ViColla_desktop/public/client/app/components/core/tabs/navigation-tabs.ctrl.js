@@ -116,6 +116,7 @@ navTabsModule.controller('NavTabsController', ['$scope', '$rootScope', 'authServ
 
         socket.on('called', function (caller) {
             console.log("socket.on('called') >> caller : ", caller);
+            $scope.appCtrl.disableOnlineMode = false;
             $scope.callerdetails = JSON.parse(caller);
             if ($scope.callerdetails.callername == $scope.appCtrl.user.username) {
                 $scope.isInitiator = true;
