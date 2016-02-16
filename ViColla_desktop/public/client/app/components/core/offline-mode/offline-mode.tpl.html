@@ -1,5 +1,8 @@
 <md-content layout="row" layout-padding flex layout-fill>
-    <div flex="5" layout-margin>
+    <div flex-gt-sm="10" layout="row">
+        <md-button hide-sm flex="" ng-click="toggleLeft()" class="md-icon-button">
+            <i class="material-icons md-36">menu</i>
+        </md-button>
         <md-sidenav class="md-sidenav-left md-whiteframe-z5" md-component-id="left"
                     layout="column" layout-align="start center">
             <md-toolbar class="md-theme-light">
@@ -43,12 +46,9 @@
                 </md-button>
             </md-content>
         </md-sidenav>
-        <md-button ng-click="toggleLeft()" class="md-icon-button md-48">
-            <i class="material-icons md-36">menu</i>
-        </md-button>
     </div>
-    <span flex></span>
-    <div layout="column" layout-margin>
+    <span hide-sm hide-md flex></span>
+    <div layout="column">
         <div id="canvasContainer" layout="row">
             <canvas id="outputCanvas"
                     ng-mousedown="mouseDownHandler($event)"
@@ -79,12 +79,15 @@
             <md-button class="md-icon-button md-36" aria-label="Volume" ng-click="toggleVolumeStatus()" layout-margin>
                 <i class="material-icons md-36">{{volumeStatus}}</i>
             </md-button>
+            <md-button hide-gt-sm ng-click="toggleLeft()" class="md-icon-button md-36" layout-margin>
+                <i class="material-icons md-36">menu</i>
+            </md-button>
         </div>
         <video controls muted id="videoBackgrounddata">
         </video>
     </div>
     <tools tool="drawingStyle" ng-show="getExpertFlag()" stroke-color="strokeColor"
            undo="undo()" save="saveSnapshot()" flex="5"></tools>
-    <span flex="15" ng-hide="getExpertFlag()"></span>
+    <!--<span flex="15" ng-hide="getExpertFlag()"></span>-->
     <snapshots layout-margin flex="15" ng-show="getExpertFlag()"></snapshots>
 </md-content>

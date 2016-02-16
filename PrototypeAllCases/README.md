@@ -1,2 +1,0 @@
-# ViColla
-Video Collaboration
